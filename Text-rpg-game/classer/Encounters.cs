@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -62,6 +63,7 @@ namespace Text_rpg_game.classer
         }
         public static void Combat(bool random, string name, int power, int health)
         {
+            
             string n = "";
             int p = 0;
             int h = 0;
@@ -81,12 +83,12 @@ namespace Text_rpg_game.classer
             {
                 Console.Clear();
                 Console.WriteLine(n);
-                Console.WriteLine(p + "/" + h);
+                Console.WriteLine("Power: " +p+ " / "+" Health: "+h);
                 Console.WriteLine("======================");
                 Console.WriteLine("| (A)ttack (D)fend   |");
                 Console.WriteLine("| (R)un    (H)eal    |");
                 Console.WriteLine("======================");
-                Console.WriteLine("potions: " + Program.currentPlayer.potionsS + "  Health:  " + Program.currentPlayer.health);
+                ShowTotalPotions(Program.currentPlayer);
                 string input = Console.ReadLine();
 
                 if (input.ToLower() == "a" || input.ToLower() == "attack")
@@ -131,74 +133,91 @@ namespace Text_rpg_game.classer
                     {
                         Console.WriteLine("You use your crazy legs and escape " + n + " that was close!");
                         Console.ReadKey();
-                        // go to store or base what ever idc
+                        Console.Clear();
+                        Console.WriteLine("you run untill you se a door with the sighn Mystical Emporium");
+                        Shop.RunShop(Program.currentPlayer);
                     }
                 }
                 else if (input.ToLower() == "h" || input.ToLower() == "heal")
                 {
                     // heal
-                    if (Program.currentPlayer.potionsS == 0 && Program.currentPlayer.potionsM == 0 && Program.currentPlayer.potionsL == 0)
+                    bool hasPotion = Program.currentPlayer.inventory.Any(kvp => kvp.Key.Contains("Healing Potion") && kvp.Value > 0);
+                    if (!hasPotion)
                     {
-                        Console.WriteLine("you check your pockets and find nothing to heal with");
+                        Console.WriteLine("You check your pockets and find nothing to heal with.");
                         int damage = p - Program.currentPlayer.armorValue;
-                        if (damage < 0)
-                            damage = 0;
-                        Console.WriteLine("The " + n + " strikes you while you search and you lose " + damage + " health");
+                        damage = Math.Max(damage, 0); // Ensure damage is not negative
+                        Console.WriteLine($"The {n} strikes you while you search and you lose {damage} health.");
                     }
                     else
                     {
                         Console.WriteLine("Choose a potion to use: (S)mall, (M)edium, (L)arge");
                         string potionInput = Console.ReadLine();
                         int potionValue = 0;
+                        string potionName = "";
                         switch (potionInput.ToLower())
                         {
                             case "s":
-                                if (Program.currentPlayer.potionsS > 0)
-                                {
-                                    potionValue = 5; // Adjust value as needed
-                                    Program.currentPlayer.potionsS--; // Reduce the number of small potions
-                                }
+                                potionName = "Minor Healing Potion";
+                                potionValue = 5; // Adjust value as needed
                                 break;
                             case "m":
-                                if (Program.currentPlayer.potionsM > 0)
-                                {
-                                    potionValue = 10; // Adjust value as needed
-                                    Program.currentPlayer.potionsM--; // Reduce the number of medium potions
-                                }
+                                potionName = "Medium Healing Potion";
+                                potionValue = 10; // Adjust value as needed
                                 break;
                             case "l":
-                                if (Program.currentPlayer.potionsL > 0)
-                                {
-                                    potionValue = 20; // Adjust value as needed
-                                    Program.currentPlayer.potionsL--; // Reduce the number of large potions
-                                }
+                                potionName = "Major Healing Potion";
+                                potionValue = 20; // Adjust value as needed
                                 break;
                             default:
                                 Console.WriteLine("Invalid choice. You lose your turn.");
                                 break;
                         }
 
-                        if (potionValue > 0)
+                        if (potionValue > 0 && Program.currentPlayer.inventory.ContainsKey(potionName) && Program.currentPlayer.inventory[potionName] > 0)
                         {
-                            Console.WriteLine($"You use a potion and gain {potionValue} health.");
+                            Console.WriteLine($"You use a {potionName} and gain {potionValue} health.");
                             Program.currentPlayer.health += potionValue;
-                            // Enemy attacks after healing
+                            Program.currentPlayer.inventory[potionName]--; // Reduce the number of the chosen potion
+                            if (Program.currentPlayer.inventory[potionName] == 0)
+                            {
+                                Program.currentPlayer.inventory.Remove(potionName); // Remove the potion from inventory if it's now zero
+                            }
+
                             int damage = (p / 2) - Program.currentPlayer.armorValue;
-                            if (damage < 0)
-                                damage = 0;
+                            damage = Math.Max(damage, 0);
                             Console.WriteLine($"The {n} strikes you after you heal and you lose {damage} health.");
                         }
-                        else if (potionInput.ToLower() == "s" || potionInput.ToLower() == "m" || potionInput.ToLower() == "l")
+                        else
                         {
-                            // If the user selected a valid potion type but didn't have any left, inform them and allow the monster to attack
                             Console.WriteLine("You reach for a potion but find none left of that type.");
                             int damage = p - Program.currentPlayer.armorValue;
-                            if (damage < 0)
-                                damage = 0;
+                            damage = Math.Max(damage, 0);
                             Console.WriteLine($"The {n} takes advantage of your distraction and strikes you, causing {damage} health loss.");
                         }
                     }
                 }
+
+                static void ShowTotalPotions(Player p)
+                {
+                    int totalPotions = 0;
+                    // Loopa igenom inventory och addera antalet för varje healing potion
+                    if (p.inventory.ContainsKey("Minor Healing Potion"))
+                    {
+                        totalPotions += p.inventory["Minor Healing Potion"];
+                    }
+                    if (p.inventory.ContainsKey("Medium Healing Potion"))
+                    {
+                        totalPotions += p.inventory["Medium Healing Potion"];
+                    }
+                    if (p.inventory.ContainsKey("Major Healing Potion"))
+                    {
+                        totalPotions += p.inventory["Major Healing Potion"];
+                    }
+
+                    Console.WriteLine($"potions: {totalPotions}  Health: {Program.currentPlayer.health}");
+                }
+
                 if (Program.currentPlayer.health <= 0)
                 {
                     // deathcode

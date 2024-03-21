@@ -15,25 +15,13 @@ namespace Text_rpg_game.classer
         }
 
         public static void RunShop(Player p)
-        {
-            int potionP;
-            int armorP;
-            int weaponP;
-
-            //potions
-
-            //armor
-
-            //weapons
-
-
+        { 
             while (true)
             {
-                potionP = 20 + 10 * p.mods;
-                armorP = 100 * p.armorValue;
-                weaponP = 100 * (p.weaponValue + 1);
                 Console.WriteLine("======================================");
                 Console.WriteLine("|        ~ Mystical Emporium ~       |");
+                Console.WriteLine("|                                    |");
+                Console.WriteLine("|    Here are the weares i supply!   |");
                 Console.WriteLine("|------------------------------------|");
                 Console.WriteLine("| (H)ealing Elixirs                  |");
                 Console.WriteLine("| (W)eapons                          |");
@@ -43,25 +31,44 @@ namespace Text_rpg_game.classer
                 Console.WriteLine("| (E)xit Shop                        |");
                 Console.WriteLine("======================================");
                 Console.WriteLine($"Your Gold: {Program.currentPlayer.coins}");
-                Console.Write("Barnabas Arcanum: Here are the weares i supply, dont take to long, there is a war going on.");
-                Console.WriteLine("");
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine("You rest in the shop and check your gear and vaitals");
+                Console.WriteLine("======================================");
+                Console.WriteLine("|         ~ " + p.Name + "'s Stats ~ |");
+                Console.WriteLine("|                                    |");
+                Console.WriteLine("| Health:        " + p.health.ToString().PadRight(20) + "|");
+                Console.WriteLine("| Attack:        " + p.weaponValue.ToString().PadRight(20) + "|");
+                Console.WriteLine("| Armor:         " + p.armorValue.ToString().PadRight(20) + "|");
+                Console.WriteLine("| (I)nventory                        |");
+                Console.WriteLine("======================================");
+
+
+
 
                 string choice = Console.ReadLine().ToUpper();
+                Console.Clear();
 
                 switch (choice)
                 {
                     case "H":
-                        ShowHealingElixirsMenu();
+                        ShowHealingElixirsMenu(p);
                         break;
                     case "W":
                         ShowWeaponsMenu(p);
                         break;
                     case "M":
-                        ShowMagicArmorsMenu();
+                        ShowMagicArmorsMenu(p);
+                        break;
+                    case "S":
+                        Sell(p);
                         break;
                     case "E":
                         Console.WriteLine("Barnabas Arcanum:Thank you for visiting the Mystical Emporium!");
                         return;
+                    case "I":
+                      Player.lookInventory(p);
+                        break;
                     default:
                         Console.WriteLine("Barnabas Arcanum: Sadly i dont supply that");
                         break;
@@ -73,14 +80,33 @@ namespace Text_rpg_game.classer
             }
         }
 
-        static void ShowHealingElixirsMenu()
+        static void ShowHealingElixirsMenu(Player p)
         {
             Console.WriteLine("Barnabas Arcanum: Choose your Healing Elixir!");
-            // Add options for different types of healing elixirs
-            Console.WriteLine("Minor Healing Potion");
-            Console.WriteLine("Medium Healing Potion");
-            Console.WriteLine("Large Healing Potion");
-            // Add logic for purchasing an elixir
+            Console.WriteLine("1.Minor  Healing Potion - 20 Gold");
+            Console.WriteLine("2.Medium Healing Potion - 50 Gold");
+            Console.WriteLine("3.Large  Healing Potion - 80 Gold");
+            string potionChoice = Console.ReadLine().ToUpper();
+            int cost = 0;
+
+            switch (potionChoice)
+            {
+                case "1":
+                    cost = 20;
+                    Buy("Minor Healing Potion", cost, p, 1);
+                    break;
+                case "2":
+                    cost = 50;
+                    Buy("Medium Healing Potion", cost, p, 1);
+                    break;
+                case "3":
+                    cost = 80;
+                    Buy("Large Healing Potion", cost, p, 1);
+                    break;
+                default:
+                    Console.WriteLine("Barnabas Arcanum: stop messing around");
+                    break;
+            }
         }
 
         static void ShowWeaponsMenu(Player p)
@@ -96,7 +122,7 @@ namespace Text_rpg_game.classer
 
                 string weaponChoice = Console.ReadLine().ToUpper();
                 int cost = 0;
-                
+
                 switch (weaponChoice)
                 {
                     case "1":
@@ -126,7 +152,7 @@ namespace Text_rpg_game.classer
             }
         }
 
-        static void ShowMagicArmorsMenu()
+        static void ShowMagicArmorsMenu(Player p)
         {
             Console.WriteLine("Barnabas Arcanum: deefens is the best offens!");
             Console.WriteLine("1. Leather Armor");
@@ -141,23 +167,26 @@ namespace Text_rpg_game.classer
         {
             if (p.coins >= cost)
             {
-                p.coins -= cost; 
-                Console.WriteLine($"Barnabas Arcanum: Du har framgångsrikt köpt {item} för {cost} mynt.");
+                p.coins -= cost;
+                Console.WriteLine($"Barnabas Arcanum: You have bought {item} for {cost} gold coins.");
 
-                // Uppdatera spelarens stats baserat på vad som köptes
+                // Lägg till eller uppdatera föremålet i spelarens inventory
+                if (p.inventory.ContainsKey(item))
+                {
+                    p.inventory[item]++; // Öka antalet av föremålet om det redan finns
+                }
+                else
+                {
+                    p.inventory[item] = 1; // Lägg till ett nytt föremål om det inte fanns tidigare
+                }
+
+                // Uppdatera spelarens stats eller antal föremål baserat på vad som köptes
                 switch (item)
                 {
                     case "Minor Healing Potion":
-                        p.potionsS += valueIncrease;
-                        Console.WriteLine($"You now have:  {p.potionsS}.");
-                        break;
                     case "Medium Healing Potion":
-                        p.potionsM += valueIncrease;
-                        Console.WriteLine($"You now have:  {p.potionsM}.");
-                        break;
                     case "Major Healing Potion":
-                        p.potionsL += valueIncrease;
-                        Console.WriteLine($"You now have:  {p.potionsL}.");
+                        Console.WriteLine($"You now have: {p.inventory[item]} {item}.");
                         break;
                     case "Sword":
                     case "Staff":
@@ -165,7 +194,7 @@ namespace Text_rpg_game.classer
                     case "Bow":
                     case "Mace":
                         p.weaponValue += valueIncrease;
-                        Console.WriteLine($"Din attackstyrka har ökat med {valueIncrease}.");
+                        Console.WriteLine($"Your attack strength has increased by {valueIncrease}.");
                         break;
                     case "Leather Armor":
                     case "Brass Armor":
@@ -173,62 +202,101 @@ namespace Text_rpg_game.classer
                     case "Steel Armor":
                     case "Magic Armor":
                         p.armorValue += valueIncrease;
-                        Console.WriteLine($"Ditt försvar har ökat med {valueIncrease}.");
+                        Console.WriteLine($"Your defense has increased by {valueIncrease}.");
                         break;
                     default:
-                        Console.WriteLine("Något gick fel. Försök igen.");
+                        Console.WriteLine("Barnabas Arcanum: I don't know what happened.");
                         break;
                 }
             }
             else
             {
-                Console.WriteLine("Barnabas Arcanum: Tyvärr, du har inte tillräckligt med mynt för detta köp.");
+                Console.WriteLine("Barnabas Arcanum: Looks like you don't have enough coins, and I don't do discounts.");
             }
-            Console.WriteLine("Tryck på valfri tangent för att fortsätta...");
-            Console.ReadKey();
+            Console.ReadKey(); // Wait for the user to acknowledge the message
         }
 
         static void Sell(Player p)
         {
-            Console.WriteLine("Barnabas Arcanum: Show me what you have");
-            Console.WriteLine(Program.currentPlayer.inventory);
-           
+            Console.WriteLine("Barnabas Arcanum: Visa vad du har");
 
-            string sellChoice = Console.ReadLine().ToUpper();
-            int sellPrice = 0;
-
-            switch (sellChoice)
+            int index = 1;
+            Dictionary<int, string> itemMapping = new Dictionary<int, string>();
+            foreach (var item in p.inventory)
             {
-                case "1":
-                    // Anta att spelaren kan sälja en Healing Potion
-                    // Kontrollera först att spelaren faktiskt har ett Healing Potion
-                    sellPrice = 10; // Antag att säljpriset är mindre än köppriset
-                    p.coins += sellPrice;
-                    // Minska antalet Healing Potions i spelarens inventar
-                    Console.WriteLine($"Du har sålt en Healing Potion för {sellPrice} mynt.");
-                    break;
-                case "2":
-                    // Anta att spelaren kan sälja ett Sword
-                    sellPrice = 50; // Ange lämpligt säljpris
-                    p.coins += sellPrice;
-                    // Uppdatera spelarens inventory för att reflektera försäljningen
-                    Console.WriteLine($"Du har sålt ett Sword för {sellPrice} mynt.");
-                    break;
-                case "3":
-                    // Anta att spelaren kan sälja Leather Armor
-                    sellPrice = 25; // Ange lämpligt säljpris
-                    p.coins += sellPrice;
-                    // Uppdatera spelarens inventory för att reflektera försäljningen
-                    Console.WriteLine($"Du har sålt Leather Armor för {sellPrice} mynt.");
-                    break;
-                default:
-                    Console.WriteLine("Barnabas Arcanum: Tyvärr, det verkar inte som vi kan köpa det där.");
-                    break;
+                Console.WriteLine($"{index}: {item.Key} x{item.Value}"); // Visa föremål och antal
+                itemMapping[index] = item.Key; // Mappa index till föremålets namn
+                index++;
             }
-            Console.WriteLine("Tryck på valfri tangent för att fortsätta...");
+
+            Console.WriteLine("Välj numret på föremålet du vill sälja eller tryck '0' för att avbryta:");
+            string sellChoice = Console.ReadLine();
+            int itemIndex;
+            bool isNumeric = int.TryParse(sellChoice, out itemIndex);
+
+            if (isNumeric && itemIndex > 0 && itemIndex < index)
+            {
+                string itemName = itemMapping[itemIndex];
+                int sellPrice = DetermineSellPrice(itemName);
+
+                if (sellPrice > 0 && p.inventory[itemName] > 0)
+                {
+                    p.coins += sellPrice;
+                    p.inventory[itemName]--;
+                    if (p.inventory[itemName] == 0)
+                    {
+                        p.inventory.Remove(itemName);
+                    }
+                    Console.WriteLine($"You have sold {itemName} for {sellPrice} gold.");
+
+                    // Minska spelarens attribut baserat på vad som såldes
+                    switch (itemName)
+                    {
+                        case "Sword":
+                            // Antag att svärdet ökade weaponValue med ett värde
+                            p.weaponValue -= 3; // Justera detta värde efter hur mycket svärdet ursprungligen ökade weaponValue
+                            Console.WriteLine("You have sold your Sword and lost some attack power.");
+                            break;
+                        case "Leather Armor":
+                            // Antag att rustningen ökade armorValue med ett värde
+                            p.armorValue -= 4; // Justera detta värde efter hur mycket rustningen ursprungligen ökade armorValue
+                            Console.WriteLine("You have sold your Leather Armor and lost some defense.");
+                            break;
+                            // Lägg till fler case här för andra föremål som påverkar attribut
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"You can't sell {itemName}.");
+                }
+            }
+            else if (itemIndex == 0)
+            {
+                Console.WriteLine("Transaction cancelled.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid selection, try again.");
+            }
+
+            Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
         }
-    }
 
-    
+        static int DetermineSellPrice(string itemName)
+        {
+            
+            switch (itemName)
+            {
+                case "Minor Healing Potion": return 10;
+                case "Medium Healing Potion": return 25;
+                case "Large Healing Potion": return 40;
+                case "Sword": return 50;
+                case "Leather Armor": return 25;
+                default: return 0; // Om föremålet inte känns igen, kan det inte säljas
+            }
+        }
+
+
+    }
 }
