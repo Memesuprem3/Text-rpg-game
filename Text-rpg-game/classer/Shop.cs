@@ -54,7 +54,7 @@ namespace Text_rpg_game.classer
                         ShowHealingElixirsMenu();
                         break;
                     case "W":
-                        ShowWeaponsMenu();
+                        ShowWeaponsMenu(p);
                         break;
                     case "M":
                         ShowMagicArmorsMenu();

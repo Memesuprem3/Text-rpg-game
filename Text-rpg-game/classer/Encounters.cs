@@ -86,7 +86,7 @@ namespace Text_rpg_game.classer
                 Console.WriteLine("| (A)ttack (D)fend   |");
                 Console.WriteLine("| (R)un    (H)eal    |");
                 Console.WriteLine("======================");
-                Console.WriteLine("potions: " + Program.currentPlayer.potions + "  Health:  " + Program.currentPlayer.health);
+                Console.WriteLine("potions: " + Program.currentPlayer.potionsS + "  Health:  " + Program.currentPlayer.health);
                 string input = Console.ReadLine();
 
                 if (input.ToLower() == "a" || input.ToLower() == "attack")
@@ -137,7 +137,7 @@ namespace Text_rpg_game.classer
                 else if (input.ToLower() == "h" || input.ToLower() == "heal")
                 {
                     // heal
-                    if (Program.currentPlayer.potionsS == 0 || Program.currentPlayer.potionsM == 0  || Program.currentPlayer.potionsL == 0)
+                    if (Program.currentPlayer.potionsS == 0 && Program.currentPlayer.potionsM == 0 && Program.currentPlayer.potionsL == 0)
                     {
                         Console.WriteLine("you check your pockets and find nothing to heal with");
                         int damage = p - Program.currentPlayer.armorValue;
@@ -147,18 +147,59 @@ namespace Text_rpg_game.classer
                     }
                     else
                     {
-                        Console.WriteLine("you reach into your bag and pull out a glowing purple flask and take a drank");
-                        int potionV = 5;
-                        Console.WriteLine("You gain " + potionV + " health");
-                        Program.currentPlayer.health += potionV;
-                        Console.WriteLine("As you drank " + n + " strikes you");
-                        int damage = (p / 2) - Program.currentPlayer.armorValue;
-                        if (damage < 0)
-                            damage = 0;
-                        Console.WriteLine("You lose "+damage+" health");
+                        Console.WriteLine("Choose a potion to use: (S)mall, (M)edium, (L)arge");
+                        string potionInput = Console.ReadLine();
+                        int potionValue = 0;
+                        switch (potionInput.ToLower())
+                        {
+                            case "s":
+                                if (Program.currentPlayer.potionsS > 0)
+                                {
+                                    potionValue = 5; // Adjust value as needed
+                                    Program.currentPlayer.potionsS--; // Reduce the number of small potions
+                                }
+                                break;
+                            case "m":
+                                if (Program.currentPlayer.potionsM > 0)
+                                {
+                                    potionValue = 10; // Adjust value as needed
+                                    Program.currentPlayer.potionsM--; // Reduce the number of medium potions
+                                }
+                                break;
+                            case "l":
+                                if (Program.currentPlayer.potionsL > 0)
+                                {
+                                    potionValue = 20; // Adjust value as needed
+                                    Program.currentPlayer.potionsL--; // Reduce the number of large potions
+                                }
+                                break;
+                            default:
+                                Console.WriteLine("Invalid choice. You lose your turn.");
+                                break;
+                        }
+
+                        if (potionValue > 0)
+                        {
+                            Console.WriteLine($"You use a potion and gain {potionValue} health.");
+                            Program.currentPlayer.health += potionValue;
+                            // Enemy attacks after healing
+                            int damage = (p / 2) - Program.currentPlayer.armorValue;
+                            if (damage < 0)
+                                damage = 0;
+                            Console.WriteLine($"The {n} strikes you after you heal and you lose {damage} health.");
+                        }
+                        else if (potionInput.ToLower() == "s" || potionInput.ToLower() == "m" || potionInput.ToLower() == "l")
+                        {
+                            // If the user selected a valid potion type but didn't have any left, inform them and allow the monster to attack
+                            Console.WriteLine("You reach for a potion but find none left of that type.");
+                            int damage = p - Program.currentPlayer.armorValue;
+                            if (damage < 0)
+                                damage = 0;
+                            Console.WriteLine($"The {n} takes advantage of your distraction and strikes you, causing {damage} health loss.");
+                        }
                     }
                 }
-                if(Program.currentPlayer.health <= 0)
+                if (Program.currentPlayer.health <= 0)
                 {
                     // deathcode
 
