@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Text_rpg_game.classer
 {
@@ -31,8 +32,9 @@ namespace Text_rpg_game.classer
                 Console.WriteLine("| (E)xit Shop                        |");
                 Console.WriteLine("======================================");
                 Console.WriteLine($"Your Gold: {Program.currentPlayer.coins}");
-                Console.WriteLine();
-                Console.WriteLine();
+                Console.WriteLine(" (Q)uite Game");
+                Console.WriteLine("");
+                Console.WriteLine("");
                 Console.WriteLine("You rest in the shop and check your gear and vaitals");
                 Console.WriteLine("======================================");
                 Console.WriteLine("|         ~ " + p.Name + "'s Stats ~ |");
@@ -42,6 +44,7 @@ namespace Text_rpg_game.classer
                 Console.WriteLine("| Armor:         " + p.armorValue.ToString().PadRight(20) + "|");
                 Console.WriteLine("| (I)nventory                        |");
                 Console.WriteLine("======================================");
+
 
 
 
@@ -68,6 +71,10 @@ namespace Text_rpg_game.classer
                         return;
                     case "I":
                       Player.lookInventory(p);
+                        break;
+                    case "Q":
+                        Program.Save();
+                        Environment.Exit(0);
                         break;
                     default:
                         Console.WriteLine("Barnabas Arcanum: Sadly i dont supply that");

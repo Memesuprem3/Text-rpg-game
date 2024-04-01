@@ -87,8 +87,21 @@ namespace Text_rpg_game.classer
                 Console.WriteLine("======================");
                 Console.WriteLine("| (A)ttack (D)fend   |");
                 Console.WriteLine("| (R)un    (H)eal    |");
+                Console.WriteLine("| (I)ventory         |");
                 Console.WriteLine("======================");
                 ShowTotalPotions(Program.currentPlayer);
+
+                //bygga inventroy i mid fight
+               /* Console.WriteLine("======================================");
+                Console.WriteLine("|         ~ " + p.Name + "'s Stats ~ |");
+                Console.WriteLine("|                                    |");
+                Console.WriteLine("| Health:        " + p.health.ToString().PadRight(20) + "|");
+                Console.WriteLine("| Attack:        " + p.weaponValue.ToString().PadRight(20) + "|");
+                Console.WriteLine("| Armor:         " + p.armorValue.ToString().PadRight(20) + "|");
+                Console.WriteLine("| (I)nventory                        |");
+                Console.WriteLine("======================================");*/
+
+
                 string input = Console.ReadLine();
 
                 if (input.ToLower() == "a" || input.ToLower() == "attack")
@@ -228,7 +241,7 @@ namespace Text_rpg_game.classer
                 }
                 Console.ReadKey();
             }
-            int c = rand.Next(10, 51);
+            int c = Program.currentPlayer.GetCoins();
             Console.WriteLine("As you stand victorius over the "+n+" , you loot it and find "+c+ " gold coins");
             Program.currentPlayer.coins += c;
             Console.ReadKey();

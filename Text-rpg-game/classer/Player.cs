@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Text_rpg_game.classer
 {
+    [Serializable]
     public class Player
     {
         private Random rand = new Random();
 
-        public int playerID { get; set; }
+        public int playerID; 
         public string Name;
         public int coins = 30000;
         public int health = 10;
@@ -56,6 +58,12 @@ namespace Text_rpg_game.classer
             return rand.Next(lower, upper);
         }
 
+        public int GetCoins()
+        {
+            int upper = (15 * mods + 2);
+            int lower = (10 * mods + 10);
+            return rand.Next(lower, upper);
+        }
      
     }
 
