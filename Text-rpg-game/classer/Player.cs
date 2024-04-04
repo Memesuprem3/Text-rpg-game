@@ -16,10 +16,11 @@ namespace Text_rpg_game.classer
 
         public int playerID;
         public string Name;
+        public string CharacterClass;
         public int coins = 30000;
         public int health = 10;
         public int damage = 1;
-        public int armorValue = 0;
+        public int armorValue = 2;
         public int weaponValue = 1;
         public int mods = 0;
 

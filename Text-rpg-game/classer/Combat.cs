@@ -21,6 +21,7 @@ namespace Text_rpg_game.classer
                 Console.WriteLine("| (A)ttack (D)efend  |");
                 Console.WriteLine("| (R)un    (H)eal    |");
                 Console.WriteLine("======================");
+                Console.WriteLine($"Health: {player.health} Damage: {player.weaponValue}");
 
                 string input = Console.ReadLine().ToLower();
                 switch (input)

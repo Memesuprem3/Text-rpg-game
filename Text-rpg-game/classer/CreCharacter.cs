@@ -9,14 +9,14 @@ namespace Text_rpg_game.classer
     [Serializable]
     internal class CreCharacter : Player
     {
-        public string CharacterClass { get; set; }
 
         
-        public void MakeKnight()
+
+        public void MakeKnight(Player player)
         {
             CharacterClass = "Knight";
             health = 25; 
-            damage = 5; 
+            weaponValue = 5; 
             armorValue = 5;
                             
         }
@@ -24,7 +24,7 @@ namespace Text_rpg_game.classer
         {
             CharacterClass = "Paladin";
             health = 20;
-            damage = 7;
+            weaponValue = 7;
             armorValue = 5;
         }
 
@@ -32,7 +32,7 @@ namespace Text_rpg_game.classer
         {
             CharacterClass = "Rogue";
             health = 15; 
-            damage = 4; 
+            weaponValue = 4; 
             agility = 7; 
                          
         }
@@ -40,7 +40,7 @@ namespace Text_rpg_game.classer
         {
             CharacterClass = "Wizard";
             health = 12; 
-            damage = 8; 
+            weaponValue = 8; 
             armorValue = 2; 
                             
         }
@@ -49,7 +49,7 @@ namespace Text_rpg_game.classer
         {
             CharacterClass = "Archer";
             health = 15; 
-            damage = 6;
+            weaponValue = 6;
             armorValue = 3;
             agility = 10; 
                           
@@ -58,7 +58,7 @@ namespace Text_rpg_game.classer
         {
             CharacterClass = "Pessant";
             health = 10;
-            damage = 3;
+            weaponValue = 2;
             armorValue = 1;
         }
 
@@ -81,7 +81,7 @@ namespace Text_rpg_game.classer
             switch (choice)
             {
                 case "1":
-                    playerCharacter.MakeKnight();
+                    playerCharacter.MakeKnight(currentPlayer);
                     break;
                 case "2":
                     playerCharacter.MakeRogue();

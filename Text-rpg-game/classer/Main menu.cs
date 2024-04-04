@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
+using System.Collections.Generic;
 using System.Text.Json;
 
 namespace Text_rpg_game.classer
@@ -90,12 +90,15 @@ namespace Text_rpg_game.classer
                         if (player != null)
                         {
                             currentPlayer = player;
+                            Console.Clear();
                             Load.LoadLatestSave();
                         }
                         else
                         {
                             Console.WriteLine("Failed to load the game.");
-                            // Logik för att hantera misslyckad laddning, kanske återgå till huvudmenyn
+                            Console.ReadKey();
+                            Console.Clear();
+                            ShowMainMenu();
                         }
                         break;
                     case 1: 

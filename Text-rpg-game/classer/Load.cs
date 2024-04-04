@@ -70,8 +70,19 @@ namespace Text_rpg_game.classer
                         break;
                     case ConsoleKey.Enter:
                         return players[selectedIndex];
+                    case ConsoleKey.Delete:
+                        string selectedFilePath = paths[selectedIndex];
+                        if (ConfirmDelete(selectedFilePath))
+                        {
+                            File.Delete(selectedFilePath);
+                            Console.WriteLine($"Save file '{selectedFilePath}' deleted successfully.");
+                            Console.WriteLine("Press any key to continue...");
+                            Console.ReadKey();
+                            return GLoad(); // Reload the save file selection after deletion
+                        }
+                        break;
                     case ConsoleKey.Escape:
-                        return null; // Lägg till detta om du vill tillåta användaren att avbryta med Escape-tangenten
+                        return null; // Allow the user to cancel with the Escape key
                 }
             }
         }
@@ -99,6 +110,22 @@ namespace Text_rpg_game.classer
             Console.WriteLine("Failed to load the latest save.");
             return null; // Något gick fel under laddningen, så ett nytt spel bör startas.
         }
+        private static bool ConfirmDelete(string filePath)
+        {
+            Console.WriteLine($"Are you sure you want to delete {Path.GetFileName(filePath)}? (Y/N)");
+            while (true)
+            {
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Y)
+                {
+                    return true;
+                }
+                else if (key.Key == ConsoleKey.N)
+                {
+                    return false;
+                }
+            }
+        }
         public static bool CheckForSaves()
         {
             string saveDirectory = Path.Combine("Saves");
@@ -113,5 +140,5 @@ namespace Text_rpg_game.classer
     }
 }
 
-    
+
 

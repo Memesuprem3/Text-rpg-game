@@ -10,6 +10,7 @@ namespace Text_rpg_game.classer
 {
     internal class GameStart
     {
+        public static Player currentPlayer = new Player();
         public static void StartOrContinueGame()
         {
             if (Load.CheckForSaves()) // En metod som kollar om sparade spel finns
@@ -25,6 +26,8 @@ namespace Text_rpg_game.classer
        public static void StartNewGame()
         {
             CreCharacter.CharMenu();
+            Encounters.FirstEncounter(currentPlayer);
+            Encounters.BasicFightEncounter(currentPlayer);
         }
     }
     
