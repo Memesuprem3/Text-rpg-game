@@ -8,5 +8,6 @@ namespace Text_rpg_game.classer
 {
     internal class Quests
     {
+
     }
 }

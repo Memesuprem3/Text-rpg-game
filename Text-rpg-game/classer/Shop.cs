@@ -9,7 +9,7 @@ namespace Text_rpg_game.classer
 {
     public class Shop
     {
-
+        //Shop.RunShop(Program.currentPlayer);
         public static void Loadshop(Player p)
         {
             RunShop(p);
@@ -73,7 +73,7 @@ namespace Text_rpg_game.classer
                       Player.lookInventory(p);
                         break;
                     case "Q":
-                        Program.Save();
+                        Save.GSave();
                         Environment.Exit(0);
                         break;
                     default:

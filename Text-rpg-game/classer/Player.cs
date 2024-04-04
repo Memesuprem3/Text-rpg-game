@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 
@@ -10,6 +11,7 @@ namespace Text_rpg_game.classer
     [Serializable]
     public class Player
     {
+        public static Player currentPlayer = new Player();
         private Random rand = new Random();
 
         public int playerID; 
@@ -23,9 +25,6 @@ namespace Text_rpg_game.classer
 
         // inventory list
         public Dictionary<string, int> inventory = new Dictionary<string, int>();
-        
-        // inventroy
-
         public static void lookInventory(Player p)
         {
             int index = 1;
@@ -39,33 +38,26 @@ namespace Text_rpg_game.classer
         }
         public Player()
         {
-            
-            inventory.Add("Minor Healing Potion",5); 
-                                                      
+            inventory.Add("Minor Healing Potion",5);                                       
         }
-
         public int GetHealth()
         {
             int upper = (2 * mods + 5);
             int lower = (mods + 2);
             return rand.Next(lower, upper);
         }
-
         public int GetPower()
         {
             int upper = (2 * mods + 2);
             int lower = (mods + 1);
             return rand.Next(lower, upper);
         }
-
         public int GetCoins()
         {
             int upper = (15 * mods + 2);
             int lower = (10 * mods + 10);
             return rand.Next(lower, upper);
         }
-     
     }
-
 }
 
