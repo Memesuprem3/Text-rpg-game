@@ -7,7 +7,7 @@ namespace Text_rpg_game.classer
 {
     internal static class Main_menu
     {
-       
+
         public static Player currentPlayer = new Player(); // Se till att denna instansiering är meningsfull i ditt sammanhang.
         private static readonly string[] logoLines = { "CRYPTS OF ETERNITY" };
         private static readonly int spaceBetweenLogoAndMenu = 2;
@@ -19,7 +19,7 @@ namespace Text_rpg_game.classer
 
             DrawLogo();
 
-            bool hasSaves = GameStart.CheckForSaves();
+            bool hasSaves = Load.CheckForSaves();
 
             // Justera menyval baserat på om sparade spel finns
             string[] menuItems = hasSaves ? new string[] { "Continue", "Load Game", "Settings", "Exit" }
@@ -89,10 +89,8 @@ namespace Text_rpg_game.classer
                         Player player = Load.LoadLatestSave();
                         if (player != null)
                         {
-                            // Fortsätt spelet med den laddade spelarprofilen
                             currentPlayer = player;
-                            // Anta att det finns en metod för att fortsätta spelet, t.ex.:
-                            // ContinueGame(currentPlayer);
+                            Load.LoadLatestSave();
                         }
                         else
                         {
@@ -100,13 +98,13 @@ namespace Text_rpg_game.classer
                             // Logik för att hantera misslyckad laddning, kanske återgå till huvudmenyn
                         }
                         break;
-                    case 1: // "Load Game" valt
+                    case 1: 
                         Load.GLoad();
                         break;
-                    case 2: // "Settings" valt
-                        //ShowSettingsMenu();
+                    case 2: 
+                        ShowSettingsMenu();
                         break;
-                    case 3: // "Exit" valt
+                    case 3: 
                         Environment.Exit(0);
                         break;
                 }
@@ -117,14 +115,13 @@ namespace Text_rpg_game.classer
                 switch (selectedIndex)
                 {
                     case 0: // "Start New Game" valt
-                            // Logik för att initiera ett nytt spel här
-                            // Exempel: InitNewGame();
+                            GameStart.StartOrContinueGame();
                         break;
                     case 1: // "Load Game" valt
                         Load.GLoad();
                         break;
                     case 2: // "Settings" valt
-                        //ShowSettingsMenu();
+                        ShowSettingsMenu();
                         break;
                     case 3: // "Exit" valt
                         Environment.Exit(0);
@@ -132,16 +129,68 @@ namespace Text_rpg_game.classer
                 }
             }
         }
-
-        static void ClearMenuArea(int lineCount)
+        public static void ShowSettingsMenu()
         {
-                for (int i = 0; i < lineCount; i++)
+            string[] settingsItems = { "Sound: ON", "Back to Main Menu" };
+            int selectedIndex = 0;
+
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("Settings\n");
+                for (int i = 0; i < settingsItems.Length; i++)
                 {
+                    string prefix = i == selectedIndex ? "> " : "  ";
+                    Console.WriteLine($"{prefix}{settingsItems[i]}");
+                }
+
+                ConsoleKeyInfo key = Console.ReadKey(true);
+
+                switch (key.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : settingsItems.Length - 1;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        selectedIndex = (selectedIndex + 1) % settingsItems.Length;
+                        break;
+                    case ConsoleKey.Enter:
+                        HandleSettingsSelection(selectedIndex, ref settingsItems);
+                        break;
+                }
+
+                if (selectedIndex == 1 && key.Key == ConsoleKey.Enter) break; // Break if "Back to Main Menu" is selected
+            }
+
+            ShowMainMenu(); // Return to the main menu
+        }
+
+        private static void HandleSettingsSelection(int selectedIndex, ref string[] settingsItems)
+        {
+            switch (selectedIndex)
+            {
+                case 0: // Toggle Sound ON/OFF
+                    settingsItems[0] = settingsItems[0].Contains("ON") ? "Sound: OFF" : "Sound: ON";
+                    // Implement logic to actually turn sound on/off here
+                    break;
+                case 1:
+                    Console.Clear();
+                    break;
+            }
+        }
+    
+
+                static void ClearMenuArea(int lineCount)
+                {
+                    for (int i = 0; i < lineCount; i++)
+                    {
                     Console.SetCursorPosition(0, currentLine + i);
                     Console.Write(new string(' ', Console.WindowWidth));
+                    }   
+                    // Återställer skärmen efter rensning
+                    Console.SetCursorPosition(0, currentLine);
                 }
-                // Återställer skärmen efter rensning
-                Console.SetCursorPosition(0, currentLine);
-        }
-    }
-}
+               
+        
+    
+}   }

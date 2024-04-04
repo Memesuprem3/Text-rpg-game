@@ -99,6 +99,17 @@ namespace Text_rpg_game.classer
             Console.WriteLine("Failed to load the latest save.");
             return null; // Något gick fel under laddningen, så ett nytt spel bör startas.
         }
+        public static bool CheckForSaves()
+        {
+            string saveDirectory = Path.Combine("Saves");
+            if (!Directory.Exists(saveDirectory))
+            {
+                return false;
+            }
+
+            string[] saveFiles = Directory.GetFiles(saveDirectory, "*.json");
+            return saveFiles.Length > 0;
+        }
     }
 }
 

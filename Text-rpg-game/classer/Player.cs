@@ -14,7 +14,7 @@ namespace Text_rpg_game.classer
         public static Player currentPlayer = new Player();
         private Random rand = new Random();
 
-        public int playerID; 
+        public int playerID;
         public string Name;
         public int coins = 30000;
         public int health = 10;
@@ -22,6 +22,12 @@ namespace Text_rpg_game.classer
         public int armorValue = 0;
         public int weaponValue = 1;
         public int mods = 0;
+
+        public int strenght = 1;
+        public int agility = 1;
+        public int inteligens = 1;
+        public int charisma = 1;
+        public int luck = 1;
 
         // inventory list
         public Dictionary<string, int> inventory = new Dictionary<string, int>();
@@ -38,7 +44,7 @@ namespace Text_rpg_game.classer
         }
         public Player()
         {
-            inventory.Add("Minor Healing Potion",5);                                       
+            inventory.Add("Minor Healing Potion", 5);
         }
         public int GetHealth()
         {

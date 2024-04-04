@@ -10,28 +10,21 @@ namespace Text_rpg_game.classer
 {
     internal class GameStart
     {
-        static void StartOrContinueGame()
+        public static void StartOrContinueGame()
         {
-            if (CheckForSaves()) // En metod som kollar om sparade spel finns
+            if (Load.CheckForSaves()) // En metod som kollar om sparade spel finns
             {
                 Load.LoadLatestSave();
             }
             else
             {
-                
+                StartNewGame();
             }
         }
 
-        public static bool CheckForSaves()
+       public static void StartNewGame()
         {
-            string saveDirectory = Path.Combine("Saves");
-            if (!Directory.Exists(saveDirectory))
-            {
-                return false;
-            }
-
-            string[] saveFiles = Directory.GetFiles(saveDirectory, "*.json");
-            return saveFiles.Length > 0;
+            CreCharacter.CharMenu();
         }
     }
     
