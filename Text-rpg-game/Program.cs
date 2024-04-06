@@ -18,6 +18,10 @@ namespace Text_rpg_game
 
         static void Main(string[] args)
         {
+            
+            Images.DrawLogo2();
+            Console.ReadKey();
+            Console.Clear();
             Main_menu.ShowMainMenu();
         }
     }

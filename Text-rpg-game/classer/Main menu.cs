@@ -8,8 +8,24 @@ namespace Text_rpg_game.classer
     internal static class Main_menu
     {
 
-        public static Player currentPlayer = new Player(); // Se till att denna instansiering är meningsfull i ditt sammanhang.
-        private static readonly string[] logoLines = { "CRYPTS OF ETERNITY" };
+        public static Player currentPlayer = new Player();
+        private static readonly string[] logoLines = { @"
+
+
+
+
+
+
+                         ▄████████    ▄████████ ▄██   ▄      ▄███████▄     ███        ▄████████       ▄██████▄     ▄████████         ▄████████     ███        ▄████████    ▄████████ ███▄▄▄▄    ▄█      ███     ▄██   ▄  
+                        ███    ███   ███    ███ ███   ██▄   ███    ███ ▀█████████▄   ███    ███      ███    ███   ███    ███        ███    ███ ▀█████████▄   ███    ███   ███    ███ ███▀▀▀██▄ ███  ▀█████████▄ ███   ██▄
+                        ███    █▀    ███    ███ ███▄▄▄███   ███    ███    ▀███▀▀██   ███    █▀       ███    ███   ███    █▀         ███    █▀     ▀███▀▀██   ███    █▀    ███    ███ ███   ███ ███▌    ▀███▀▀██ ███▄▄▄███
+                        ███         ▄███▄▄▄▄██▀ ▀▀▀▀▀▀███   ███    ███     ███   ▀   ███             ███    ███  ▄███▄▄▄           ▄███▄▄▄         ███   ▀  ▄███▄▄▄      ▄███▄▄▄▄██▀ ███   ███ ███▌     ███   ▀ ▀▀▀▀▀▀███
+                        ███        ▀▀███▀▀▀▀▀   ▄██   ███ ▀█████████▀      ███     ▀███████████      ███    ███ ▀▀███▀▀▀          ▀▀███▀▀▀         ███     ▀▀███▀▀▀     ▀▀███▀▀▀▀▀   ███   ███ ███▌     ███     ▄██   ███
+                        ███    █▄  ▀███████████ ███   ███   ███            ███              ███      ███    ███   ███               ███    █▄      ███       ███    █▄  ▀███████████ ███   ███ ███      ███     ███   ███
+                        ███    ███   ███    ███ ███   ███   ███            ███        ▄█    ███      ███    ███   ███               ███    ███     ███       ███    ███   ███    ███ ███   ███ ███      ███     ███   ███
+                        ████████▀    ███    ███  ▀█████▀   ▄████▀         ▄████▀    ▄████████▀        ▀██████▀    ███               ██████████    ▄████▀     ██████████   ███    ███  ▀█   █▀  █▀      ▄████▀    ▀█████▀ 
+                                     ███    ███                                                                                                                           ███    ███                                     
+                            " };
         private static readonly int spaceBetweenLogoAndMenu = 2;
         private static int currentLine = 0;
 
@@ -114,19 +130,19 @@ namespace Text_rpg_game.classer
             }
             else
             {
-                // När det inte finns sparade spel, har vi "Start New Game" som första val
+                // När det inte finns sparade spel
                 switch (selectedIndex)
                 {
-                    case 0: // "Start New Game" valt
+                    case 0: 
                             GameStart.StartOrContinueGame();
                         break;
-                    case 1: // "Load Game" valt
+                    case 1: 
                         Load.GLoad();
                         break;
-                    case 2: // "Settings" valt
+                    case 2: 
                         ShowSettingsMenu();
                         break;
-                    case 3: // "Exit" valt
+                    case 3: 
                         Environment.Exit(0);
                         break;
                 }
@@ -146,7 +162,7 @@ namespace Text_rpg_game.classer
                     string prefix = i == selectedIndex ? "> " : "  ";
                     Console.WriteLine($"{prefix}{settingsItems[i]}");
                 }
-
+                
                 ConsoleKeyInfo key = Console.ReadKey(true);
 
                 switch (key.Key)

@@ -10,8 +10,7 @@ namespace Text_rpg_game.classer
 {
     public class Encounters
     {
-        static Random rand = new Random();
-
+        
         
         public static void FirstEncounter(Player player)
         {
