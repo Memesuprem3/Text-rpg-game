@@ -7,18 +7,24 @@ using System.Numerics;
 using System.ComponentModel.Design;
 using System.Text.Json;
 using Spectre.Console;
+using System.Runtime.InteropServices;
 
 
 namespace Text_rpg_game
 {
     internal class Program
     {
+        [DllImport("user32.dll")]
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr GetConsoleWindow();
+        const int SW_MAXIMIZE = 3;
         public static Player currentPlayer = new Player();
         public static bool mainLoop = true;
-
         static void Main(string[] args)
         {
-            
+            IntPtr consoleWindow = GetConsoleWindow();
+            ShowWindow(consoleWindow, SW_MAXIMIZE);
             Images.DrawLogo2();
             Console.ReadKey();
             Console.Clear();

@@ -39,12 +39,13 @@ namespace Text_rpg_game.classer
 
             // Justera menyval baserat på om sparade spel finns
             string[] menuItems = hasSaves ? new string[] { "Continue", "Load Game", "Settings", "Exit" }
-                                          : new string[] { "Start New Game", "Load Game", "Settings", "Exit" };
+                                          : new string[] { "start new game", "Load Game", "Settings", "Exit" };
 
             int selectedIndex = 0;
 
             while (true)
             {
+                
                 DrawMenu(menuItems, selectedIndex);
                 ConsoleKeyInfo key = Console.ReadKey(true);
 
@@ -137,6 +138,7 @@ namespace Text_rpg_game.classer
             else
             {
                 // När det inte finns sparade spel
+
                 switch (selectedIndex)
                 {
                     case 0: 
