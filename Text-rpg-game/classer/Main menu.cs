@@ -80,10 +80,16 @@ namespace Text_rpg_game.classer
 
         private static void DrawMenu(string[] menuItems, int selectedIndex)
         {
+            
+
+            int menuHeight = menuItems.Length;
+            int startLine = (int)Math.Round((Console.WindowHeight - menuHeight) / 2.0); 
+
             for (int i = 0; i < menuItems.Length; i++)
             {
-                int leftPosition = Math.Max((Console.WindowWidth - menuItems[i].Length) / 2, 0);
-                Console.SetCursorPosition(leftPosition, currentLine + i);
+                
+                int leftPosition = (int)Math.Round((Console.WindowWidth - menuItems[i].Length) / 2.0);
+                Console.SetCursorPosition(leftPosition, startLine + i);
                 if (i == selectedIndex)
                 {
                     Console.WriteLine($"> {menuItems[i]}");
@@ -94,7 +100,7 @@ namespace Text_rpg_game.classer
                 }
             }
         }
-
+        
         private static void HandleMenuSelection(int selectedIndex, bool hasSaves, string[] menuItems)
         {
             if (hasSaves)
