@@ -126,9 +126,9 @@ namespace Text_rpg_game.classer
                 case 0:
                     return CreateSkeletonWarr();
                 case 1:
-                    return CreateSkeletonWarr();
+                    return CreateDemonSkeleton();
                 case 2:
-                    return CreateSkeletonWarr();
+                    return CreateSkeletonArcher();
                 default:
                     return new Skeleton("Generic Orc", 2, 4); // Ett generiskt fall om det behövs.
             }
@@ -138,9 +138,13 @@ namespace Text_rpg_game.classer
         {
             return new Skeleton("Skeleton Warrior", 4, 8);
         }
-        static Skeleton CreateDeamonSkeleton()
+        static Skeleton CreateDemonSkeleton()
         {
             return new Skeleton("Skeleton Warrior", 4, 8);
+        }
+        static Skeleton CreateSkeletonArcher()
+        {
+            return new Skeleton("Skeleton Archer", 4, 5);
         }
 
 
@@ -303,9 +307,9 @@ namespace Text_rpg_game.classer
                 case 0:
                     return CreateSmallRat();
                 case 1:
-                    return CreateRandomRat();
+                    return CreateCaveRat();
                 case 2:
-                    return CreateRandomRat();
+                    return CreateLargeRat();
                 default:
                     return new Rat("Rat", 1, 2); 
             }
