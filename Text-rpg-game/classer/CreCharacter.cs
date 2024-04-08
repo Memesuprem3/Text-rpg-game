@@ -10,15 +10,15 @@ namespace Text_rpg_game.classer
     internal class CreCharacter : Player
     {
 
-        
+
 
         public void MakeKnight(Player player)
         {
             CharacterClass = "Knight";
-            health = 25; 
-            weaponValue = 5; 
+            health = 25;
+            weaponValue = 5;
             armorValue = 5;
-                            
+
         }
         public void MakePaladin()
         {
@@ -31,28 +31,28 @@ namespace Text_rpg_game.classer
         public void MakeRogue()
         {
             CharacterClass = "Rogue";
-            health = 15; 
-            weaponValue = 4; 
-            agility = 7; 
-                         
+            health = 15;
+            weaponValue = 4;
+            agility = 7;
+
         }
         public void MakeWizard()
         {
             CharacterClass = "Wizard";
-            health = 12; 
-            weaponValue = 8; 
-            armorValue = 2; 
-                            
+            health = 12;
+            weaponValue = 8;
+            armorValue = 2;
+
         }
 
         public void MakeArcher()
         {
             CharacterClass = "Archer";
-            health = 15; 
+            health = 15;
             weaponValue = 6;
             armorValue = 3;
-            agility = 10; 
-                          
+            agility = 10;
+
         }
         public void MakePessant()
         {
@@ -62,7 +62,7 @@ namespace Text_rpg_game.classer
             armorValue = 1;
         }
 
-       
+
         public static void CharMenu()
         {
             Console.Clear();
@@ -93,10 +93,10 @@ namespace Text_rpg_game.classer
                     playerCharacter.MakeArcher();
                     break;
                 case "5":
-                        playerCharacter.MakePessant();
+                    playerCharacter.MakePessant();
                     break;
-                    case "6":
-                        playerCharacter.MakePaladin();
+                case "6":
+                    playerCharacter.MakePaladin();
                     break;
                 default:
                     Console.WriteLine("You will be made a Pessant.");
@@ -106,7 +106,7 @@ namespace Text_rpg_game.classer
 
             Console.WriteLine($"You are a: {playerCharacter.CharacterClass} With {playerCharacter.health} HP, {playerCharacter.damage} Damge and {playerCharacter.agility} Agility.");
 
-        } 
+        }
     }
 
 }
