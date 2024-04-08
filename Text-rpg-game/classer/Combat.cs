@@ -9,7 +9,7 @@ namespace Text_rpg_game.classer
 {
     internal class Combat
     {
-         static Random rand = new Random();
+        static Random rand = new Random();
 
         public static void StartFight(Player player, Monster monster)
         {

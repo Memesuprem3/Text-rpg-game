@@ -5,13 +5,14 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using static Text_rpg_game.classer.Monster;
 
 namespace Text_rpg_game.classer
 {
     public class Encounters
     {
-        
-        
+
+
         public static void FirstEncounter(Player player)
         {
             Monster humanRogue = new Monster("Human Rogue", 1, 4);
@@ -21,7 +22,7 @@ namespace Text_rpg_game.classer
             Combat.StartFight(player, humanRogue);
         }
 
-        
+
         public static void BasicFightEncounter(Player player)
         {
             Console.Clear();
@@ -31,7 +32,7 @@ namespace Text_rpg_game.classer
             Combat.StartFight(player, randomMonster);
         }
 
-        
+
         public static void WizardEncounter(Player player)
         {
             Monster darkWizard = new Monster("Dark Wizard", 4, 2);
@@ -40,5 +41,6 @@ namespace Text_rpg_game.classer
             Console.ReadKey();
             Combat.StartFight(player, darkWizard);
         }
+        
     }
 }

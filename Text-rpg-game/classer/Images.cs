@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Text_rpg_game.classer.Monster;
 
 namespace Text_rpg_game.classer
 {
@@ -207,32 +208,33 @@ namespace Text_rpg_game.classer
             currentLine += spaceBetweenLogoAndMenu; // Lägg till utrymmet efter loggan
         }
 
-        public static void DrawLogo3()
-        {
-            currentLine = 0; // Återställer currentLine vid varje anrop till ShowMainMenu
-            foreach (var line in logoLines3)
-            {
-                int leftPosition = Math.Max((Console.WindowWidth - line.Length) / 2, 0);
-                Console.SetCursorPosition(leftPosition, currentLine++);
-                Console.WriteLine(line);
-            }
-            currentLine += spaceBetweenLogoAndMenu; // Lägg till utrymmet efter loggan
-        }
 
 
-        public static void DrawLogo4()
+        public static void DisplaySkeletonArt()
         {
-            currentLine = 0; // Återställer currentLine vid varje anrop till ShowMainMenu
-            foreach (var line in logoLines3)
-            {
-                int leftPosition = Math.Max((Console.WindowWidth - line.Length) / 2, 0);
-                Console.SetCursorPosition(leftPosition, currentLine++);
-                Console.WriteLine(line);
-            }
-            currentLine += spaceBetweenLogoAndMenu; // Lägg till utrymmet efter loggan
+            Console.WriteLine("ASCII art för Skeleton här...");
         }
-    }  
+
+        public static void DisplayOrcArt()
+        {
+            // Eftersom OrcType nu hanteras inom Orc-klassen, kan du ha generell Orc ASCII konst här,
+            // eller skapa fler specifika metoder om nödvändigt, exempelvis DisplayOrcWarlordArt.
+            Console.WriteLine("Generisk Orc ASCII art här...");
+        }
+
+        public static void DisplayZombieArt()
+        {
+            Console.WriteLine("ASCII art för Zombie här...");
+        }
+
+        // Fortsätt att definiera specifika metoder för andra monsterklasser.
+    }
+
+
+
+
 }
+
         
             
         
