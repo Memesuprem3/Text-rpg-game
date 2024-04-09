@@ -16,7 +16,8 @@ public enum Race
         Elf,
         Gnome,
         Undead,
-        Orc
+        Orc,
+        Troll
 
     }
     public class Player

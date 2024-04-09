@@ -16,12 +16,14 @@ namespace Text_rpg_game.classer
             while (player.health > 0 && monster.Health > 0)
             {
                 Console.Clear();
-                Console.WriteLine($"{monster.Name}\nPower: {monster.Power} / Health: {monster.Health}");
-                Console.WriteLine("======================");
-                Console.WriteLine("| (A)ttack (D)efend  |");
-                Console.WriteLine("| (R)un    (H)eal    |");
-                Console.WriteLine("======================");
-                Console.WriteLine($"Health: {player.health} Damage: {player.weaponValue}");
+                string battleMenu = $"{monster.Name}\nPower: {monster.Power} / Health: {monster.Health}" +
+                    "\n======================" +
+                    "\n| (A)ttack (D)efend  |" +
+                    "\n| (R)un    (H)eal    |" +
+                    "\n======================" +
+                    $"\nHealth: {player.health} Damage: {player.weaponValue}";
+
+                Combat.WriteCenteredText(battleMenu);
 
                 string input = Console.ReadLine().ToLower();
                 switch (input)
@@ -104,7 +106,7 @@ namespace Text_rpg_game.classer
                 if (damageToPlayer < 0) damageToPlayer = 0;
                 player.health -= damageToPlayer;
                 Console.WriteLine($"The {monster.Name} attacks you as you try to run and deals {damageToPlayer} damage.");
-                return false;
+                return true;
             }
             else
             {
@@ -126,6 +128,21 @@ namespace Text_rpg_game.classer
             else
             {
                 Console.WriteLine("You have no Minor Healing Potions left!");
+            }
+        }
+
+        public static void WriteCenteredText(string text, int offsetY = 0)
+        {
+            Console.Clear();
+            string[] lines = text.Split('\n');
+            int centerY = (Console.WindowHeight - lines.Length) / 2;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                int centerX = (Console.WindowWidth - line.Length) / 2;
+                Console.SetCursorPosition(centerX, centerY + i + offsetY);
+                Console.WriteLine(line);
             }
         }
     }

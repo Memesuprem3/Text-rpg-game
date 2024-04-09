@@ -16,8 +16,8 @@ namespace Text_rpg_game.classer
         public static void FirstEncounter(Player player)
         {
             Monster humanRogue = new Monster("Human Rogue", 1, 4);
-            Console.WriteLine("You throw open the door and grab a rusty metal sword, charging towards your captor.");
-            Console.WriteLine("He turns...");
+            CreCharacter.WriteCenteredPrompt("You throw open the door and grab a rusty metal sword, charging towards your captor.");
+            CreCharacter.WriteCenteredPrompt("He turns...");
             Console.ReadKey();
             Combat.StartFight(player, humanRogue);
         }
@@ -26,7 +26,7 @@ namespace Text_rpg_game.classer
         public static void BasicFightEncounter(Player player)
         {
             Console.Clear();
-            Console.WriteLine("You turn the corner and see an Enemy.");
+            CreCharacter.WriteCenteredPrompt("You turn the corner and see an Enemy.");
             Console.ReadKey();
             Monster randomMonster = Monster.GenerateRandomMonster();
             Combat.StartFight(player, randomMonster);
