@@ -134,23 +134,23 @@ namespace Text_rpg_game.classer
                 {
                     case "1":
                         cost = 100;
-                        Buy("Sword", cost, p, 3); // Låt oss anta att "3" är attackvärdeökningen
+                        Buy("Sword", cost, p, 3);
                         break;
                     case "2":
                         cost = 80;
-                        Buy("Staff", cost, p, 2); // Exempelvärde
+                        Buy("Staff", cost, p, 2); 
                         break;
                     case "3":
                         cost = 150;
-                        Buy("Magic Weapon", cost, p, 4); // Exempelvärde
+                        Buy("Magic Weapon", cost, p, 4); 
                         break;
                     case "4":
                         cost = 120;
-                        Buy("Bow", cost, p, 3); // Exempelvärde
+                        Buy("Bow", cost, p, 3); 
                         break;
                     case "5":
                         cost = 90;
-                        Buy("Mace", cost, p, 3); // Exempelvärde
+                        Buy("Mace", cost, p, 3); 
                         break;
                     default:
                         Console.WriteLine("Barnabas Arcanum: Det verkar inte vara ett giltigt val.");
@@ -165,9 +165,8 @@ namespace Text_rpg_game.classer
             Console.WriteLine("1. Leather Armor");
             Console.WriteLine("2. Chainmail");
             Console.WriteLine("3. Plate Armor");
-            // Add more as needed
             Console.Write("Select an armor: ");
-            // Add logic for armor selection and purchasing
+            // logic för val ska vara här:
         }
 
         static void Buy(string item, int cost, Player p, int valueIncrease = 0)
@@ -180,11 +179,11 @@ namespace Text_rpg_game.classer
                 // Lägg till eller uppdatera föremålet i spelarens inventory
                 if (p.inventory.ContainsKey(item))
                 {
-                    p.inventory[item]++; // Öka antalet av föremålet om det redan finns
+                    p.inventory[item]++; // Ökar antalet av föremålet om det redan finns
                 }
                 else
                 {
-                    p.inventory[item] = 1; // Lägg till ett nytt föremål om det inte fanns tidigare
+                    p.inventory[item] = 1; // Lägger till ett nytt föremål om det inte fanns tidigare
                 }
 
                 // Uppdatera spelarens stats eller antal föremål baserat på vad som köptes
@@ -220,7 +219,7 @@ namespace Text_rpg_game.classer
             {
                 Console.WriteLine("Barnabas Arcanum: Looks like you don't have enough coins, and I don't do discounts.");
             }
-            Console.ReadKey(); // Wait for the user to acknowledge the message
+            Console.ReadKey(); 
         }
 
         static void Sell(Player p)
@@ -231,8 +230,8 @@ namespace Text_rpg_game.classer
             Dictionary<int, string> itemMapping = new Dictionary<int, string>();
             foreach (var item in p.inventory)
             {
-                Console.WriteLine($"{index}: {item.Key} x{item.Value}"); // Visa föremål och antal
-                itemMapping[index] = item.Key; // Mappa index till föremålets namn
+                Console.WriteLine($"{index}: {item.Key} x{item.Value}"); 
+                itemMapping[index] = item.Key; 
                 index++;
             }
 
@@ -260,16 +259,16 @@ namespace Text_rpg_game.classer
                     switch (itemName)
                     {
                         case "Sword":
-                            // Antag att svärdet ökade weaponValue med ett värde
-                            p.weaponValue -= 3; // Justera detta värde efter hur mycket svärdet ursprungligen ökade weaponValue
+                            
+                            p.weaponValue -= 3;
                             Console.WriteLine("You have sold your Sword and lost some attack power.");
                             break;
                         case "Leather Armor":
-                            // Antag att rustningen ökade armorValue med ett värde
-                            p.armorValue -= 4; // Justera detta värde efter hur mycket rustningen ursprungligen ökade armorValue
+                            
+                            p.armorValue -= 4; 
                             Console.WriteLine("You have sold your Leather Armor and lost some defense.");
                             break;
-                            // Lägg till fler case här för andra föremål som påverkar attribut
+                            // Lägg till fler case här för andra föremål, eller integrera med eq klass
                     }
                 }
                 else

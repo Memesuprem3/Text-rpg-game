@@ -8,10 +8,11 @@ namespace Text_rpg_game.classer
 {
     public class Equipment
     {
+        // utöka för passa med shop, inventory och items/loot
         public string Name { get; set; }
-        public int Damage { get; set; } = 0; // Primärt för vapen
-        public int Armor { get; set; } = 0; // Primärt för rustning
-        public int AgilityBonus { get; set; } = 0; // Bonus till smidighet för vissa utrustningar
+        public int Damage { get; set; } = 0; 
+        public int Armor { get; set; } = 0; 
+        public int AgilityBonus { get; set; } = 0; 
 
         public Equipment(string name, int damage = 0, int armor = 0, int agilityBonus = 0)
         {

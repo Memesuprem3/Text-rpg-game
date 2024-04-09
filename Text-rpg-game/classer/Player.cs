@@ -32,7 +32,7 @@ public enum Race
         public int damage = 1;
         public int armorValue = 2;
         public int weaponValue = 1;
-        public int mods = 0;
+        public int mods = 0; // öka svårighetsgrad 
 
         // Primary stats
         public int strength = 1; // påverka skada med vapen

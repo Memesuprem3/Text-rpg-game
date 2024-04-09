@@ -38,7 +38,7 @@ namespace Text_rpg_game.classer
         public static Monster GenerateRandomMonster()
         {
             Random rand = new Random();
-            int choice = rand.Next(0, 5); // Antal alternativ baserat på antalet monsterklasser
+            int choice = rand.Next(0, 5); 
 
             switch (choice)
             {
@@ -67,8 +67,8 @@ namespace Text_rpg_game.classer
             public static Orc CreateRandomOrc()
             {
                 Random rand = new Random();
-                // Du kan anpassa vikter eller lägga till fler typer här.
-                int choice = rand.Next(0, 2); // För detta exempel, 0 och 1 representerar de två olika Orc-typ valen.
+                
+                int choice = rand.Next(0, 2); 
 
                 switch (choice)
                 {
@@ -79,7 +79,7 @@ namespace Text_rpg_game.classer
                     case 2:
                         return CreateOrcWarlord();
                     default:
-                        return new Orc("Generic Orc", 4, 7); // Ett generiskt fall om det behövs.
+                        return new Orc("Generic Orc", 4, 7); 
                 }
             }
 
@@ -119,7 +119,7 @@ namespace Text_rpg_game.classer
         {
             Random rand = new Random();
             // Du kan anpassa vikter eller lägga till fler typer här.
-            int choice = rand.Next(0, 2); // För detta exempel, 0 och 1 representerar de två olika Orc-typ valen.
+            int choice = rand.Next(0, 2); 
 
             switch (choice)
             {
@@ -130,7 +130,7 @@ namespace Text_rpg_game.classer
                 case 2:
                     return CreateSkeletonArcher();
                 default:
-                    return new Skeleton("Generic Orc", 2, 4); // Ett generiskt fall om det behövs.
+                    return new Skeleton("Generic Orc", 2, 4); 
             }
         }
 
@@ -157,8 +157,8 @@ namespace Text_rpg_game.classer
         public static Zombie CreateRandomZombie()
         {
             Random rand = new Random();
-            // Du kan anpassa vikter eller lägga till fler typer här.
-            int choice = rand.Next(0, 2); // För detta exempel, 0 och 1 representerar de två olika Orc-typ valen.
+            
+            int choice = rand.Next(0, 2); 
 
             switch (choice)
             {
@@ -169,7 +169,7 @@ namespace Text_rpg_game.classer
                 case 2:
                     return CreateZombieRotten();
                 default:
-                    return new Zombie("Generic Orc", 4, 7); // Ett generiskt fall om det behövs.
+                    return new Zombie("Generic Orc", 4, 7); 
             }
         }
         static Zombie CreateZombieRotten()
@@ -225,8 +225,8 @@ namespace Text_rpg_game.classer
         public static Goblin CreateRandomGoblin()
         {
             Random rand = new Random();
-            // Du kan anpassa vikter eller lägga till fler typer här.
-            int choice = rand.Next(0, 2); // För detta exempel, 0 och 1 representerar de två olika Orc-typ valen.
+           
+            int choice = rand.Next(0, 2); 
 
             switch (choice)
             {
@@ -237,7 +237,7 @@ namespace Text_rpg_game.classer
                 case 2:
                     return CreateGoblinRouge();
                 default:
-                    return new Goblin("Goblin", 3, 3); // Ett generiskt fall om det behövs.
+                    return new Goblin("Goblin", 3, 3); 
             }
             static Goblin CreateGoblin()
             {
@@ -263,8 +263,8 @@ namespace Text_rpg_game.classer
        public static Vampire CreateRandomVampire()
        {
             Random rand = new Random();
-            // Du kan anpassa vikter eller lägga till fler typer här.
-            int choice = rand.Next(0, 2); // För detta exempel, 0 och 1 representerar de två olika Orc-typ valen.
+            
+            int choice = rand.Next(0, 2); 
 
             switch (choice)
             {
@@ -275,7 +275,7 @@ namespace Text_rpg_game.classer
                 case 2:
                     return CreateLowerVampire();
                 default:
-                    return new Vampire("Generic Orc", 4, 7); // Ett generiskt fall om det behövs.
+                    return new Vampire("Generic Orc", 4, 7); 
             }
             static Vampire CreateVampire()
             {
@@ -299,8 +299,8 @@ namespace Text_rpg_game.classer
         public static Rat CreateRandomRat()
         {
             Random rand = new Random();
-            // Du kan anpassa vikter eller lägga till fler typer här.
-            int choice = rand.Next(0, 2); // För detta exempel, 0 och 1 representerar de två olika Orc-typ valen.
+           
+            int choice = rand.Next(0, 2); 
 
             switch (choice)
             {

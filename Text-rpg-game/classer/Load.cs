@@ -82,7 +82,7 @@ namespace Text_rpg_game.classer
                         }
                         break;
                     case ConsoleKey.Escape:
-                        return null; // Allow the user to cancel with the Escape key
+                        return null; 
                 }
             }
         }
@@ -92,7 +92,7 @@ namespace Text_rpg_game.classer
             if (!saveDirectory.Exists || saveDirectory.GetFiles("*.json").Length == 0)
             {
                 Console.WriteLine("No save files found.");
-                return null; // Ingen sparfil finns, så ett nytt spel bör startas.
+                return null; 
             }
 
             var latestSaveFile = saveDirectory.GetFiles("*.json").OrderByDescending(f => f.LastWriteTime).FirstOrDefault();
@@ -103,12 +103,12 @@ namespace Text_rpg_game.classer
                 Player player = JsonSerializer.Deserialize<Player>(jsonString);
                 if (player != null)
                 {
-                    return player; // Returnera den senast sparade spelaren.
+                    return player; 
                 }
             }
 
             Console.WriteLine("Failed to load the latest save.");
-            return null; // Något gick fel under laddningen, så ett nytt spel bör startas.
+            return null; 
         }
         private static bool ConfirmDelete(string filePath)
         {

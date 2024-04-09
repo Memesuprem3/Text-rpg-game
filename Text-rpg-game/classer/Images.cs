@@ -186,26 +186,26 @@ namespace Text_rpg_game.classer
 
         public static void DrawLogo1()
         {
-            currentLine = 0; // Återställer currentLine vid varje anrop till ShowMainMenu
+            currentLine = 0; 
             foreach (var line in logoLines1)
             {
                 int leftPosition = Math.Max((Console.WindowWidth - line.Length) / 2, 0);
                 Console.SetCursorPosition(leftPosition, currentLine++);
                 Console.WriteLine(line);
             }
-            currentLine += spaceBetweenLogoAndMenu; // Lägg till utrymmet efter loggan
+            currentLine += spaceBetweenLogoAndMenu;
         }
 
         public static void DrawLogo2()
         {
-            currentLine = 0; // Återställer currentLine vid varje anrop till ShowMainMenu
+            currentLine = 0; 
             foreach (var line in logoLines2)
             {
                 int leftPosition = Math.Max((Console.WindowWidth - line.Length) / 2, 0);
                 Console.SetCursorPosition(leftPosition, currentLine++);
                 Console.WriteLine(line);
             }
-            currentLine += spaceBetweenLogoAndMenu; // Lägg till utrymmet efter loggan
+            currentLine += spaceBetweenLogoAndMenu; 
         }
 
 
@@ -217,8 +217,7 @@ namespace Text_rpg_game.classer
 
         public static void DisplayOrcArt()
         {
-            // Eftersom OrcType nu hanteras inom Orc-klassen, kan du ha generell Orc ASCII konst här,
-            // eller skapa fler specifika metoder om nödvändigt, exempelvis DisplayOrcWarlordArt.
+            
             Console.WriteLine("Generisk Orc ASCII art här...");
         }
 
@@ -227,7 +226,7 @@ namespace Text_rpg_game.classer
             Console.WriteLine("ASCII art för Zombie här...");
         }
 
-        // Fortsätt att definiera specifika metoder för andra monsterklasser.
+        
     }
 
 

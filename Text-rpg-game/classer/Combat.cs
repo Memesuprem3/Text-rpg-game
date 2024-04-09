@@ -39,7 +39,7 @@ namespace Text_rpg_game.classer
                         if (AttemptRun(player, monster))
                         {
                             Console.WriteLine("You successfully escaped!");
-                            return; // Avbryter striden om spelaren lyckas fly.
+                            return; 
                         }
                         break;
                     case "h":
@@ -51,7 +51,7 @@ namespace Text_rpg_game.classer
                         break;
                 }
 
-                // Monsterangrepp om inte spelaren flyr
+                
                 if (monster.Health > 0)
                 {
                     int damageToPlayer = monster.Power - player.armorValue;
@@ -63,13 +63,13 @@ namespace Text_rpg_game.classer
                 if (monster.Health <= 0)
                 {
                     Console.WriteLine($"You have defeated the {monster.Name}!");
-                    break; // Bryter loopen om monstret besegras.
+                    break; 
                 }
 
                 if (player.health <= 0)
                 {
                     Console.WriteLine("You have been defeated...");
-                    // Implementera logik för spelarens nederlag här (t.ex. avsluta spelet eller återuppliva).
+                    // implemenmtera retun main menu eller load save osv.
                 }
 
                 Console.WriteLine("Press any key to continue...");
@@ -79,7 +79,7 @@ namespace Text_rpg_game.classer
 
         private static void PerformAttack(Player player, Monster monster)
         {
-            int damageToMonster = rand.Next(0, player.weaponValue) + rand.Next(1, 4); // Exempel på skada till monster
+            int damageToMonster = rand.Next(0, player.weaponValue) + rand.Next(1, 4); 
             monster.Health -= damageToMonster;
             Console.WriteLine($"You attack the {monster.Name} and deal {damageToMonster} damage.");
         }
@@ -87,7 +87,7 @@ namespace Text_rpg_game.classer
         private static void PerformDefend(Player player, Monster monster)
         {
             Console.WriteLine("You defend against the attack, but still take damage.");
-            // Reducerar skadan med hälften som exempel
+            
             int damageReduced = (monster.Power / 2) - player.armorValue;
             if (damageReduced < 0) damageReduced = 0;
             player.health -= damageReduced;
@@ -96,7 +96,7 @@ namespace Text_rpg_game.classer
 
         private static bool AttemptRun(Player player, Monster monster)
         {
-            // 50% chans att lyckas fly
+            //utöka baserad på speed stat
             if (rand.Next(0, 2) == 0)
             {
                 Console.WriteLine("You failed to escape and take damage!");
@@ -116,8 +116,7 @@ namespace Text_rpg_game.classer
 
         private static void PerformHeal(Player player)
         {
-            // Anta att spelaren har potions och att "Minor Healing Potion" ger 5 HP
-            // Detta är en förenklad logik och bör utvidgas baserat på ditt faktiska inventariesystem
+            //utöka för att passa bättre med invenrtory system
             if (player.inventory.ContainsKey("Minor Healing Potion") && player.inventory["Minor Healing Potion"] > 0)
             {
                 player.health += 5; // Lägger till hälsa

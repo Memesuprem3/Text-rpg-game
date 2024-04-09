@@ -37,7 +37,7 @@ namespace Text_rpg_game.classer
 
             bool hasSaves = Load.CheckForSaves();
 
-            // Justera menyval baserat på om sparade spel finns
+            
             string[] menuItems = hasSaves ? new string[] { "Continue", "Load Game", "Settings", "Exit" }
                                           : new string[] { "start new game", "Load Game", "Settings", "Exit" };
 
@@ -69,14 +69,14 @@ namespace Text_rpg_game.classer
 
         private static void DrawLogo()
         {
-            currentLine = 0; // Återställer currentLine vid varje anrop till ShowMainMenu
+            currentLine = 0; 
             foreach (var line in logoLines)
             {
                 int leftPosition = Math.Max((Console.WindowWidth - line.Length) / 2, 0);
                 Console.SetCursorPosition(leftPosition, currentLine++);
                 Console.WriteLine(line);
             }
-            currentLine += spaceBetweenLogoAndMenu; // Lägg till utrymmet efter loggan
+            currentLine += spaceBetweenLogoAndMenu; 
         }
 
         private static void DrawMenu(string[] menuItems, int selectedIndex)
@@ -186,19 +186,19 @@ namespace Text_rpg_game.classer
                         break;
                 }
 
-                if (selectedIndex == 1 && key.Key == ConsoleKey.Enter) break; // Break if "Back to Main Menu" is selected
+                if (selectedIndex == 1 && key.Key == ConsoleKey.Enter) break; 
             }
 
-            ShowMainMenu(); // Return to the main menu
+            ShowMainMenu(); 
         }
 
         private static void HandleSettingsSelection(int selectedIndex, ref string[] settingsItems)
         {
             switch (selectedIndex)
             {
-                case 0: // Toggle Sound ON/OFF
+                case 0: 
                     settingsItems[0] = settingsItems[0].Contains("ON") ? "Sound: OFF" : "Sound: ON";
-                    // Implement logic to actually turn sound on/off here
+                    // fixa logic här för ljud
                     break;
                 case 1:
                     Console.Clear();
@@ -214,7 +214,7 @@ namespace Text_rpg_game.classer
                     Console.SetCursorPosition(0, currentLine + i);
                     Console.Write(new string(' ', Console.WindowWidth));
                     }   
-                    // Återställer skärmen efter rensning
+                    
                     Console.SetCursorPosition(0, currentLine);
                 }
                
