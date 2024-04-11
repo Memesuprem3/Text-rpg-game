@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,11 +22,15 @@ namespace Text_rpg_game.classer
                     "\n| (A)ttack (D)efend  |" +
                     "\n| (R)un    (H)eal    |" +
                     "\n======================" +
+                    $"\n    {Player.currentPlayer.Name}    " +
                     $"\nHealth: {player.health} Damage: {player.weaponValue}";
 
-                Combat.WriteCenteredText(battleMenu);
-
+                WriteCenteredText(battleMenu);
+                string action = "Action:";
+                WriteCenteredTextLower2(action);
+                Console.SetCursorPosition(116, 35);
                 string input = Console.ReadLine().ToLower();
+
                 switch (input)
                 {
                     case "a":
@@ -40,8 +45,9 @@ namespace Text_rpg_game.classer
                     case "run":
                         if (AttemptRun(player, monster))
                         {
-                            Console.WriteLine("You successfully escaped!");
-                            return; 
+                            string escapedS = "You successfully escaped!";
+                            WriteCenteredTextLower(escapedS);
+                            return;
                         }
                         break;
                     case "h":
@@ -49,51 +55,63 @@ namespace Text_rpg_game.classer
                         PerformHeal(player);
                         break;
                     default:
-                        Console.WriteLine("Confused by the heat of battle, you lose your turn...");
+                        string actionfail = "Confused by the heat of battle, you lose your turn...";
+                        WriteCenteredTextLower(actionfail);
                         break;
                 }
 
-                
+
                 if (monster.Health > 0)
                 {
                     int damageToPlayer = monster.Power - player.armorValue;
                     if (damageToPlayer < 0) damageToPlayer = 0;
                     player.health -= damageToPlayer;
-                    Console.WriteLine($"The {monster.Name} attacks you back and deals {damageToPlayer} damage.");
+                    string m = $"The {monster.Name} attacks you back and deals {damageToPlayer} damage.";
+                    WriteCenteredTextLower(m);
                 }
 
                 if (monster.Health <= 0)
                 {
-                    Console.WriteLine($"You have defeated the {monster.Name}!");
-                    break; 
+                    string Md = $"You have defeated the {monster.Name}!";
+                    WriteCenteredTextLower(Md);
+                    break;
                 }
 
                 if (player.health <= 0)
                 {
-                    Console.WriteLine("You have been defeated...");
+                    string death = $"You have been killed by {monster.Name}";
+                    WriteCenteredTextLower(death);
+                    Console.ReadKey();
+                    Console.Clear();
+                    Main_menu.ShowMainMenu();
                     // implemenmtera retun main menu eller load save osv.
                 }
 
-                Console.WriteLine("Press any key to continue...");
+
                 Console.ReadKey();
             }
         }
 
         private static void PerformAttack(Player player, Monster monster)
         {
-            int damageToMonster = rand.Next(0, player.weaponValue) + rand.Next(1, 4); 
+            int damageToMonster = rand.Next(0, player.weaponValue) + rand.Next(1, 4);
             monster.Health -= damageToMonster;
-            Console.WriteLine($"You attack the {monster.Name} and deal {damageToMonster} damage.");
+            //Console.WriteLine($"You attack the {monster.Name} and deal {damageToMonster} damage.");
+            string atk = $"You attack the {monster.Name} and deal {damageToMonster} damage.";
+            WriteCenteredTextLower1(atk);
         }
 
         private static void PerformDefend(Player player, Monster monster)
         {
-            Console.WriteLine("You defend against the attack, but still take damage.");
-            
+            //Console.WriteLine("You defend against the attack, but still take damage.");
+            string def1 = "You defend against the attack, but still take damage.";
+            WriteCenteredTextLower(def1);
             int damageReduced = (monster.Power / 2) - player.armorValue;
             if (damageReduced < 0) damageReduced = 0;
             player.health -= damageReduced;
-            Console.WriteLine($"The attack done to you is {damageReduced}.");
+            //Console.WriteLine($"The attack done to you is {damageReduced}.");
+            string def2 = $"The attack done to you is {damageReduced}.";
+            WriteCenteredTextLower(def2);
         }
 
         private static bool AttemptRun(Player player, Monster monster)
@@ -101,16 +119,22 @@ namespace Text_rpg_game.classer
             //utöka baserad på speed stat
             if (rand.Next(0, 2) == 0)
             {
-                Console.WriteLine("You failed to escape and take damage!");
+                string runF = "You failed to escpae and take damage in the process";
+                WriteCenteredTextLower(runF);
+                //Console.WriteLine("You failed to escape and take damage!");
                 int damageToPlayer = monster.Power - player.armorValue;
                 if (damageToPlayer < 0) damageToPlayer = 0;
                 player.health -= damageToPlayer;
-                Console.WriteLine($"The {monster.Name} attacks you as you try to run and deals {damageToPlayer} damage.");
+                //Console.WriteLine($"The {monster.Name} attacks you as you try to run and deals {damageToPlayer} damage.");
+                string runFD = $"The {monster.Name} attacks you as you try to run and deals {damageToPlayer} damage.";
+                WriteCenteredTextLower(runFD);
                 return true;
             }
             else
             {
-                Console.WriteLine("You use your quick thinking to escape from the battle!");
+                //Console.WriteLine("You use your quick thinking to escape from the battle!");
+                string runSuc = "You use your quick thinking to escape from the battle!";
+                WriteCenteredTextLower(runSuc);
                 Shop.Loadshop(player);
                 return true;
             }
@@ -142,6 +166,50 @@ namespace Text_rpg_game.classer
                 string line = lines[i];
                 int centerX = (Console.WindowWidth - line.Length) / 2;
                 Console.SetCursorPosition(centerX, centerY + i + offsetY);
+                Console.WriteLine(line);
+            }
+        }
+
+        public static void WriteCenteredTextLower(string text, int offsetY = 0)
+        {
+
+            string[] lines = text.Split('\n');
+            int centerY = (Console.WindowHeight - lines.Length) / 2;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                int centerX = (Console.WindowWidth - line.Length) / 2;
+                Console.SetCursorPosition(centerX, centerY + 7 + i + offsetY);
+                Console.WriteLine(line);
+            }
+        }
+
+        public static void WriteCenteredTextLower1(string text, int offsetY = 0)
+        {
+
+            string[] lines = text.Split('\n');
+            int centerY = (Console.WindowHeight - lines.Length) / 2;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                int centerX = (Console.WindowWidth - line.Length) / 2;
+                Console.SetCursorPosition(centerX, centerY + 6 + i + offsetY);
+                Console.WriteLine(line);
+            }
+        }
+        public static void WriteCenteredTextLower2(string text, int offsetY = 0)
+        {
+
+            string[] lines = text.Split('\n');
+            int centerY = (Console.WindowHeight - lines.Length) / 2;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                int centerX = (Console.WindowWidth - line.Length) / 2;
+                Console.SetCursorPosition(centerX-7, centerY + 4 + i + offsetY);
                 Console.WriteLine(line);
             }
         }
