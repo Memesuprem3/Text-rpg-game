@@ -84,18 +84,18 @@ namespace Text_rpg_game.classer.Monsters
                 List<Monster> possibleMonsters = new List<Monster>();
 
 
-                if (playerLevel <= 5)
+                if (playerLevel >= 5)
                 {
                     possibleMonsters.Add(new Human("Bandit",2,7,20));
 
                 }
 
-                if (playerLevel <= 10)
+                if (playerLevel >= 10)
                 {
 
                 }
 
-                if (playerLevel <= 20)
+                if (playerLevel >= 20)
                 {
 
                 }
@@ -121,17 +121,17 @@ namespace Text_rpg_game.classer.Monsters
                 Random rand = new Random();
                 List<Monster> possibleMonsters = new List<Monster>();
 
-                if (playerLevel <= 5)
+                if (playerLevel >= 5)
                 {
-                    possibleMonsters.Add(new Orc("Orc", 2, 3,10));
+                    possibleMonsters.Add(new Orc("Orc", 11, 20,45));
                     
                 }
-                if (playerLevel <= 10)
+                if (playerLevel >= 10)
                 {
                     possibleMonsters.Add(new Orc("Orc Archer", 5, 6, 50));
                     possibleMonsters.Add(new Orc("Orc Spearman", 5, 9,55));
                 }
-                if (playerLevel <= 20)
+                if (playerLevel >= 20)
                 {
                     possibleMonsters.Add(new Orc("Orc Warlord", 15, 60, 150));
                 }
@@ -171,17 +171,17 @@ namespace Text_rpg_game.classer.Monsters
             Random rand = new Random();
             List<Monster> possibleMonsters = new List<Monster>();
 
-            if (playerLevel <= 5)
+            if (playerLevel >= 1)
             {
                 possibleMonsters.Add(new Skeleton("Skeleton", 2, 3, 10));
 
             }
-            if (playerLevel <= 10)
+            if (playerLevel >= 10)
             {
                 possibleMonsters.Add(new Skeleton("Skeleton Warrior", 5, 6,50));
                 possibleMonsters.Add(new Skeleton("Skeleton Archer", 5, 9,55));
             }
-            if (playerLevel <= 20)
+            if (playerLevel >= 20)
             {
                 possibleMonsters.Add(new Orc("Deamon Skeleton", 15, 60, 150));
             }
@@ -206,16 +206,16 @@ namespace Text_rpg_game.classer.Monsters
             Random rand = new Random();
             List<Monster> possibleMonsters = new List<Monster>();
 
-            if (playerLevel <= 5)
+            if (playerLevel >= 1)
             {
                 possibleMonsters.Add(new Undead("Zombie", 2, 4, 10));
 
             }       
-            if (playerLevel <= 10)
+            if (playerLevel >= 10)
             {
              possibleMonsters.Add(new Undead("Gohul", 6, 15, 50));
             }   
-            if (playerLevel <= 20)
+            if (playerLevel >= 20)
             {
 
             }
@@ -239,16 +239,16 @@ namespace Text_rpg_game.classer.Monsters
             Random rand = new Random();
             List<Monster> possibleMonsters = new List<Monster>();
 
-            if (playerLevel <= 5)
+            if (playerLevel >= 1)
             {
 
 
             }
-            if (playerLevel <= 10)
+            if (playerLevel >= 10)
             {
 
             }
-            if (playerLevel <= 20)
+            if (playerLevel >= 20)
             {
 
             }
@@ -256,7 +256,7 @@ namespace Text_rpg_game.classer.Monsters
             {   
             return (Troll)possibleMonsters[rand.Next(possibleMonsters.Count)];
             }
-            return new Troll("Flashback Grabb", 1, 2,1);
+            return new Troll("Yoorgi", 1, 2,10);
         }
     }
 
@@ -273,16 +273,16 @@ namespace Text_rpg_game.classer.Monsters
             Random rand = new Random();
             List<Monster> possibleMonsters = new List<Monster>();
 
-            if (playerLevel <= 5)
+            if (playerLevel >= 5)
             {
 
 
             }
-            if (playerLevel <= 10)
+            if (playerLevel >= 10)
             {
 
             }
-            if (playerLevel <= 20)
+            if (playerLevel >= 20)
             {
 
             }
@@ -308,17 +308,17 @@ namespace Text_rpg_game.classer.Monsters
             List<Monster> possibleMonsters = new List<Monster>();
 
 
-            if (playerLevel <= 5)
+            if (playerLevel >= 5)
             {
                 possibleMonsters.Add(new Vampire("Vampire Thane", 5, 5, 25));
 
         }
-            if (playerLevel <= 10)
+            if (playerLevel >= 10)
             {
                 possibleMonsters.Add(new Vampire("Lower Vampire", 6, 7, 50));
                 possibleMonsters.Add(new Vampire("Vampire", 11, 13, 75));
             }
-            if (playerLevel <= 20)
+            if (playerLevel >= 20)
             {
                 possibleMonsters.Add(new Vampire("Vampire Lord", 14, 16, 100));
             }
@@ -326,7 +326,7 @@ namespace Text_rpg_game.classer.Monsters
             {
             return (Vampire)possibleMonsters[rand.Next(possibleMonsters.Count)];
             }
-            return new Vampire("bloodsugare", 1, 2,1);
+            return new Vampire("Bat", 1, 2,1);
         }
     }
 public class Rat : Monster
@@ -341,18 +341,18 @@ public class Rat : Monster
         Random rand = new Random();
         List<Monster> possibleMonsters = new List<Monster>();
 
-        if (playerLevel <= 5)
+        if (playerLevel >= 1)
         {
             possibleMonsters.Add(new Rat("Small Ratt", 1, 5, 10));
             possibleMonsters.Add(new Rat("Cave Rat", 1, 2, 10));
             possibleMonsters.Add(new Rat("Large Rat", 2, 15, 25));
 
         }
-        if (playerLevel <= 10)
+        if (playerLevel >= 10)
         {
 
         }
-        if (playerLevel <= 20)
+        if (playerLevel >= 20)
         {
 
         }
@@ -360,7 +360,7 @@ public class Rat : Monster
         {
             return (Rat)possibleMonsters[rand.Next(possibleMonsters.Count)];
         }
-        return new Rat("Råtta", 1, 2,3);
+        return new Rat("Mouse", 1, 2,3);
     }
 }
 
