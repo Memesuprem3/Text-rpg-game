@@ -1,5 +1,4 @@
-﻿using Text_rpg_game.classer;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using static System.Net.WebRequestMethods;
@@ -8,6 +7,8 @@ using System.ComponentModel.Design;
 using System.Text.Json;
 using Spectre.Console;
 using System.Runtime.InteropServices;
+using Text_rpg_game.classer.Player.Player;
+using Text_rpg_game.classer.Utilitys;
 
 
 namespace Text_rpg_game
@@ -19,7 +20,7 @@ namespace Text_rpg_game
         [DllImport("kernel32.dll")]
         public static extern IntPtr GetConsoleWindow();
         const int SW_MAXIMIZE = 3;
-        public static Player currentPlayer = new Player();
+        public static CurrentPlayer currentPlayer = new CurrentPlayer();
         public static bool mainLoop = true;
         static void Main(string[] args)
         {

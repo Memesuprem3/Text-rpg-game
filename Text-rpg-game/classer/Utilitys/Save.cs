@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Text_rpg_game.classer.Player.Player;
 
-namespace Text_rpg_game.classer
+namespace Text_rpg_game.classer.Utilitys
 {
     internal class Save
     {
-        public static Player currentPlayer = new Player();
+        public static CurrentPlayer currentPlayer = new CurrentPlayer();
         public static void GSave()
         {
             string path = Path.Combine("Saves", $"{currentPlayer.playerID}.json");
             string jsonString = JsonSerializer.Serialize(currentPlayer, new JsonSerializerOptions { WriteIndented = true });
-            System.IO.File.WriteAllText(path, jsonString);
+            File.WriteAllText(path, jsonString);
         }
     }
 }

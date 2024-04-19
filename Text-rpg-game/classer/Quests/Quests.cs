@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Text_rpg_game.classer
+namespace Text_rpg_game.classer.Quests
 {
-    internal class World
+    internal class Quests
     {
+
     }
 }

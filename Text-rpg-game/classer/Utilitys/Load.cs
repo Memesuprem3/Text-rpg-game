@@ -5,12 +5,13 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.IO;
+using Text_rpg_game.classer.Player.Player;
 
-namespace Text_rpg_game.classer
+namespace Text_rpg_game.classer.Utilitys
 {
     internal class Load
     {
-        public static Player GLoad()
+        public static CurrentPlayer GLoad()
         {
             Console.Clear();
             Console.WriteLine("Choose your save file:");
@@ -25,13 +26,13 @@ namespace Text_rpg_game.classer
                 Main_menu.ShowMainMenu();
             }
 
-            List<Player> players = new List<Player>();
+            List<CurrentPlayer> players = new List<CurrentPlayer>();
             List<string> displayList = new List<string>();
 
             foreach (string path in paths)
             {
                 string jsonString = File.ReadAllText(path);
-                Player player = JsonSerializer.Deserialize<Player>(jsonString);
+                CurrentPlayer player = JsonSerializer.Deserialize<CurrentPlayer>(jsonString);
                 if (player != null)
                 {
                     players.Add(player);
@@ -63,7 +64,7 @@ namespace Text_rpg_game.classer
                 switch (key.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : displayList.Count - 1;
+                        selectedIndex = selectedIndex > 0 ? selectedIndex - 1 : displayList.Count - 1;
                         break;
                     case ConsoleKey.DownArrow:
                         selectedIndex = (selectedIndex + 1) % displayList.Count;
@@ -82,17 +83,17 @@ namespace Text_rpg_game.classer
                         }
                         break;
                     case ConsoleKey.Escape:
-                        return null; 
+                        return null;
                 }
             }
         }
-        public static Player LoadLatestSave()
+        public static CurrentPlayer LoadLatestSave()
         {
             var saveDirectory = new DirectoryInfo(Path.Combine("Saves"));
             if (!saveDirectory.Exists || saveDirectory.GetFiles("*.json").Length == 0)
             {
                 Console.WriteLine("No save files found.");
-                return null; 
+                return null;
             }
 
             var latestSaveFile = saveDirectory.GetFiles("*.json").OrderByDescending(f => f.LastWriteTime).FirstOrDefault();
@@ -100,15 +101,15 @@ namespace Text_rpg_game.classer
             if (latestSaveFile != null)
             {
                 string jsonString = File.ReadAllText(latestSaveFile.FullName);
-                Player player = JsonSerializer.Deserialize<Player>(jsonString);
+                CurrentPlayer player = JsonSerializer.Deserialize<CurrentPlayer>(jsonString);
                 if (player != null)
                 {
-                    return player; 
+                    return player;
                 }
             }
 
             Console.WriteLine("Failed to load the latest save.");
-            return null; 
+            return null;
         }
         private static bool ConfirmDelete(string filePath)
         {

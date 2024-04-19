@@ -4,19 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Text_rpg_game.classer.Utilitys;
+using Text_rpg_game.classer.Player.Player;
 
-namespace Text_rpg_game.classer
+namespace Text_rpg_game.classer.Shops
 {
-    public class Shop
+    
+    public class Shop 
     {
         //Shop.RunShop(Program.currentPlayer);
-        public static void Loadshop(Player p)
+        public static void Loadshop(CurrentPlayer p)
         {
             RunShop(p);
         }
 
-        public static void RunShop(Player p)
-        { 
+        public static void RunShop(CurrentPlayer p)
+        {
             while (true)
             {
                 Console.WriteLine("======================================");
@@ -70,7 +73,7 @@ namespace Text_rpg_game.classer
                         Console.WriteLine("Barnabas Arcanum:Thank you for visiting the Mystical Emporium!");
                         return;
                     case "I":
-                      Player.lookInventory(p);
+                        Player.Player.CurrentPlayer.lookInventory(p);
                         break;
                     case "Q":
                         Save.GSave();
@@ -87,7 +90,7 @@ namespace Text_rpg_game.classer
             }
         }
 
-        static void ShowHealingElixirsMenu(Player p)
+        static void ShowHealingElixirsMenu(CurrentPlayer p)
         {
             Console.WriteLine("Barnabas Arcanum: Choose your Healing Elixir!");
             Console.WriteLine("1.Minor  Healing Potion - 20 Gold");
@@ -116,7 +119,7 @@ namespace Text_rpg_game.classer
             }
         }
 
-        static void ShowWeaponsMenu(Player p)
+        static void ShowWeaponsMenu(CurrentPlayer p)
         {
             {
                 Console.WriteLine("Barnabas Arcanum: Välj ditt vapen!");
@@ -138,19 +141,19 @@ namespace Text_rpg_game.classer
                         break;
                     case "2":
                         cost = 80;
-                        Buy("Staff", cost, p, 2); 
+                        Buy("Staff", cost, p, 2);
                         break;
                     case "3":
                         cost = 150;
-                        Buy("Magic Weapon", cost, p, 4); 
+                        Buy("Magic Weapon", cost, p, 4);
                         break;
                     case "4":
                         cost = 120;
-                        Buy("Bow", cost, p, 3); 
+                        Buy("Bow", cost, p, 3);
                         break;
                     case "5":
                         cost = 90;
-                        Buy("Mace", cost, p, 3); 
+                        Buy("Mace", cost, p, 3);
                         break;
                     default:
                         Console.WriteLine("Barnabas Arcanum: Det verkar inte vara ett giltigt val.");
@@ -159,7 +162,7 @@ namespace Text_rpg_game.classer
             }
         }
 
-        static void ShowMagicArmorsMenu(Player p)
+        static void ShowMagicArmorsMenu(CurrentPlayer p)
         {
             Console.WriteLine("Barnabas Arcanum: deefens is the best offens!");
             Console.WriteLine("1. Leather Armor");
@@ -169,7 +172,7 @@ namespace Text_rpg_game.classer
             // logic för val ska vara här:
         }
 
-        static void Buy(string item, int cost, Player p, int valueIncrease = 0)
+        static void Buy(string item, int cost, CurrentPlayer p, int valueIncrease = 0)
         {
             if (p.coins >= cost)
             {
@@ -219,10 +222,10 @@ namespace Text_rpg_game.classer
             {
                 Console.WriteLine("Barnabas Arcanum: Looks like you don't have enough coins, and I don't do discounts.");
             }
-            Console.ReadKey(); 
+            Console.ReadKey();
         }
 
-        static void Sell(Player p)
+        static void Sell(CurrentPlayer p)
         {
             Console.WriteLine("Barnabas Arcanum: Visa vad du har");
 
@@ -230,8 +233,8 @@ namespace Text_rpg_game.classer
             Dictionary<int, string> itemMapping = new Dictionary<int, string>();
             foreach (var item in p.inventory)
             {
-                Console.WriteLine($"{index}: {item.Key} x{item.Value}"); 
-                itemMapping[index] = item.Key; 
+                Console.WriteLine($"{index}: {item.Key} x{item.Value}");
+                itemMapping[index] = item.Key;
                 index++;
             }
 
@@ -259,13 +262,13 @@ namespace Text_rpg_game.classer
                     switch (itemName)
                     {
                         case "Sword":
-                            
+
                             p.weaponValue -= 3;
                             Console.WriteLine("You have sold your Sword and lost some attack power.");
                             break;
                         case "Leather Armor":
-                            
-                            p.armorValue -= 4; 
+
+                            p.armorValue -= 4;
                             Console.WriteLine("You have sold your Leather Armor and lost some defense.");
                             break;
                             // Lägg till fler case här för andra föremål, eller integrera med eq klass
@@ -291,7 +294,7 @@ namespace Text_rpg_game.classer
 
         static int DetermineSellPrice(string itemName)
         {
-            
+
             switch (itemName)
             {
                 case "Minor Healing Potion": return 10;

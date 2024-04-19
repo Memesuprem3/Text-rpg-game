@@ -6,10 +6,10 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 
-namespace Text_rpg_game.classer
+namespace Text_rpg_game.classer.Player.Player
 {
     [Serializable]
-public enum Race
+    public enum Race
     {
         Human,
         Dwarf,
@@ -20,9 +20,9 @@ public enum Race
         Troll
 
     }
-    public class Player
+    public class CurrentPlayer
     {
-        public static Player currentPlayer = new Player();
+        public static CurrentPlayer currentPlayer = new CurrentPlayer();
         private Random rand = new Random();
 
         public int playerID;
@@ -40,7 +40,7 @@ public enum Race
         public int agility = 1; // - || -
         public int stammina = 1; // påverkar hälsa
         public int spirit = 1; // inplementara hp reg?
-        public int inteligens = 1; 
+        public int inteligens = 1;
         public int charisma = 1; // påverka dialoger/handel
         public int speed = 1; // ska påverka RUN i combat - skapa funk
         public int perception = 1; // påverka klasser/dialoger
@@ -83,12 +83,12 @@ public enum Race
                     health += 10;
                     strength += 2;
                     break;
-                
+
             }
         }
         // inventory list
         public Dictionary<string, int> inventory = new Dictionary<string, int>();
-        public static void lookInventory(Player p)
+        public static void lookInventory(CurrentPlayer p)
         {
             int index = 1;
             Dictionary<int, string> itemMapping = new Dictionary<int, string>();
@@ -99,26 +99,26 @@ public enum Race
                 index++;
             }
         }
-        public Player()
+        public void PlayerInventoryAdd()
         {
             inventory.Add("Minor Healing Potion", 5);
         }
         public int GetHealth()
         {
-            int upper = (2 * mods + 5);
-            int lower = (mods + 2);
+            int upper = 2 * mods + 5;
+            int lower = mods + 2;
             return rand.Next(lower, upper);
         }
         public int GetPower()
         {
-            int upper = (2 * mods + 2);
-            int lower = (mods + 1);
+            int upper = 2 * mods + 2;
+            int lower = mods + 1;
             return rand.Next(lower, upper);
         }
         public int GetCoins()
         {
-            int upper = (15 * mods + 2);
-            int lower = (10 * mods + 10);
+            int upper = 15 * mods + 2;
+            int lower = 10 * mods + 10;
             return rand.Next(lower, upper);
         }
     }

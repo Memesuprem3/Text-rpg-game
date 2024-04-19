@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Text_rpg_game.classer.Monster;
+using static Text_rpg_game.classer.Monsters.Monster;
 
-namespace Text_rpg_game.classer
+namespace Text_rpg_game.classer.Utilitys
 {
     internal class Images
     {
         private static readonly int spaceBetweenLogoAndMenu = 2;
         private static int currentLine = 0;
 
-        private static readonly string[] logoLines1 = 
+        private static readonly string[] logoLines1 =
             {@"
 
                 #*#%*+*#*+**=++========================-------==---=============---===================+++#+****+###%
@@ -181,12 +181,12 @@ namespace Text_rpg_game.classer
 ................................................................................................................................................................................................................................................................................................................................................................................................................
 ................................................................................................................................................................................................................................................................................................................................................................................................................
         
-      "  };
+      " };
 
 
         public static void DrawLogo1()
         {
-            currentLine = 0; 
+            currentLine = 0;
             foreach (var line in logoLines1)
             {
                 int leftPosition = Math.Max((Console.WindowWidth - line.Length) / 2, 0);
@@ -198,14 +198,14 @@ namespace Text_rpg_game.classer
 
         public static void DrawLogo2()
         {
-            currentLine = 0; 
+            currentLine = 0;
             foreach (var line in logoLines2)
             {
                 int leftPosition = Math.Max((Console.WindowWidth - line.Length) / 2, 0);
                 Console.SetCursorPosition(leftPosition, currentLine++);
                 Console.WriteLine(line);
             }
-            currentLine += spaceBetweenLogoAndMenu; 
+            currentLine += spaceBetweenLogoAndMenu;
         }
 
 
@@ -217,7 +217,7 @@ namespace Text_rpg_game.classer
 
         public static void DisplayOrcArt()
         {
-            
+
             Console.WriteLine("Generisk Orc ASCII art här...");
         }
 
@@ -226,7 +226,7 @@ namespace Text_rpg_game.classer
             Console.WriteLine("ASCII art för Zombie här...");
         }
 
-        
+
     }
 
 
@@ -234,9 +234,9 @@ namespace Text_rpg_game.classer
 
 }
 
-        
-            
-        
-            
-    
+
+
+
+
+
 

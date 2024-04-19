@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Text_rpg_game.classer
+namespace Text_rpg_game.classer.Shops
 {
     public class Equipment
     {
         // utöka för passa med shop, inventory och items/loot
         public string Name { get; set; }
-        public int Damage { get; set; } = 0; 
-        public int Armor { get; set; } = 0; 
-        public int AgilityBonus { get; set; } = 0; 
+        public int Damage { get; set; } = 0;
+        public int Armor { get; set; } = 0;
+        public int AgilityBonus { get; set; } = 0;
 
         public Equipment(string name, int damage = 0, int armor = 0, int agilityBonus = 0)
         {

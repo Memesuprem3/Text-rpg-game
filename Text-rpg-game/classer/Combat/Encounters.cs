@@ -5,15 +5,17 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using static Text_rpg_game.classer.Monster;
+using Text_rpg_game.classer.Monsters;
+using Text_rpg_game.classer.Player.Player;
+using static Text_rpg_game.classer.Monsters.Monster;
 
-namespace Text_rpg_game.classer
+namespace Text_rpg_game.classer.Combat
 {
     public class Encounters
     {
 
 
-        public static void FirstEncounter(Player player)
+        public static void FirstEncounter(CurrentPlayer player)
         {
             Monster humanRogue = new Monster("Human Rogue", 1, 4);
             CreCharacter.WriteCenteredPrompt("You throw open the door and grab a rusty metal sword, charging towards your captor.");
@@ -23,17 +25,17 @@ namespace Text_rpg_game.classer
         }
 
 
-        public static void BasicFightEncounter(Player player)
+        public static void BasicFightEncounter(CurrentPlayer player)
         {
             Console.Clear();
             CreCharacter.WriteCenteredPrompt("You turn the corner and see an Enemy.");
             Console.ReadKey();
-            Monster randomMonster = Monster.GenerateRandomMonster();
+            Monster randomMonster = GenerateRandomMonster();
             Combat.StartFight(player, randomMonster);
         }
 
 
-        public static void WizardEncounter(Player player)
+        public static void WizardEncounter(CurrentPlayer player)
         {
             Monster darkWizard = new Monster("Dark Wizard", 4, 2);
             Console.Clear();
@@ -41,6 +43,6 @@ namespace Text_rpg_game.classer
             Console.ReadKey();
             Combat.StartFight(player, darkWizard);
         }
-        
+
     }
 }

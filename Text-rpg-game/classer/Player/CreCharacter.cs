@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Text_rpg_game.classer
+namespace Text_rpg_game.classer.Player.Player
 {
     [Serializable]
-    internal class CreCharacter : Player
+    internal class CreCharacter : CurrentPlayer
     {
         public static CreCharacter Char = new CreCharacter();
         //info om varje ras
@@ -222,8 +222,8 @@ namespace Text_rpg_game.classer
             Console.SetCursorPosition(centerX, centerY - 1);
             Console.WriteLine(prompt);
 
-            Console.SetCursorPosition(centerX+3, centerY + 1);
-            return Console.ReadLine(); 
+            Console.SetCursorPosition(centerX + 3, centerY + 1);
+            return Console.ReadLine();
         }
 
 

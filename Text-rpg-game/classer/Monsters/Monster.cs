@@ -4,8 +4,9 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Text_rpg_game.classer.Shops;
 
-namespace Text_rpg_game.classer
+namespace Text_rpg_game.classer.Monsters
 {
     public class Monster
     {
@@ -38,7 +39,7 @@ namespace Text_rpg_game.classer
         public static Monster GenerateRandomMonster()
         {
             Random rand = new Random();
-            int choice = rand.Next(0, 5); 
+            int choice = rand.Next(0, 5);
 
             switch (choice)
             {
@@ -67,8 +68,8 @@ namespace Text_rpg_game.classer
             public static Orc CreateRandomOrc()
             {
                 Random rand = new Random();
-                
-                int choice = rand.Next(0, 2); 
+
+                int choice = rand.Next(0, 2);
 
                 switch (choice)
                 {
@@ -79,7 +80,7 @@ namespace Text_rpg_game.classer
                     case 2:
                         return CreateOrcWarlord();
                     default:
-                        return new Orc("Generic Orc", 4, 7); 
+                        return new Orc("Generic Orc", 4, 7);
                 }
             }
 
@@ -119,7 +120,7 @@ namespace Text_rpg_game.classer
         {
             Random rand = new Random();
             // Du kan anpassa vikter eller lägga till fler typer här.
-            int choice = rand.Next(0, 2); 
+            int choice = rand.Next(0, 2);
 
             switch (choice)
             {
@@ -130,7 +131,7 @@ namespace Text_rpg_game.classer
                 case 2:
                     return CreateSkeletonArcher();
                 default:
-                    return new Skeleton("Generic Orc", 2, 4); 
+                    return new Skeleton("Generic Orc", 2, 4);
             }
         }
 
@@ -157,8 +158,8 @@ namespace Text_rpg_game.classer
         public static Zombie CreateRandomZombie()
         {
             Random rand = new Random();
-            
-            int choice = rand.Next(0, 2); 
+
+            int choice = rand.Next(0, 2);
 
             switch (choice)
             {
@@ -169,7 +170,7 @@ namespace Text_rpg_game.classer
                 case 2:
                     return CreateZombieRotten();
                 default:
-                    return new Zombie("Generic Orc", 4, 7); 
+                    return new Zombie("Generic Orc", 4, 7);
             }
         }
         static Zombie CreateZombieRotten()
@@ -225,8 +226,8 @@ namespace Text_rpg_game.classer
         public static Goblin CreateRandomGoblin()
         {
             Random rand = new Random();
-           
-            int choice = rand.Next(0, 2); 
+
+            int choice = rand.Next(0, 2);
 
             switch (choice)
             {
@@ -237,7 +238,7 @@ namespace Text_rpg_game.classer
                 case 2:
                     return CreateGoblinRouge();
                 default:
-                    return new Goblin("Goblin", 3, 3); 
+                    return new Goblin("Goblin", 3, 3);
             }
             static Goblin CreateGoblin()
             {
@@ -260,11 +261,11 @@ namespace Text_rpg_game.classer
     {
         public Vampire(string name, int power, int health) : base(name, power, health) { }
 
-       public static Vampire CreateRandomVampire()
-       {
+        public static Vampire CreateRandomVampire()
+        {
             Random rand = new Random();
-            
-            int choice = rand.Next(0, 2); 
+
+            int choice = rand.Next(0, 2);
 
             switch (choice)
             {
@@ -275,7 +276,7 @@ namespace Text_rpg_game.classer
                 case 2:
                     return CreateLowerVampire();
                 default:
-                    return new Vampire("Generic Orc", 4, 7); 
+                    return new Vampire("Generic Orc", 4, 7);
             }
             static Vampire CreateVampire()
             {
@@ -289,7 +290,7 @@ namespace Text_rpg_game.classer
             {
                 return new Vampire("Lower Vampire", 8, 8);
             }
-       }
+        }
 
     }
     public class Rat : Monster
@@ -299,8 +300,8 @@ namespace Text_rpg_game.classer
         public static Rat CreateRandomRat()
         {
             Random rand = new Random();
-           
-            int choice = rand.Next(0, 2); 
+
+            int choice = rand.Next(0, 2);
 
             switch (choice)
             {
@@ -311,7 +312,7 @@ namespace Text_rpg_game.classer
                 case 2:
                     return CreateLargeRat();
                 default:
-                    return new Rat("Rat", 1, 2); 
+                    return new Rat("Rat", 1, 2);
             }
 
             static Rat CreateSmallRat()
@@ -326,7 +327,7 @@ namespace Text_rpg_game.classer
             {
                 return new Rat("Large Rat", 2, 3);
             }
-            
+
         }
 
     }

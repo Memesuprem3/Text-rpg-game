@@ -2,13 +2,13 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Text.Json;
-
-namespace Text_rpg_game.classer
+using Text_rpg_game.classer.Player.Player;
+namespace Text_rpg_game.classer.Utilitys
 {
     internal static class Main_menu
     {
 
-        public static Player currentPlayer = new Player();
+        public static CurrentPlayer currentPlayer = new CurrentPlayer();
         private static readonly string[] logoLines = { @"
 
 
@@ -37,7 +37,7 @@ namespace Text_rpg_game.classer
 
             bool hasSaves = Load.CheckForSaves();
 
-            
+
             string[] menuItems = hasSaves ? new string[] { "Continue", "Load Game", "Settings", "Exit" }
                                           : new string[] { "start new game", "Load Game", "Settings", "Exit" };
 
@@ -45,14 +45,14 @@ namespace Text_rpg_game.classer
 
             while (true)
             {
-                
+
                 DrawMenu(menuItems, selectedIndex);
                 ConsoleKeyInfo key = Console.ReadKey(true);
 
                 switch (key.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : menuItems.Length - 1;
+                        selectedIndex = selectedIndex > 0 ? selectedIndex - 1 : menuItems.Length - 1;
                         ClearMenuArea(menuItems.Length);
                         break;
                     case ConsoleKey.DownArrow:
@@ -69,26 +69,26 @@ namespace Text_rpg_game.classer
 
         private static void DrawLogo()
         {
-            currentLine = 0; 
+            currentLine = 0;
             foreach (var line in logoLines)
             {
                 int leftPosition = Math.Max((Console.WindowWidth - line.Length) / 2, 0);
                 Console.SetCursorPosition(leftPosition, currentLine++);
                 Console.WriteLine(line);
             }
-            currentLine += spaceBetweenLogoAndMenu; 
+            currentLine += spaceBetweenLogoAndMenu;
         }
 
         private static void DrawMenu(string[] menuItems, int selectedIndex)
         {
-            
+
 
             int menuHeight = menuItems.Length;
-            int startLine = (int)Math.Round((Console.WindowHeight - menuHeight) / 2.0); 
+            int startLine = (int)Math.Round((Console.WindowHeight - menuHeight) / 2.0);
 
             for (int i = 0; i < menuItems.Length; i++)
             {
-                
+
                 int leftPosition = (int)Math.Round((Console.WindowWidth - menuItems[i].Length) / 2.0);
                 Console.SetCursorPosition(leftPosition, startLine + i);
                 if (i == selectedIndex)
@@ -101,7 +101,7 @@ namespace Text_rpg_game.classer
                 }
             }
         }
-        
+
         private static void HandleMenuSelection(int selectedIndex, bool hasSaves, string[] menuItems)
         {
             if (hasSaves)
@@ -109,7 +109,7 @@ namespace Text_rpg_game.classer
                 switch (selectedIndex)
                 {
                     case 0: // "Continue" valt
-                        Player player = Load.LoadLatestSave();
+                        CurrentPlayer player = Load.LoadLatestSave();
                         if (player != null)
                         {
                             currentPlayer = player;
@@ -124,13 +124,13 @@ namespace Text_rpg_game.classer
                             ShowMainMenu();
                         }
                         break;
-                    case 1: 
+                    case 1:
                         Load.GLoad();
                         break;
-                    case 2: 
+                    case 2:
                         ShowSettingsMenu();
                         break;
-                    case 3: 
+                    case 3:
                         Environment.Exit(0);
                         break;
                 }
@@ -141,16 +141,16 @@ namespace Text_rpg_game.classer
 
                 switch (selectedIndex)
                 {
-                    case 0: 
-                            GameStart.StartOrContinueGame();
+                    case 0:
+                        GameStart.StartOrContinueGame();
                         break;
-                    case 1: 
+                    case 1:
                         Load.GLoad();
                         break;
-                    case 2: 
+                    case 2:
                         ShowSettingsMenu();
                         break;
-                    case 3: 
+                    case 3:
                         Environment.Exit(0);
                         break;
                 }
@@ -170,13 +170,13 @@ namespace Text_rpg_game.classer
                     string prefix = i == selectedIndex ? "> " : "  ";
                     Console.WriteLine($"{prefix}{settingsItems[i]}");
                 }
-                
+
                 ConsoleKeyInfo key = Console.ReadKey(true);
 
                 switch (key.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : settingsItems.Length - 1;
+                        selectedIndex = selectedIndex > 0 ? selectedIndex - 1 : settingsItems.Length - 1;
                         break;
                     case ConsoleKey.DownArrow:
                         selectedIndex = (selectedIndex + 1) % settingsItems.Length;
@@ -186,17 +186,17 @@ namespace Text_rpg_game.classer
                         break;
                 }
 
-                if (selectedIndex == 1 && key.Key == ConsoleKey.Enter) break; 
+                if (selectedIndex == 1 && key.Key == ConsoleKey.Enter) break;
             }
 
-            ShowMainMenu(); 
+            ShowMainMenu();
         }
 
         private static void HandleSettingsSelection(int selectedIndex, ref string[] settingsItems)
         {
             switch (selectedIndex)
             {
-                case 0: 
+                case 0:
                     settingsItems[0] = settingsItems[0].Contains("ON") ? "Sound: OFF" : "Sound: ON";
                     // fixa logic här för ljud
                     break;
@@ -205,19 +205,20 @@ namespace Text_rpg_game.classer
                     break;
             }
         }
-    
 
-                static void ClearMenuArea(int lineCount)
-                {
-                    for (int i = 0; i < lineCount; i++)
-                    {
-                    Console.SetCursorPosition(0, currentLine + i);
-                    Console.Write(new string(' ', Console.WindowWidth));
-                    }   
-                    
-                    Console.SetCursorPosition(0, currentLine);
-                }
-               
-        
-    
-}   }
+
+        static void ClearMenuArea(int lineCount)
+        {
+            for (int i = 0; i < lineCount; i++)
+            {
+                Console.SetCursorPosition(0, currentLine + i);
+                Console.Write(new string(' ', Console.WindowWidth));
+            }
+
+            Console.SetCursorPosition(0, currentLine);
+        }
+
+
+
+    }
+}

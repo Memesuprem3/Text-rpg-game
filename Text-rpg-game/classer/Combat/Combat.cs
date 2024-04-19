@@ -5,15 +5,20 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Text_rpg_game.classer.Monsters;
+using Text_rpg_game.classer.Shops;
+using Text_rpg_game.classer.Utilitys;
+using Text_rpg_game.classer.Player.Player;
 
-namespace Text_rpg_game.classer
+namespace Text_rpg_game.classer.Combat
 {
     internal class Combat
     {
         static Random rand = new Random();
 
-        public static void StartFight(Player player, Monster monster)
+        public static void StartFight(CurrentPlayer player, Monster monster)
         {
+            CurrentPlayer currentPlayer = new CurrentPlayer();
             while (player.health > 0 && monster.Health > 0)
             {
                 Console.Clear();
@@ -22,7 +27,7 @@ namespace Text_rpg_game.classer
                     "\n| (A)ttack (D)efend  |" +
                     "\n| (R)un    (H)eal    |" +
                     "\n======================" +
-                    $"\n    {Player.currentPlayer.Name}    " +
+                    $"\n    {CurrentPlayer.currentPlayer.Name}    " +
                     $"\nHealth: {player.health} Damage: {player.weaponValue}";
 
                 WriteCenteredText(battleMenu);
@@ -92,7 +97,7 @@ namespace Text_rpg_game.classer
             }
         }
 
-        private static void PerformAttack(Player player, Monster monster)
+        private static void PerformAttack(CurrentPlayer player, Monster monster)
         {
             int damageToMonster = rand.Next(0, player.weaponValue) + rand.Next(1, 4);
             monster.Health -= damageToMonster;
@@ -101,12 +106,12 @@ namespace Text_rpg_game.classer
             WriteCenteredTextLower1(atk);
         }
 
-        private static void PerformDefend(Player player, Monster monster)
+        private static void PerformDefend(CurrentPlayer player, Monster monster)
         {
             //Console.WriteLine("You defend against the attack, but still take damage.");
             string def1 = "You defend against the attack, but still take damage.";
             WriteCenteredTextLower(def1);
-            int damageReduced = (monster.Power / 2) - player.armorValue;
+            int damageReduced = monster.Power / 2 - player.armorValue;
             if (damageReduced < 0) damageReduced = 0;
             player.health -= damageReduced;
             //Console.WriteLine($"The attack done to you is {damageReduced}.");
@@ -114,7 +119,7 @@ namespace Text_rpg_game.classer
             WriteCenteredTextLower(def2);
         }
 
-        private static bool AttemptRun(Player player, Monster monster)
+        private static bool AttemptRun(CurrentPlayer player, Monster monster)
         {
             //utöka baserad på speed stat
             if (rand.Next(0, 2) == 0)
@@ -140,7 +145,7 @@ namespace Text_rpg_game.classer
             }
         }
 
-        private static void PerformHeal(Player player)
+        private static void PerformHeal(CurrentPlayer player)
         {
             //utöka för att passa bättre med invenrtory system
             if (player.inventory.ContainsKey("Minor Healing Potion") && player.inventory["Minor Healing Potion"] > 0)
@@ -209,7 +214,7 @@ namespace Text_rpg_game.classer
             {
                 string line = lines[i];
                 int centerX = (Console.WindowWidth - line.Length) / 2;
-                Console.SetCursorPosition(centerX-7, centerY + 4 + i + offsetY);
+                Console.SetCursorPosition(centerX - 7, centerY + 4 + i + offsetY);
                 Console.WriteLine(line);
             }
         }
