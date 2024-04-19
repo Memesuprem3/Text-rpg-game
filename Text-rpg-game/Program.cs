@@ -22,6 +22,8 @@ namespace Text_rpg_game
         const int SW_MAXIMIZE = 3;
         public static CurrentPlayer currentPlayer = new CurrentPlayer();
         public static bool mainLoop = true;
+
+
         static void Main(string[] args)
         {
             IntPtr consoleWindow = GetConsoleWindow();

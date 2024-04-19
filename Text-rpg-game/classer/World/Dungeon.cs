@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Text_rpg_game.classer.World
 {
-    internal class World
+    internal class Dungeon
     {
+        public string Name {  get; set; }
     }
 }
