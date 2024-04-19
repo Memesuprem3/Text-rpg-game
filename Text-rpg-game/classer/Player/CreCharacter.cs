@@ -255,7 +255,7 @@ namespace Text_rpg_game.classer.Player.Player
             health = 12;
             weaponValue = 8;
             armorValue = 2;
-            inteligens = 3;
+            intelligence = 3;
             spellPow = 5;
         }
         public void MakeRanger()
@@ -272,7 +272,7 @@ namespace Text_rpg_game.classer.Player.Player
             health = 13;
             weaponValue = 1;
             armorValue = 1;
-            inteligens = 2;
+            intelligence = 2;
             spirit = 4;
             spellPow = 4;
         }

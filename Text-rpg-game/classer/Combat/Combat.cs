@@ -79,7 +79,7 @@ namespace Text_rpg_game.classer.Combat
                 {
                     string Md = $"You have defeated the {monster.Name}!";
                     WriteCenteredTextLower(Md);
-                    break;
+                    Encounters.BasicFightEncounter(player);
                 }
 
                 if (player.health <= 0)

@@ -33,20 +33,22 @@ namespace Text_rpg_game.classer.Player.Player
         public int damage = 1;
         public int armorValue = 2;
         public int weaponValue = 1;
-        public int mods = 0; // öka svårighetsgrad 
+        public int Level = 1; 
+        public int XP = 0;
+        public int XPToNextLevel = 100;
 
         // Primary stats
         public int strength = 1; // påverka skada med vapen
         public int agility = 1; // - || -
-        public int stammina = 1; // påverkar hälsa
+        public int stamina = 1; // påverkar hälsa
         public int spirit = 1; // inplementara hp reg?
-        public int inteligens = 1;
+        public int intelligence = 1;
         public int charisma = 1; // påverka dialoger/handel
         public int speed = 1; // ska påverka RUN i combat - skapa funk
         public int perception = 1; // påverka klasser/dialoger
         public int luck = 1;
 
-        //Mele stats 
+        //Mele/Ranged stats 
 
         public double armorPen = 0.40;
         public double attackPow = 1;
@@ -67,17 +69,17 @@ namespace Text_rpg_game.classer.Player.Player
             {
                 case Race.Dwarf:
                     strength += 1;
-                    stammina += 1;
+                    stamina += 1;
                     coins += 25;
                     break;
                 case Race.Elf:
                     agility += 2;
                     break;
                 case Race.Gnome:
-                    inteligens += 2;
+                    intelligence += 2;
                     break;
                 case Race.Undead:
-                    inteligens += 2;
+                    intelligence += 2;
                     break;
                 case Race.Orc:
                     health += 10;
@@ -99,27 +101,74 @@ namespace Text_rpg_game.classer.Player.Player
                 index++;
             }
         }
-        public void PlayerInventoryAdd()
+        public void LevelUp()
         {
-            inventory.Add("Minor Healing Potion", 5);
+            Level++;
+            XP -= XPToNextLevel;
+            XPToNextLevel = (int)(XPToNextLevel * 1.25);
+
+            // Öka stats baserat på klass
+            switch (CharacterClass)
+            {
+                case "Warrior":
+                    strength += 2;
+                    stamina += 2;
+                    health += 10;
+                    break;
+                case "Rogue":
+                    agility += 2;
+                    speed += 2;
+                    health += 5;
+                    break;
+                case "Wizard":
+                    intelligence += 3;
+                    spirit += 1;
+                    health += 3;
+                    break;
+                case "Ranger":
+                    agility += 2;
+                    perception += 1;
+                    health += 5;
+                    break;
+                case "Paladin":
+                    strength += 1;
+                    spirit += 2;
+                    health += 8;
+                    break;
+                case "Priest":
+                    spirit += 3;
+                    intelligence += 1;
+                    health += 5;
+                    break;
+                case "Warlock":
+                    intelligence += 2;
+                    spirit += 1;
+                    health += 4;
+                    break;
+                case "Shaman":
+                    spirit += 2;
+                    strength += 1;
+                    health += 6;
+                    break;
+                case "Druid":
+                    intelligence += 2;
+                    agility += 1;
+                    health += 5;
+                    break;
+            }
+            Console.WriteLine($"Grattis! Du är nu nivå {Level} och din hälsa har ökats till {health}.");
         }
-        public int GetHealth()
+
+        public void AddXP(int amount)
         {
-            int upper = 2 * mods + 5;
-            int lower = mods + 2;
-            return rand.Next(lower, upper);
-        }
-        public int GetPower()
-        {
-            int upper = 2 * mods + 2;
-            int lower = mods + 1;
-            return rand.Next(lower, upper);
-        }
-        public int GetCoins()
-        {
-            int upper = 15 * mods + 2;
-            int lower = 10 * mods + 10;
-            return rand.Next(lower, upper);
+            XP += amount;
+            Console.WriteLine($"Du fick {amount} XP, totalt {XP} XP.");
+
+            // Kontrollera om spelaren har nått XP-gränsen för nästa nivå
+            while (XP >= XPToNextLevel)
+            {
+                LevelUp();  // Uppdatera spelarens stats och nivå
+            }
         }
     }
 }
