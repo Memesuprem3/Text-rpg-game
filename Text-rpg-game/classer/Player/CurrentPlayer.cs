@@ -33,9 +33,10 @@ namespace Text_rpg_game.classer.Player.Player
         public int damage = 1;
         public int armorValue = 2;
         public int weaponValue = 1;
-        public int Level = 1; 
+        public int Level = 1;
         public int XP = 0;
         public int XPToNextLevel = 100;
+        public Race PlayerRace { get; set; }
 
         // Primary stats
         public int strength = 1; // påverka skada med vapen
@@ -61,7 +62,7 @@ namespace Text_rpg_game.classer.Player.Player
         public double spellPow = 1;
         public double spellCrit = 0.50;
         public double spellhit = 1;
-        public Race PlayerRace { get; set; }
+
 
         public void SetRaceAttributes()
         {
@@ -101,6 +102,37 @@ namespace Text_rpg_game.classer.Player.Player
                 index++;
             }
         }
+        private void InitializeInventory()
+        {
+
+            inventory.Add("Minor Healing Potion", 5);
+        }
+        public List<Skill> Skills { get; set; } = new List<Skill>();
+        public List<Ability> Abilities { get; set; }
+
+        public CurrentPlayer()
+        {
+            Skills = new List<Skill>();
+            Abilities = new List<Ability>();
+            InitializeInventory();
+        }
+        public void LearnSkill(Skill skill)
+        {
+            Skills.Add(skill);
+            Console.WriteLine($"Du har lärt dig en ny färdighet: {skill.Name}");
+        }
+        public void AddXP(int amount)
+        {
+            XP += amount;
+            Console.WriteLine($"Du fick {amount} XP, totalt {XP} XP.");
+
+            // Kontrollera om spelaren har nått XP-gränsen för nästa nivå
+            while (XP >= XPToNextLevel)
+            {
+                LevelUp();  // Uppdatera spelarens stats och nivå
+            }
+        }
+
         public void LevelUp()
         {
             Level++;
@@ -156,19 +188,18 @@ namespace Text_rpg_game.classer.Player.Player
                     health += 5;
                     break;
             }
-            Console.WriteLine($"Grattis! Du är nu nivå {Level} och din hälsa har ökats till {health}.");
+            Console.WriteLine($"You are now Level {Level} and health incresaed to {health}.");
         }
-
-        public void AddXP(int amount)
+        public void InitializeClassAbilities()
         {
-            XP += amount;
-            Console.WriteLine($"Du fick {amount} XP, totalt {XP} XP.");
-
-            // Kontrollera om spelaren har nått XP-gränsen för nästa nivå
-            while (XP >= XPToNextLevel)
+            // Exempel för en klass
+            if (CharacterClass == "Warrior")
             {
-                LevelUp();  // Uppdatera spelarens stats och nivå
+                Abilities.Add(new Ability("Heroic Strike", "A powerful melee attack.", (player, monster) => {
+                    monster.Health -= 10 + 2 * player.Level;
+                }));
             }
+            // Lägg till fler färdigheter för andra klasser här
         }
     }
 }
