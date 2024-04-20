@@ -12,24 +12,38 @@ namespace Text_rpg_game.classer.Player
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public int MinLevel { get; set; }
+        public string RequiredClass { get; set; }
         public Action<CurrentPlayer, Monster> Execute;  // Delegation för utförandet av förmågan
 
-        public Ability(string name, string description, Action<CurrentPlayer, Monster> execute)
+        public Ability(string name, string description,int minLevel,string requiredClass, Action<CurrentPlayer, Monster> execute)
         {
             Name = name;
             Description = description;
+            MinLevel = minLevel;
+            RequiredClass = requiredClass;
             Execute = execute;
         }
 
         public void Perform(CurrentPlayer player, Monster target)
         {
-            Console.WriteLine($"{player.Name} använder {Name}!");
-            Execute(player, target);
+            if (player.Level >= MinLevel && player.CharacterClass == RequiredClass)
+            {
+                Console.WriteLine($"{player.Name} uses {Name}!");
+                Execute(player, target);
+            }
+            else
+            {
+                if (player.CharacterClass != RequiredClass)
+                    Console.WriteLine($"{Name} is not available for your class.");
+                else
+                    Console.WriteLine($"{player.Name} is not high enough level to use {Name}. Needs level {MinLevel}.");
+            }
         }
 
         public void IncreaseLevel()
         {
-            // Om nödvändigt kan vi även hantera nivåökningar för förmågor
+            
         }
     }
 }

@@ -75,7 +75,7 @@ namespace Text_rpg_game.classer.Monsters
         {
             public Human(string name, int power, int health, int xpValue) : base(name, power, health, xpValue)
             {
-                //förmågor eller egenskaper
+                //Monster abilitiys or perks
             }
 
             public static Human CreateRandomHuman(int playerLevel)

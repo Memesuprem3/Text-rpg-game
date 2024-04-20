@@ -9,6 +9,7 @@ using Text_rpg_game.classer.Monsters;
 using Text_rpg_game.classer.Shops;
 using Text_rpg_game.classer.Utilitys;
 using Text_rpg_game.classer.Player.Player;
+using Text_rpg_game.classer.Player;
 
 namespace Text_rpg_game.classer.Combat
 {
@@ -18,82 +19,118 @@ namespace Text_rpg_game.classer.Combat
 
         public static void StartFight(CurrentPlayer player, Monster monster)
         {
-            CurrentPlayer currentPlayer = new CurrentPlayer();
             while (player.health > 0 && monster.Health > 0)
             {
                 Console.Clear();
                 string battleMenu = $"{monster.Name}\nPower: {monster.Power} / Health: {monster.Health}" +
-                    "\n======================" +
-                    "\n| (A)ttack (D)efend  |" +
-                    "\n| (R)un    (H)eal    |" +
-                    "\n======================" +
-                    $"\n    {CurrentPlayer.currentPlayer.Name}    " +
+                    "\n=======================" +
+                    "\n| (A)ttack (D)efend    |" +
+                    "\n| (R)un    (H)eal      |" +
+                    "\n| (B) Abilities        |" +
+                    "\n=======================" +
+                    $"\n{CurrentPlayer.currentPlayer.Name}" +
                     $"\nHealth: {player.health} Damage: {player.weaponValue}";
 
                 WriteCenteredText(battleMenu);
                 string action = "Action:";
                 WriteCenteredTextLower2(action);
-                Console.SetCursorPosition(116, 35);
+                Console.SetCursorPosition(116, 36);
                 string input = Console.ReadLine().ToLower();
+
 
                 switch (input)
                 {
                     case "a":
                     case "attack":
                         PerformAttack(player, monster);
+                        WriteCenteredTextLower($"You attack the {monster.Name} and deal {player.weaponValue} damage.");
                         break;
                     case "d":
                     case "defend":
                         PerformDefend(player, monster);
+                        WriteCenteredTextLower("You defend against the attack, but still take some damage.");
                         break;
                     case "r":
                     case "run":
-                        if (AttemptRun(player, monster))
-                        {
-                            string escapedS = "You successfully escaped!";
-                            WriteCenteredTextLower(escapedS);
-                            return;
-                        }
+                        if (AttemptRun(player, monster)) return;
+                        WriteCenteredTextLower("You failed to escape and take damage in the process.");
                         break;
                     case "h":
                     case "heal":
                         PerformHeal(player);
                         break;
+                    case "b":
+                        DisplayAbilitiesMenu(player, monster);
+                        break;
                     default:
-                        string actionfail = "Confused by the heat of battle, you lose your turn...";
-                        WriteCenteredTextLower(actionfail);
+                        WriteCenteredTextLower("Confused by the heat of battle, you lose your turn...");
                         break;
                 }
 
+                MonsterResponse(monster, player);
+            }
 
-                if (monster.Health > 0)
-                {
-                    int damageToPlayer = monster.Power - player.armorValue;
-                    if (damageToPlayer < 0) damageToPlayer = 0;
-                    player.health -= damageToPlayer;
-                    string m = $"The {monster.Name} attacks you back and deals {damageToPlayer} damage.";
-                    WriteCenteredTextLower(m);
-                }
+            //EndFight(player, monster);
+        }
 
-                if (monster.Health <= 0)
-                {
-                    string Md = $"You have defeated the {monster.Name}!";
-                    WriteCenteredTextLower(Md);
-                    Encounters.BasicFightEncounter(player);
-                }
+        private static void DisplayAbilitiesMenu(CurrentPlayer player, Monster monster)
+        {
+            Console.Clear();
+            List<Ability> availableAbilities = player.Abilities
+                .Where(a => a.MinLevel <= player.Level && a.RequiredClass == player.CharacterClass)
+                .ToList();
 
-                if (player.health <= 0)
-                {
-                    string death = $"You have been killed by {monster.Name}";
-                    WriteCenteredTextLower(death);
-                    Console.ReadKey();
-                    Console.Clear();
-                    Main_menu.ShowMainMenu();
-                    // implemenmtera retun main menu eller load save osv.
-                }
-
-
+            if (availableAbilities.Count == 0)
+            {
+                WriteCenteredTextLower("No abilities available.");
                 Console.ReadKey();
+                return;
+            }
+
+            StringBuilder abilitiesDisplay = new StringBuilder();
+            abilitiesDisplay.AppendLine("Select an Ability:");
+            for (int i = 0; i < availableAbilities.Count; i++)
+            {
+                abilitiesDisplay.AppendLine($"{i + 1}. {availableAbilities[i].Name} - {availableAbilities[i].Description}");
+            }
+
+            WriteCenteredTextLower(abilitiesDisplay.ToString());
+
+            Console.SetCursorPosition((Console.WindowWidth - 1) / 2, Console.WindowHeight / 2 + availableAbilities.Count + 2);
+            int choice;
+            if (int.TryParse(Console.ReadLine(), out choice) && choice > 0 && choice <= availableAbilities.Count)
+            {
+                availableAbilities[choice - 1].Perform(player, monster);
+                Console.ReadKey();
+            }
+            else
+            {
+                WriteCenteredTextLower("Invalid ability choice.");
+                Console.ReadKey();
+            }
+        }
+
+        private static void MonsterResponse(Monster monster, CurrentPlayer player)
+        {
+            if (monster.Health > 0)
+            {
+                int damageToPlayer = monster.Power - player.armorValue;
+                if (damageToPlayer < 0) damageToPlayer = 0;
+                player.health -= damageToPlayer;
+                WriteCenteredTextLower($"The {monster.Name} attacks you back and deals {damageToPlayer} damage.");
+            }
+
+            if (monster.Health <= 0)
+            {
+                WriteCenteredTextLower($"You have defeated the {monster.Name}!");
+            }
+
+            if (player.health <= 0)
+            {
+                WriteCenteredTextLower($"You have been killed by {monster.Name}.");
+                Console.ReadKey();
+                Console.Clear();
+                Main_menu.ShowMainMenu();
             }
         }
 
@@ -214,7 +251,7 @@ namespace Text_rpg_game.classer.Combat
             {
                 string line = lines[i];
                 int centerX = (Console.WindowWidth - line.Length) / 2;
-                Console.SetCursorPosition(centerX - 7, centerY + 4 + i + offsetY);
+                Console.SetCursorPosition(centerX - 7, centerY + 5 + i + offsetY);
                 Console.WriteLine(line);
             }
         }

@@ -114,6 +114,7 @@ namespace Text_rpg_game.classer.Player.Player
         {
             Skills = new List<Skill>();
             Abilities = new List<Ability>();
+            InitializeAllPossibleAbilities();
             InitializeInventory();
         }
         public void LearnSkill(Skill skill)
@@ -132,14 +133,25 @@ namespace Text_rpg_game.classer.Player.Player
                 LevelUp();  // Uppdatera spelarens stats och nivå
             }
         }
+        private void CheckForNewAbilities()
+        {
+            var newlyUnlockedAbilities = Abilities.Where(ability => ability.MinLevel == Level).ToList();
+            foreach (var ability in newlyUnlockedAbilities)
+            {
+                Console.WriteLine($"You gained a level! You now know how to use '{ability.Name}'.");
+            }
+        }
 
         public void LevelUp()
         {
             Level++;
             XP -= XPToNextLevel;
             XPToNextLevel = (int)(XPToNextLevel * 1.25);
+            Console.WriteLine($"You are now Level {Level} and your health increased to {health}.");
 
-            // Öka stats baserat på klass
+            
+            CheckForNewAbilities();
+
             switch (CharacterClass)
             {
                 case "Warrior":
@@ -190,16 +202,33 @@ namespace Text_rpg_game.classer.Player.Player
             }
             Console.WriteLine($"You are now Level {Level} and health incresaed to {health}.");
         }
-        public void InitializeClassAbilities()
+
+        //possibole class abiliitys
+        public void InitializeAllPossibleAbilities()
         {
-            // Exempel för en klass
-            if (CharacterClass == "Warrior")
-            {
-                Abilities.Add(new Ability("Heroic Strike", "A powerful melee attack.", (player, monster) => {
-                    monster.Health -= 10 + 2 * player.Level;
-                }));
-            }
-            // Lägg till fler färdigheter för andra klasser här
+            //melee
+            Abilities.Add(new Ability("Heroic Strike", "A powerful melee attack that deals significant damage.", 1, "Warrior", (player, monster) => {
+                monster.Health -= 10 + 2 * player.Level;
+                Console.WriteLine($"{player.Name} deals {10 + 2 * player.Level} damage to {monster.Name} with Heroic Strike.");
+            }));
+            //renged
+
+
+            //utilitty
+            Abilities.Add(new Ability("Flash Heal",
+                "Instantly heals a moderate amount of health.", 3, "Paladin", (player, monster) => {
+                player.health += 10 + 5 * player.Level;
+                Console.WriteLine($"{player.Name} heals themselves for {10 + 5 * player.Level} HP with Flash Heal.");
+            }));
+
+
+            //caster
+            Abilities.Add(new Ability("Fireball", "Casts a fiery explosion that damages a single target severely.", 2, "Mage", (player, monster) => {
+                monster.Health -= 15 + 3 * player.Level;
+                Console.WriteLine($"{player.Name} casts Fireball and deals {15 + 3 * player.Level} damage to {monster.Name}.");
+            }));
+
+            
         }
     }
 }
