@@ -198,7 +198,7 @@ namespace Text_rpg_game.classer.Utilitys
             {
                 case 0:
                     settingsItems[0] = settingsItems[0].Contains("ON") ? "Sound: OFF" : "Sound: ON";
-                    // fixa logic här för ljud
+                    // fixa logic för ljud
                     break;
                 case 1:
                     Console.Clear();

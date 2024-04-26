@@ -203,7 +203,7 @@ namespace Text_rpg_game.classer.Player.Player
             Console.WriteLine($"You are now Level {Level} and health incresaed to {health}.");
         }
 
-        //possibole class abiliitys
+        //Abilitys
         public void InitializeAllPossibleAbilities()
         {
             //melee
