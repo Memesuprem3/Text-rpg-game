@@ -32,7 +32,7 @@ namespace Text_rpg_game.classer.World
             }
 
             // Hantera användarens val här
-            // Du kan implementera inputhantering som tillåter användaren att välja ett index och sedan navigera därefter
+            //implementera inputhantering som tillåter användaren att välja ett index och sedan navigera därefter
         }
     }
 }
