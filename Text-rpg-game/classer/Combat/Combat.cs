@@ -19,6 +19,9 @@ namespace Text_rpg_game.classer.Combat
 
         public static void StartFight(CurrentPlayer player, Monster monster)
         {
+            Console.Clear();
+            monster.ShowIntro();
+            Console.ReadKey();
             while (player.health > 0 && monster.Health > 0)
             {
                 Console.Clear();
@@ -114,10 +117,25 @@ namespace Text_rpg_game.classer.Combat
         {
             if (monster.Health > 0)
             {
-                int damageToPlayer = monster.Power - player.armorValue;
-                if (damageToPlayer < 0) damageToPlayer = 0;
-                player.health -= damageToPlayer;
-                WriteCenteredTextLower($"The {monster.Name} attacks you back and deals {damageToPlayer} damage.");
+                // AI-logik: Flee när HP < 20% om CanFlee = true
+                if (monster.Health <= monster.MaxHealth * 0.2 && monster.AI.CanFlee)
+                {
+                    WriteCenteredTextLower($"{monster.Name} panics and flees from battle!");
+                    return; // Avslutar striden
+                }
+
+                // Använder förmåga om den har några, 35% chans
+                if (monster.Abillities.Count > 0 && rand.Next(100) < 35)
+                {
+                    monster.UseRandomAbility(player);
+                }
+                else
+                {
+                    int damageToPlayer = monster.Power - player.armorValue;
+                    if (damageToPlayer < 0) damageToPlayer = 0;
+                    player.health -= damageToPlayer;
+                    WriteCenteredTextLower($"The {monster.Name} attacks and deals {damageToPlayer} damage.");
+                }
             }
 
             if (monster.Health <= 0)
@@ -127,7 +145,7 @@ namespace Text_rpg_game.classer.Combat
 
             if (player.health <= 0)
             {
-                WriteCenteredTextLower($"You have been killed by {monster.Name}.");
+                WriteCenteredTextLower($"You were slain by {monster.Name}.");
                 Console.ReadKey();
                 Console.Clear();
                 Main_menu.ShowMainMenu();

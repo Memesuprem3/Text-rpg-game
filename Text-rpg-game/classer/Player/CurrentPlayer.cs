@@ -28,7 +28,7 @@ namespace Text_rpg_game.classer.Player.Player
         public int playerID;
         public string Name;
         public string CharacterClass;
-        public int coins = 300;
+        public int gold = 30;
         public int health = 10;
         public int damage = 1;
         public int armorValue = 2;
@@ -71,7 +71,7 @@ namespace Text_rpg_game.classer.Player.Player
                 case Race.Dwarf:
                     strength += 1;
                     stamina += 1;
-                    coins += 25;
+                    gold += 25;
                     break;
                 case Race.Elf:
                     agility += 2;

@@ -228,28 +228,28 @@ namespace Text_rpg_game.classer.Player.Player
 
 
         //skapas klassen
-        public void MakeKnight()
+        public void Knight()
         {
             CharacterClass = "Warrior";
             health = 25;
             weaponValue = 5;
             armorValue = 5;
         }
-        public void MakePaladin()
+        public void Paladin()
         {
             CharacterClass = "Paladin";
             health = 20;
             weaponValue = 7;
             armorValue = 5;
         }
-        public void MakeRogue()
+        public void Rogue()
         {
             CharacterClass = "Rogue";
             health = 15;
             weaponValue = 4;
             agility = 7;
         }
-        public void MakeWizard()
+        public void Wizard()
         {
             CharacterClass = "Wizard";
             health = 12;
@@ -258,7 +258,7 @@ namespace Text_rpg_game.classer.Player.Player
             intelligence = 3;
             spellPow = 5;
         }
-        public void MakeRanger()
+        public void Ranger()
         {
             CharacterClass = "Ranger";
             health = 15;
@@ -266,7 +266,7 @@ namespace Text_rpg_game.classer.Player.Player
             armorValue = 3;
             agility = 10;
         }
-        public void MakePriest()
+        public void Priest()
         {
             CharacterClass = "Preist";
             health = 13;
@@ -276,28 +276,28 @@ namespace Text_rpg_game.classer.Player.Player
             spirit = 4;
             spellPow = 4;
         }
-        public void MakePessant()
+        public void Pessant()
         {
             CharacterClass = "Pessant";
             health = 10;
             weaponValue = 2;
             armorValue = 1;
         }
-        public void MakeWarlock()
+        public void Warlock()
         {
             CharacterClass = "Warlock";
             health = 10;
             weaponValue = 2;
             armorValue = 1;
         }
-        public void MakeShaman()
+        public void Shaman()
         {
             CharacterClass = "Shaman";
             health = 10;
             weaponValue = 2;
             armorValue = 1;
         }
-        public void MakeDruid()
+        public void Druid()
         {
             CharacterClass = "Druid";
             health = 10;

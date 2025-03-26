@@ -4,368 +4,173 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Text_rpg_game.classer.Monsters;
+using Text_rpg_game.classer.Monsters.Beasts;
+using Text_rpg_game.classer.Monsters.Humanoids;
+using Text_rpg_game.classer.Monsters.Undead;
+using Text_rpg_game.classer.Player;
 using Text_rpg_game.classer.Player.Player;
 using Text_rpg_game.classer.Shops;
 
 namespace Text_rpg_game.classer.Monsters
 {
     public class Monster
-    {        
+    {
         public string Name { get; set; }
         public int Power { get; set; }
         public int Health { get; set; }
-        public int XPValue;
+        public int MaxHealth { get; set; }
+        public int XPValue { get; set; }
+        public int Level { get; set; }
+        public int GoldDrop { get; set; }
+
+        public int Defense { get; set; }
+        public int Speed { get; set; }
+        public int CriticalChance { get; set; }
+        public int Evasion { get; set; }
+
+        public MonsterAI AI { get; set; } = new MonsterAI();
+        public MonsterLore Lore { get; set; } = new MonsterLore();
+
+        public string AsciiArt { get; set; }
+        public ConsoleColor DisplayColor { get; set; } = ConsoleColor.Gray;
+
         public List<Equipment> LootTable { get; set; } = new List<Equipment>();
+        public List<MonsterAbility> Abillities { get; set; } = new List<MonsterAbility>();
 
         public Monster(string name, int power, int health, int xpValue)
         {
             Name = name;
             Power = power;
             Health = health;
+            MaxHealth = health;
             XPValue = xpValue;
+            Level = 1;
         }
 
+        public static int RandomGold(int min, int max)
+        {
+            Random rand = new Random();
+            return rand.Next(min, max + 1);
+        }
 
         public void AddLoot(Equipment equipment)
         {
             LootTable.Add(equipment);
         }
 
-        // Metod för att lägga till loot till monstret
         public List<Equipment> Defeat()
         {
             Console.WriteLine($"{Name} Defeated!");
             return LootTable;
         }
+
         public void Defeated(CurrentPlayer player)
         {
             Console.WriteLine($"{Name} besegrad!");
-            player.AddXP(XPValue);  // Tilldela XP till spelaren
+            player.AddXP(XPValue);
         }
 
-        // Statisk metod för att generera slumpmässiga monster
+        public void UseRandomAbility(CurrentPlayer player)
+        {
+            if (Abillities.Count > 0)
+            {
+                Random rand = new Random();
+                MonsterAbility ability = Abillities[rand.Next(Abillities.Count)];
+                Console.WriteLine($"{Name} uses {ability.Name}!");
+                //ability.Effect(this, player);
+            }
+            else
+            {
+                Console.WriteLine($"{Name} uses Auto-Attack");
+            }
+        }
+
+        public void ShowIntro()
+        {
+            Console.ForegroundColor = DisplayColor;
+            Console.WriteLine(Name);
+            Console.ResetColor();
+
+            if (!string.IsNullOrWhiteSpace(AsciiArt))
+                Console.WriteLine(AsciiArt);
+
+            if (AI.CanTalk && !string.IsNullOrWhiteSpace(AI.DialogueLine))
+                Console.WriteLine($"\"{AI.DialogueLine}\"");
+
+            Console.WriteLine($"Description: {Lore.Description}");
+            Console.WriteLine($"Habitat: {Lore.Habitat} | Origin: {Lore.Origin}");
+            Console.WriteLine($"Weakness: {Lore.Weakness} | Resistance: {Lore.Resistance}");
+            Console.WriteLine();
+        }
+
         public static Monster GenerateRandomMonster(int playerLevel)
         {
             Random rand = new Random();
-            int choice = rand.Next(0, 5);
+            int choice = rand.Next(0, 7);
 
-            switch (choice)
+            Monster monster = choice switch
             {
-                case 0:
-                    return Orc.CreateRandomOrc(playerLevel);
-                case 1:
-                    return Skeleton.CreateRandomSkeleton(playerLevel);
-                case 2:
-                    return Undead.CreateRandomUndead(playerLevel);
-                case 3:
-                    return Troll.CreateRandomTroll(playerLevel);
-                case 4:
-                    return Vampire.CreateRandomVampire(playerLevel);
-                case 5:
-                    return Goblin.CreateRandomGoblin(playerLevel);
-                case 6:
-                    return Human.CreateRandomHuman(playerLevel);
-                default:
-                    return Rat.CreateRandomRat(playerLevel);
-            }
-        }
-        public class Human : Monster
-        {
-            public Human(string name, int power, int health, int xpValue) : base(name, power, health, xpValue)
-            {
-                //Monster abilitiys or perks
-            }
+                0 => Orc.CreateRandomOrc(playerLevel),
+                1 => Skeleton.CreateRandomSkeleton(playerLevel),
+                2 => Undead.Undead.CreateRandomUndead(playerLevel),
+                3 => Troll.CreateRandomTroll(playerLevel),
+                4 => Vampire.CreateRandomVampire(playerLevel),
+                5 => Goblin.CreateRandomGoblin(playerLevel),
+                6 => Human.CreateRandomHuman(playerLevel),
+                _ => Rat.CreateRandomRat(playerLevel)
+            };
 
-            public static Human CreateRandomHuman(int playerLevel)
-            {
-                Random rand = new Random();
-                List<Monster> possibleMonsters = new List<Monster>();
-
-
-                if (playerLevel >= 5)
-                {
-                    possibleMonsters.Add(new Human("Bandit",2,7,20));
-
-                }
-
-                if (playerLevel >= 10)
-                {
-
-                }
-
-                if (playerLevel >= 20)
-                {
-
-                }
-
-                if (possibleMonsters.Count > 0)
-                {
-                    return (Human)possibleMonsters[rand.Next(possibleMonsters.Count)];
-                }
-                return new Human("Skön Grabb", 1, 2,3);
-            }
+            ApplyDefaults(monster);
+            return monster;
         }
 
-
-        public class Orc : Monster
+        public static Monster GenerateMonster(string monsterType, string variant, int playerLevel)
         {
-            public Orc(string name, int power, int health, int xpValue) : base(name, power, health, xpValue)
+            Monster monster = monsterType.ToLower() switch
             {
-                // Ytterligare kod för Orc specifika egenskaper kan läggas här
-            }
+                "orc" => Orc.CreateOrc(variant),
+                "skeleton" => Skeleton.CreateSkeleton(variant),
+                "undead" => Undead.Undead.CreateUndead(variant),
+                "human" => Human.CreateHuman(variant),
+                "vampire" => Vampire.CreateVampire(variant),
+                "rat" => Rat.CreateRat(variant),
+                "goblin" => Goblin.CreateGoblin(variant),
+                "troll" => Troll.CreateTroll(variant),
+                _ => new Rat("Dålig Hygien", 1, 2, 1)
+            };
 
-            public static Orc CreateRandomOrc(int playerLevel)
-            {
-                Random rand = new Random();
-                List<Monster> possibleMonsters = new List<Monster>();
-
-                if (playerLevel >= 5)
-                {
-                    possibleMonsters.Add(new Orc("Orc", 11, 20,45));
-                    
-                }
-                if (playerLevel >= 10)
-                {
-                    possibleMonsters.Add(new Orc("Orc Archer", 5, 6, 50));
-                    possibleMonsters.Add(new Orc("Orc Spearman", 5, 9,55));
-                }
-                if (playerLevel >= 20)
-                {
-                    possibleMonsters.Add(new Orc("Orc Warlord", 15, 60, 150));
-                }
-                if (possibleMonsters.Count > 0)
-                {
-                    return (Orc)possibleMonsters[rand.Next(possibleMonsters.Count)];
-                }
-                return new Orc("Weak Orc", 1, 2, 1);
-            }
-            /*public override void DisplayArt()
-            {
-                // Exempel på att använda namnet för att avgöra vilken ASCII-konst som ska visas
-                switch (Name)
-                {
-                    case "Orc Archer":
-                        Console.WriteLine("Här visas ASCII-konsten för en Orc Archer...");
-                        break;
-                    case "Orc Warlord":
-                        Console.WriteLine("Här visas ASCII-konsten för en Orc Warlord...");
-                        break;
-                    default:
-                        Console.WriteLine("Generisk ASCII-konst för en Orc...");
-                        break;
-                }
-            }*/
-        }
-    }
-    public class Skeleton : Monster
-    {
-        public Skeleton(string name, int power, int health, int xpValue) : base(name, power, health, xpValue) 
-        {
-
+            ApplyDefaults(monster);
+            return monster;
         }
 
-        public static Skeleton CreateRandomSkeleton(int playerLevel)
+        private static void ApplyDefaults(Monster monster)
         {
-            Random rand = new Random();
-            List<Monster> possibleMonsters = new List<Monster>();
+            monster.AI ??= new MonsterAI
+            {
+                BehaviorType = "aggressive",
+                CanFlee = false,
+                CanTalk = false,
+                DialogueLine = null
+            };
 
-            if (playerLevel >= 1)
+            monster.Lore ??= new MonsterLore
             {
-                possibleMonsters.Add(new Skeleton("Skeleton", 2, 3, 10));
+                Description = "An eerie creature with unknown motives.",
+                Habitat = "Unknown lands",
+                Origin = "Forgotten magic",
+                Weakness = "None",
+                Resistance = "None",
+                IsBoss = false
+            };
 
-            }
-            if (playerLevel >= 10)
-            {
-                possibleMonsters.Add(new Skeleton("Skeleton Warrior", 5, 6,50));
-                possibleMonsters.Add(new Skeleton("Skeleton Archer", 5, 9,55));
-            }
-            if (playerLevel >= 20)
-            {
-                possibleMonsters.Add(new Orc("Deamon Skeleton", 15, 60, 150));
-            }
-            if (possibleMonsters.Count > 0)
-            {
-                return (Skeleton)possibleMonsters[rand.Next(possibleMonsters.Count)];
-            }
-            return new Skeleton("Benrangel", 1, 2, 1);
+            if (monster.DisplayColor == default)
+                monster.DisplayColor = ConsoleColor.Gray;
         }
     }
 }
-
-    public class Undead : Monster
-    {
-        public Undead(string name, int power, int health, int xpValue) : base(name, power, health, xpValue) 
-        {
-
-        }
-
-        public static Undead CreateRandomUndead(int playerLevel)
-        {
-            Random rand = new Random();
-            List<Monster> possibleMonsters = new List<Monster>();
-
-            if (playerLevel >= 1)
-            {
-                possibleMonsters.Add(new Undead("Zombie", 2, 4, 10));
-
-            }       
-            if (playerLevel >= 10)
-            {
-             possibleMonsters.Add(new Undead("Gohul", 6, 15, 50));
-            }   
-            if (playerLevel >= 20)
-            {
-
-            }
-            if (possibleMonsters.Count > 0)
-            {
-            return (Undead)possibleMonsters[rand.Next(possibleMonsters.Count)];
-            }
-            return new Undead("Levande Död", 1, 1, 1);
-        }
-    }
-
-    public class Troll : Monster
-    {
-        public Troll(string name, int power, int health, int xpValue) : base(name, power, health, xpValue) 
-        { 
-    
-        }
-
-        public static Troll CreateRandomTroll(int playerLevel)
-        {
-            Random rand = new Random();
-            List<Monster> possibleMonsters = new List<Monster>();
-
-            if (playerLevel >= 1)
-            {
-
-
-            }
-            if (playerLevel >= 10)
-            {
-
-            }
-            if (playerLevel >= 20)
-            {
-
-            }
-            if (possibleMonsters.Count > 0)
-            {   
-            return (Troll)possibleMonsters[rand.Next(possibleMonsters.Count)];
-            }
-            return new Troll("Yoorgi", 1, 2,10);
-        }
-    }
-
-
-    public class Goblin : Monster
-    {
-        public Goblin(string name, int power, int health, int xpValue) : base(name, power, health, xpValue)
-        {
-
-        }
-
-        public static Goblin CreateRandomGoblin(int playerLevel)
-        {
-            Random rand = new Random();
-            List<Monster> possibleMonsters = new List<Monster>();
-
-            if (playerLevel >= 5)
-            {
-
-
-            }
-            if (playerLevel >= 10)
-            {
-
-            }
-            if (playerLevel >= 20)
-            {
-
-            }
-            if (possibleMonsters.Count > 0)
-            {
-            return (Goblin)possibleMonsters[rand.Next(possibleMonsters.Count)];
-            }
-            return new Goblin("Little Green Man", 1, 2,1);
-        }
-    }
-
-
-    public class Vampire : Monster
-    {
-        public Vampire(string name, int power, int health, int xpValue) : base(name, power, health, xpValue) 
-        {
-
-        }
-
-        public static Vampire CreateRandomVampire(int playerLevel)
-        {
-            Random rand = new Random();
-            List<Monster> possibleMonsters = new List<Monster>();
-
-
-            if (playerLevel >= 5)
-            {
-                possibleMonsters.Add(new Vampire("Vampire Thane", 5, 5, 25));
-
-        }
-            if (playerLevel >= 10)
-            {
-                possibleMonsters.Add(new Vampire("Lower Vampire", 6, 7, 50));
-                possibleMonsters.Add(new Vampire("Vampire", 11, 13, 75));
-            }
-            if (playerLevel >= 20)
-            {
-                possibleMonsters.Add(new Vampire("Vampire Lord", 14, 16, 100));
-            }
-            if (possibleMonsters.Count > 0)
-            {
-            return (Vampire)possibleMonsters[rand.Next(possibleMonsters.Count)];
-            }
-            return new Vampire("Bat", 1, 2,1);
-        }
-    }
-public class Rat : Monster
-{
-    public Rat(string name, int power, int health, int xpValue) : base(name, power, health, xpValue) 
-    {
-
-    }
-
-    public static Rat CreateRandomRat(int playerLevel)
-    {
-        Random rand = new Random();
-        List<Monster> possibleMonsters = new List<Monster>();
-
-        if (playerLevel >= 1)
-        {
-            possibleMonsters.Add(new Rat("Small Ratt", 1, 5, 10));
-            possibleMonsters.Add(new Rat("Cave Rat", 1, 2, 10));
-            possibleMonsters.Add(new Rat("Large Rat", 2, 15, 25));
-
-        }
-        if (playerLevel >= 10)
-        {
-
-        }
-        if (playerLevel >= 20)
-        {
-
-        }
-        if (possibleMonsters.Count > 0)
-        {
-            return (Rat)possibleMonsters[rand.Next(possibleMonsters.Count)];
-        }
-        return new Rat("Mouse", 1, 2,3);
-    }
-}
-
-
-
 
 
 

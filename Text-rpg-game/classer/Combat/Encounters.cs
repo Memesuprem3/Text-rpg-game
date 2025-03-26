@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Text_rpg_game.classer.Monsters;
+using Text_rpg_game.classer.Monsters.Undead;
 using Text_rpg_game.classer.Player.Player;
 using static Text_rpg_game.classer.Monsters.Monster;
 
@@ -25,7 +26,16 @@ namespace Text_rpg_game.classer.Combat
         }
 
 
-        public static void BasicFightEncounter(CurrentPlayer player)
+        public static void RandomFightEncounter(CurrentPlayer player)
+        {
+            Console.Clear();
+            CreCharacter.WriteCenteredPrompt("You turn the corner and see an Enemy.");
+            Console.ReadKey();
+            Monster randomMonster = GenerateRandomMonster(player.Level);
+            Combat.StartFight(player, randomMonster);
+        }
+
+        public static void FightEncounter(CurrentPlayer player)
         {
             Console.Clear();
             CreCharacter.WriteCenteredPrompt("You turn the corner and see an Enemy.");
@@ -35,13 +45,14 @@ namespace Text_rpg_game.classer.Combat
         }
 
 
-        public static void WizardEncounter(CurrentPlayer player)
+        public static void BossFightEncounter(CurrentPlayer player)
         {
-            Monster darkWizard = new Monster("Dark Wizard", 4, 2,0);
             Console.Clear();
-            Console.WriteLine("The door slowly opens as you peer into the dark room. You see a man with a wide and pointy hat...");
+            CreCharacter.WriteCenteredPrompt("A sinister presence lingers in the air...");
             Console.ReadKey();
-            Combat.StartFight(player, darkWizard);
+
+            Monster boss = Skeleton.CreateSkeleton("Deamon Skeleton"); // ELLER annan Create-metod
+            Combat.StartFight(player, boss);
         }
 
     }

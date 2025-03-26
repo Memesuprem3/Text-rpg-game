@@ -34,7 +34,7 @@ namespace Text_rpg_game.classer.Shops
                 Console.WriteLine("|------------------------------------|");
                 Console.WriteLine("| (E)xit Shop                        |");
                 Console.WriteLine("======================================");
-                Console.WriteLine($"Your Gold: {Program.currentPlayer.coins}");
+                Console.WriteLine($"Your Gold: {Program.currentPlayer.gold}");
                 Console.WriteLine(" (Q)uite Game");
                 Console.WriteLine("");
                 Console.WriteLine("");
@@ -174,9 +174,9 @@ namespace Text_rpg_game.classer.Shops
 
         static void Buy(string item, int cost, CurrentPlayer p, int valueIncrease = 0)
         {
-            if (p.coins >= cost)
+            if (p.gold >= cost)
             {
-                p.coins -= cost;
+                p.gold -= cost;
                 Console.WriteLine($"Barnabas Arcanum: You have bought {item} for {cost} gold coins.");
 
                 // Lägg till eller uppdatera föremålet i spelarens inventory
@@ -250,7 +250,7 @@ namespace Text_rpg_game.classer.Shops
 
                 if (sellPrice > 0 && p.inventory[itemName] > 0)
                 {
-                    p.coins += sellPrice;
+                    p.gold += sellPrice;
                     p.inventory[itemName]--;
                     if (p.inventory[itemName] == 0)
                     {

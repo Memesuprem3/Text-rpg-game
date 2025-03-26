@@ -81,6 +81,9 @@ namespace Text_rpg_game.classer.World
                 Location Shop = new Location("Shop", "you are outside of the shop");
                 Location Tavern = new Location("Tarvern", "You hear songs and laufther comming from the tavern");
             }
+
+            //lägg till navigerig med piltangenterna
+
         }
     }
 }
