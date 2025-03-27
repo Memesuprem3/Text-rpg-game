@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Text_rpg_game.classer.Equipment;
+using Text_rpg_game.classer.Utilitys;
 
 
 namespace Text_rpg_game.classer.Player.Player
@@ -30,13 +32,12 @@ namespace Text_rpg_game.classer.Player.Player
         public string CharacterClass;
         public int gold = 30;
         public int health = 10;
-        public int damage = 1;
-        public int armorValue = 2;
+        public int damage = 3;
+        public int armorValue = 1;
         public int weaponValue = 1;
         public int Level = 1;
         public int XP = 0;
         public int XPToNextLevel = 100;
-        public Race PlayerRace { get; set; }
 
         // Primary stats
         public int strength = 1; // påverka skada med vapen
@@ -62,6 +63,21 @@ namespace Text_rpg_game.classer.Player.Player
         public double spellPow = 1;
         public double spellCrit = 0.50;
         public double spellhit = 1;
+
+        public Weapon EquippedWeapon { get; set; }
+        public Armor EquippedArmor { get; set; }
+        public List<Skill> Skills { get; set; } = new List<Skill>();
+        public List<Ability> Abilities { get; set; }
+
+        public Race PlayerRace { get; set; }
+
+        public CurrentPlayer()
+        {
+            Skills = new List<Skill>();
+            Abilities = new List<Ability>();
+            InitializeAllPossibleAbilities();
+            InitializeInventory();
+        }
 
 
         public void SetRaceAttributes()
@@ -107,21 +123,24 @@ namespace Text_rpg_game.classer.Player.Player
 
             inventory.Add("Minor Healing Potion", 5);
         }
-        public List<Skill> Skills { get; set; } = new List<Skill>();
-        public List<Ability> Abilities { get; set; }
 
-        public CurrentPlayer()
+
+        public void GainSkillXP(string skillName, int xp = 1)
         {
-            Skills = new List<Skill>();
-            Abilities = new List<Ability>();
-            InitializeAllPossibleAbilities();
-            InitializeInventory();
+            var skill = Skills.FirstOrDefault(s => s.Name.Equals(skillName, StringComparison.OrdinalIgnoreCase));
+            if (skill != null)
+            {
+                skill.AddXP(xp);
+            }
         }
-        public void LearnSkill(Skill skill)
+
+        //kolla skill nivå i char menu?
+        public int GetSkillBonus(string skillName)
         {
-            Skills.Add(skill);
-            Console.WriteLine($"Du har lärt dig en ny färdighet: {skill.Name}");
+            var skill = Skills.FirstOrDefault(s => s.Name.Equals(skillName, StringComparison.OrdinalIgnoreCase));
+            return skill != null ? skill.Level : 0;
         }
+
         public void AddXP(int amount)
         {
             XP += amount;
@@ -149,7 +168,7 @@ namespace Text_rpg_game.classer.Player.Player
             XPToNextLevel = (int)(XPToNextLevel * 1.25);
             Console.WriteLine($"You are now Level {Level} and your health increased to {health}.");
 
-            
+
             CheckForNewAbilities();
 
             switch (CharacterClass)
@@ -203,11 +222,12 @@ namespace Text_rpg_game.classer.Player.Player
             Console.WriteLine($"You are now Level {Level} and health incresaed to {health}.");
         }
 
-        //Abilitys
+        //Abilitys SE ÖVER!!!
         public void InitializeAllPossibleAbilities()
         {
             //melee
-            Abilities.Add(new Ability("Heroic Strike", "A powerful melee attack that deals significant damage.", 1, "Warrior", (player, monster) => {
+            Abilities.Add(new Ability("Heroic Strike", "A powerful melee attack that deals significant damage.", 1, "Warrior", (player, monster) =>
+            {
                 monster.Health -= 10 + 2 * player.Level;
                 Console.WriteLine($"{player.Name} deals {10 + 2 * player.Level} damage to {monster.Name} with Heroic Strike.");
             }));
@@ -216,19 +236,97 @@ namespace Text_rpg_game.classer.Player.Player
 
             //utilitty
             Abilities.Add(new Ability("Flash Heal",
-                "Instantly heals a moderate amount of health.", 3, "Paladin", (player, monster) => {
-                player.health += 10 + 5 * player.Level;
-                Console.WriteLine($"{player.Name} heals themselves for {10 + 5 * player.Level} HP with Flash Heal.");
-            }));
+                "Instantly heals a moderate amount of health.", 3, "Paladin", (player, monster) =>
+                {
+                    player.health += 10 + 5 * player.Level;
+                    Console.WriteLine($"{player.Name} heals themselves for {10 + 5 * player.Level} HP with Flash Heal.");
+                }));
 
 
             //caster
-            Abilities.Add(new Ability("Fireball", "Casts a fiery explosion that damages a single target severely.", 2, "Mage", (player, monster) => {
+            Abilities.Add(new Ability("Fireball", "Casts a fiery explosion that damages a single target severely.", 2, "Mage", (player, monster) =>
+            {
                 monster.Health -= 15 + 3 * player.Level;
                 Console.WriteLine($"{player.Name} casts Fireball and deals {15 + 3 * player.Level} damage to {monster.Name}.");
             }));
 
-            
+
+        }
+
+        public int CalculateWeaponDamage()
+        {
+            if (EquippedWeapon == null)
+                return damage + weaponValue;
+
+            var weapon = EquippedWeapon;
+            int baseDamage = weapon.BaseDamage;
+            int elementalDamage = weapon.ElementalDamage;
+
+            // Skillnamn = t.ex. "sword", "fire"
+            int weaponSkill = GetSkillBonus(weapon.WeaponType.ToString().ToLower()); // swords, bows etc
+            int elementSkill = GetSkillBonus(weapon.DamageType.ToString().ToLower()); // fire, ice etc
+
+            int statBonus = weapon.IsMagic
+                ? (int)(intelligence * 1.5)
+                : (int)(strength * 1.5);
+
+            int total = baseDamage + statBonus + elementalDamage;
+            total += weaponSkill * 2;
+            total += elementSkill * 2;
+
+            double critChance = weapon.IsMagic ? spellCrit : critChans;
+            if (rand.NextDouble() < critChance + (luck * 0.01))
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("⚡ Kritisk träff!");
+                Console.ResetColor();
+                total = (int)(total * 1.5);
+            }
+            if (weapon.IsMagic)
+                GainSkillXP("magic", 2);
+            else
+                GainSkillXP(weapon.WeaponType.ToString().ToLower(), 2);
+
+            return total;
+        }
+
+        public void ShowStatsMenu()
+        {
+            Console.Clear();
+            int startY = -8; // Startposition från toppen
+            int lineOffset = 0;
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            CenteredWriter.Write("===== Character Stats =====", startY + lineOffset++);
+            Console.ResetColor();
+
+            CenteredWriter.Write($"Name: {Name}", startY + lineOffset++);
+            CenteredWriter.Write($"Class: {CharacterClass} | Level: {Level} | XP: {XP}/{XPToNextLevel}", startY + lineOffset++);
+            CenteredWriter.Write($"Health: {health}", startY + lineOffset++);
+            CenteredWriter.Write($"Gold: {gold}", startY + lineOffset++);
+            lineOffset++; // Extra rad för spacing
+
+            CenteredWriter.Write("Attributes:", startY + lineOffset++);
+            CenteredWriter.Write($"- Strength: {strength}", startY + lineOffset++);
+            CenteredWriter.Write($"- Agility: {agility}", startY + lineOffset++);
+            CenteredWriter.Write($"- Stamina: {stamina}", startY + lineOffset++);
+            CenteredWriter.Write($"- Spirit: {spirit}", startY + lineOffset++);
+            CenteredWriter.Write($"- Intelligence: {intelligence}", startY + lineOffset++);
+            CenteredWriter.Write($"- Charisma: {charisma}", startY + lineOffset++);
+            CenteredWriter.Write($"- Speed: {speed}", startY + lineOffset++);
+            CenteredWriter.Write($"- Perception: {perception}", startY + lineOffset++);
+            CenteredWriter.Write($"- Luck: {luck}", startY + lineOffset++);
+            lineOffset++;
+
+            CenteredWriter.Write("Skills:", startY + lineOffset++);
+            foreach (var skill in Skills.OrderBy(s => s.Name))
+            {
+                CenteredWriter.Write($"- {skill.Name}: Level {skill.Level} ({skill.XP}/{skill.XPToNextLevel} XP)", startY + lineOffset++);
+            }
+
+            lineOffset++;
+            CenteredWriter.Write("Press any key to return...", startY + lineOffset);
+            Console.ReadKey();
         }
     }
 }

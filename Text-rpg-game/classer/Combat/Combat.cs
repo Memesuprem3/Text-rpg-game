@@ -121,7 +121,7 @@ namespace Text_rpg_game.classer.Combat
                 if (monster.Health <= monster.MaxHealth * 0.2 && monster.AI.CanFlee)
                 {
                     WriteCenteredTextLower($"{monster.Name} panics and flees from battle!");
-                    return; // Avslutar striden
+                    return;
                 }
 
                 // Använder förmåga om den har några, 35% chans
@@ -131,8 +131,14 @@ namespace Text_rpg_game.classer.Combat
                 }
                 else
                 {
-                    int damageToPlayer = monster.Power - player.armorValue;
+                    int totalArmor = player.armorValue;
+
+                    if (player.EquippedArmor != null)
+                        totalArmor += player.EquippedArmor.ArmorValue;
+
+                    int damageToPlayer = monster.Power - totalArmor;
                     if (damageToPlayer < 0) damageToPlayer = 0;
+
                     player.health -= damageToPlayer;
                     WriteCenteredTextLower($"The {monster.Name} attacks and deals {damageToPlayer} damage.");
                 }
@@ -141,6 +147,29 @@ namespace Text_rpg_game.classer.Combat
             if (monster.Health <= 0)
             {
                 WriteCenteredTextLower($"You have defeated the {monster.Name}!");
+
+                var loot = monster.Defeat();
+                if (loot.Count > 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("\nYou found:");
+                    foreach (var item in loot)
+                    {
+                        Console.WriteLine($"- {item.Name}");
+                        CurrentPlayer.currentPlayer.inventory.TryAdd(item.Name, 1); // SE ÖVER
+                    }
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine("\nThe monster dropped nothing.");
+                }
+
+                Console.WriteLine("\nPress any key to continue...");
+                Console.ReadKey();
+
+                // Starta pausmeny
+                GameMenu.PauseMenu();
             }
 
             if (player.health <= 0)
@@ -154,9 +183,9 @@ namespace Text_rpg_game.classer.Combat
 
         private static void PerformAttack(CurrentPlayer player, Monster monster)
         {
-            int damageToMonster = rand.Next(0, player.weaponValue) + rand.Next(1, 4);
+            int damageToMonster = player.CalculateWeaponDamage();
             monster.Health -= damageToMonster;
-            //Console.WriteLine($"You attack the {monster.Name} and deal {damageToMonster} damage.");
+
             string atk = $"You attack the {monster.Name} and deal {damageToMonster} damage.";
             WriteCenteredTextLower1(atk);
         }

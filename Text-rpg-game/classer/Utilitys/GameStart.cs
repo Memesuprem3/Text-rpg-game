@@ -27,9 +27,10 @@ namespace Text_rpg_game.classer.Utilitys
 
         public static void StartNewGame()
         {
+            
             CreCharacter.CharMenu();
-            Encounters.FirstEncounter(currentPlayer);
-            Encounters.RandomFightEncounter(currentPlayer);
+            Encounters.FirstEncounter();
+            Encounters.RandomFightEncounter();
 
             //skapa olika start beroende på ras
         }

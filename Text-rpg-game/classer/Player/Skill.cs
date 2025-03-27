@@ -9,20 +9,31 @@ namespace Text_rpg_game.classer.Player
     public class Skill
     {
         public string Name { get; set; }
-        public string Description { get; set; }
         public int Level { get; set; }
+        public int XP { get; set; }
+        public int XPToNextLevel { get; set; }
 
-        public Skill(string name, string description)
+        public Skill(string name, int level = 1)
         {
             Name = name;
-            Description = description;
-            Level = 1; // Alla färdigheter börjar på nivå 1
+            Level = level;
+            XP = 0;
+            XPToNextLevel = 10 + (level * 5);
         }
 
-        public void IncreaseLevel()
+        public void AddXP(int amount)
         {
-            Level++;
-            Console.WriteLine($"{Name} har ökat till nivå {Level}.");
+            XP += amount;
+            if (XP >= XPToNextLevel)
+            {
+                XP -= XPToNextLevel;
+                Level++;
+                XPToNextLevel = 10 + (Level * 5);
+
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine($"🎉 Your {Name} skill increased to level {Level}!");
+                Console.ResetColor();
+            }
         }
     }
 }

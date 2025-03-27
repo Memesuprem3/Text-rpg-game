@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Text_rpg_game.classer.Monsters;
 using Text_rpg_game.classer.Monsters.Undead;
 using Text_rpg_game.classer.Player.Player;
+using Text_rpg_game.classer.Utilitys;
 using static Text_rpg_game.classer.Monsters.Monster;
 
 namespace Text_rpg_game.classer.Combat
@@ -16,39 +17,53 @@ namespace Text_rpg_game.classer.Combat
     {
 
 
-        public static void FirstEncounter(CurrentPlayer player)
+        public static void FirstEncounter()
         {
+            var player = CurrentPlayer.currentPlayer;
+
             Monster humanRogue = new Monster("Human Rogue", 1, 4,0);
-            CreCharacter.WriteCenteredPrompt("You throw open the door and grab a rusty metal sword, charging towards your captor.");
-            CreCharacter.WriteCenteredPrompt("He turns...");
+            CenteredWriter.Write("You throw open the door and grab a rusty metal sword, charging towards your captor.");
+            CenteredWriter.Write("He turns...");
             Console.ReadKey();
             Combat.StartFight(player, humanRogue);
         }
 
 
-        public static void RandomFightEncounter(CurrentPlayer player)
+        public static void RandomFightEncounter()
         {
-            Console.Clear();
-            CreCharacter.WriteCenteredPrompt("You turn the corner and see an Enemy.");
-            Console.ReadKey();
-            Monster randomMonster = GenerateRandomMonster(player.Level);
-            Combat.StartFight(player, randomMonster);
+            var player = CurrentPlayer.currentPlayer;
+
+            if (player.health > 0)
+            {
+                Console.Clear();
+                CenteredWriter.Write("Random encounter");
+                Console.ReadKey();
+                Monster randomMonster = GenerateRandomMonster(player.Level);
+                Combat.StartFight(player, randomMonster);
+            }
         }
 
-        public static void FightEncounter(CurrentPlayer player)
+        public static void FightEncounter()
         {
-            Console.Clear();
-            CreCharacter.WriteCenteredPrompt("You turn the corner and see an Enemy.");
-            Console.ReadKey();
-            Monster randomMonster = GenerateRandomMonster(player.Level);
-            Combat.StartFight(player, randomMonster);
+            var player = CurrentPlayer.currentPlayer;
+
+            if (player.health > 0)
+            {
+                Console.Clear();
+                CenteredWriter.Write("You turn the corner and see an Enemy.");
+                Console.ReadKey();
+                Monster randomMonster = GenerateRandomMonster(player.Level);
+                Combat.StartFight(player, randomMonster);
+            }
         }
 
 
-        public static void BossFightEncounter(CurrentPlayer player)
+        public static void BossFightEncounter()
         {
+            var player = CurrentPlayer.currentPlayer;
+
             Console.Clear();
-            CreCharacter.WriteCenteredPrompt("A sinister presence lingers in the air...");
+            CenteredWriter.Write("A sinister presence lingers in the air...");
             Console.ReadKey();
 
             Monster boss = Skeleton.CreateSkeleton("Deamon Skeleton"); // ELLER annan Create-metod

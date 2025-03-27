@@ -6,13 +6,13 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Text_rpg_game.classer.Equipment;
 using Text_rpg_game.classer.Monsters;
 using Text_rpg_game.classer.Monsters.Beasts;
 using Text_rpg_game.classer.Monsters.Humanoids;
 using Text_rpg_game.classer.Monsters.Undead;
 using Text_rpg_game.classer.Player;
 using Text_rpg_game.classer.Player.Player;
-using Text_rpg_game.classer.Shops;
 
 namespace Text_rpg_game.classer.Monsters
 {
@@ -37,7 +37,7 @@ namespace Text_rpg_game.classer.Monsters
         public string AsciiArt { get; set; }
         public ConsoleColor DisplayColor { get; set; } = ConsoleColor.Gray;
 
-        public List<Equipment> LootTable { get; set; } = new List<Equipment>();
+        public List<Gear> LootTable { get; set; } = new List<Gear>();
         public List<MonsterAbility> Abillities { get; set; } = new List<MonsterAbility>();
 
         public Monster(string name, int power, int health, int xpValue)
@@ -56,12 +56,12 @@ namespace Text_rpg_game.classer.Monsters
             return rand.Next(min, max + 1);
         }
 
-        public void AddLoot(Equipment equipment)
+        public void AddLoot(Gear equipment)
         {
             LootTable.Add(equipment);
         }
 
-        public List<Equipment> Defeat()
+        public List<Gear> Defeat()
         {
             Console.WriteLine($"{Name} Defeated!");
             return LootTable;
