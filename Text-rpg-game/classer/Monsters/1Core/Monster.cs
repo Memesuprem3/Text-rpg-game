@@ -7,12 +7,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Text_rpg_game.classer.Equipment;
-using Text_rpg_game.classer.Monsters;
+using Text_rpg_game.classer.Monsters.AI;
 using Text_rpg_game.classer.Monsters.Beasts;
 using Text_rpg_game.classer.Monsters.Humanoids;
 using Text_rpg_game.classer.Monsters.Undead;
 using Text_rpg_game.classer.Player;
-using Text_rpg_game.classer.Player.Player;
+using Text_rpg_game.classer.Player.Core;
 
 namespace Text_rpg_game.classer.Monsters
 {
@@ -34,7 +34,7 @@ namespace Text_rpg_game.classer.Monsters
         public MonsterAI AI { get; set; } = new MonsterAI();
         public MonsterLore Lore { get; set; } = new MonsterLore();
 
-        public string AsciiArt { get; set; }
+        
         public ConsoleColor DisplayColor { get; set; } = ConsoleColor.Gray;
 
         public List<Gear> LootTable { get; set; } = new List<Gear>();
@@ -63,7 +63,7 @@ namespace Text_rpg_game.classer.Monsters
 
         public List<Gear> Defeat()
         {
-            Console.WriteLine($"{Name} Defeated!");
+            //Console.WriteLine($"{Name} Defeated!");
             return LootTable;
         }
 
@@ -86,24 +86,6 @@ namespace Text_rpg_game.classer.Monsters
             {
                 Console.WriteLine($"{Name} uses Auto-Attack");
             }
-        }
-
-        public void ShowIntro()
-        {
-            Console.ForegroundColor = DisplayColor;
-            Console.WriteLine(Name);
-            Console.ResetColor();
-
-            if (!string.IsNullOrWhiteSpace(AsciiArt))
-                Console.WriteLine(AsciiArt);
-
-            if (AI.CanTalk && !string.IsNullOrWhiteSpace(AI.DialogueLine))
-                Console.WriteLine($"\"{AI.DialogueLine}\"");
-
-            Console.WriteLine($"Description: {Lore.Description}");
-            Console.WriteLine($"Habitat: {Lore.Habitat} | Origin: {Lore.Origin}");
-            Console.WriteLine($"Weakness: {Lore.Weakness} | Resistance: {Lore.Resistance}");
-            Console.WriteLine();
         }
 
         public static Monster GenerateRandomMonster(int playerLevel)
@@ -154,16 +136,6 @@ namespace Text_rpg_game.classer.Monsters
                 CanFlee = false,
                 CanTalk = false,
                 DialogueLine = null
-            };
-
-            monster.Lore ??= new MonsterLore
-            {
-                Description = "An eerie creature with unknown motives.",
-                Habitat = "Unknown lands",
-                Origin = "Forgotten magic",
-                Weakness = "None",
-                Resistance = "None",
-                IsBoss = false
             };
 
             if (monster.DisplayColor == default)

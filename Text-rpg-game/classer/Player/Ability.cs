@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Text_rpg_game.classer.Monsters;
-using Text_rpg_game.classer.Player.Player;
+using Text_rpg_game.classer.Player.Core;
 
 namespace Text_rpg_game.classer.Player
 {

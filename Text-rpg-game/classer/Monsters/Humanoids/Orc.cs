@@ -58,7 +58,7 @@ namespace Text_rpg_game.classer.Monsters.Humanoids
                         Resistance = "Poison",
                         IsBoss = true
                     },
-                    AI = new MonsterAI
+                    AI = new AI.MonsterAI
                     {
                         BehaviorType = "aggressive",
                         CanFlee = false,

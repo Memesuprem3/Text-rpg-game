@@ -5,7 +5,8 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.IO;
-using Text_rpg_game.classer.Player.Player;
+using Text_rpg_game.classer.Utilitys.Menus;
+using Text_rpg_game.classer.Player.Core;
 
 namespace Text_rpg_game.classer.Utilitys
 {

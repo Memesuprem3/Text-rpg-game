@@ -4,8 +4,9 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Text_rpg_game.classer.World.Dungeons;
 
-namespace Text_rpg_game.classer.World
+namespace Text_rpg_game.classer.World.Navigation
 {
     internal class Location
     {

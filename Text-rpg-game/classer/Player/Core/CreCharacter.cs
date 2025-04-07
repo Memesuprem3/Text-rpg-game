@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Text_rpg_game.classer.Player.Core;
 using Text_rpg_game.classer.Utilitys;
 
 
@@ -104,13 +105,19 @@ namespace Text_rpg_game.classer.Player.Player
         //raser + vilka klasser som olika race kan vara.
         private static Dictionary<string, List<string>> raceToClassMap = new Dictionary<string, List<string>>
         {
-        {"Human", new List<string>{ "Warrior","Knight", "Rogue", "Wizard", "Ranger", "Paladin", "Priest","Warlock" }},
-        {"Dwarf", new List<string>{ "Warrior", "Rogue", "Ranger", "Priest" }},
-        {"Elf", new List<string>{ "Wizard", "Ranger", "Rogue", "Priest","Druid" }},
-        {"Gnome", new List<string>{ "Wizard", "Rogue" }},
-        {"Undead", new List<string>{ "Warrior","Ranger", "Rogue", "Wizard","Warlock" }},
-        {"Orc", new List<string>{ "Warrior", "Rogue", "Ranger","Shaman","Warlock" }},
-        {"Troll", new List<string>{ "Warrior", "Rogue", "Ranger", "Shaman","Warlock" }}
+        {"Human", new List<string>{ "Warrior","Knight", "Rogue","Inquisitor", "Wizard", "Ranger", "Paladin", "Priest","Warlock", "Bard" }},
+
+        {"Dwarf", new List<string>{ "Warrior", "Rogue", "Ranger", "Priest","Inquisitor", "knight", "Paladin", "Bard" }},
+
+        {"Elf", new List<string>{ "Wizard", "Ranger", "Rogue", "Priest","Druid","Inquisitor", "Knight", "Warrior", "Paladin", "Bard" }},
+
+        {"Gnome", new List<string>{ "Wizard", "Rogue", "warrior", "Warlock", "priest", "Bard" }},
+
+        {"Undead", new List<string>{ "Warrior","Ranger", "Rogue", "Wizard","Warlock", "knight" }},
+
+        {"Orc", new List<string>{ "Warrior", "Rogue", "Ranger", "Shaman", "Warlock", "Bard" }},
+
+        {"Troll", new List<string>{ "Warrior", "Rogue", "Ranger", "Shaman","Warlock", "Bard", "Knight" }}
         };
         //info om klasser
         private static Dictionary<string, string[]> classDescriptions = new Dictionary<string, string[]>
@@ -124,16 +131,23 @@ namespace Text_rpg_game.classer.Player.Player
         {"Priest",  new string[] {"Priests are spiritual guides with the ability to heal and bless, as well as wield holy magic against the forces of evil." } },
         {"Warlock", new string[] {"DEATH COME FOR YE"} },
         {"Shaman", new string[] {"Earth wind and fire, heed my call"} },
-        {"Druid", new string[] {"Elune hear my call"} }
+        {"Druid", new string[] {"Elune guide me"} },
+        {"Inquisitor", new string [] { "Inquisitors, great guests at partys" } },
+        {"Bard", new string [] { "Sings, bad at fights." } }
         };
 
-        //karaktär skapas
+        //karaktär skapas 
         public static void CharMenu()
         {
             Console.Clear();
             CenteredWriter.Write("Enter your name:", -4);
             string name = CenteredWriter.CenteredInput();
             Char.Name = name;
+
+            Console.Clear();
+            CenteredWriter.Write("Chose your gender", -4);
+            string gender = CenteredWriter.CenteredInput();
+            Char.Gender = gender;
 
             Console.Clear();
             CenteredWriter.Write("Choose your race", -4);
@@ -143,6 +157,8 @@ namespace Text_rpg_game.classer.Player.Player
             Console.Clear();
             CenteredWriter.Write("Choose your class", -4);
             string selectedClass = CenteredWriter.ShowSelectionMenu(raceToClassMap[selectedRace].ToArray(), classDescriptions);
+
+            
 
             switch (selectedClass.ToLower())
             {
@@ -155,14 +171,18 @@ namespace Text_rpg_game.classer.Player.Player
                 case "warlock": Char.Warlock(); break;
                 case "shaman": Char.Shaman(); break;
                 case "druid": Char.Druid(); break;
+                case "bard": Char.Bard(); break;
+                case "inquisitor": Char.Inquisitor(); break;
+                case "knight": Char.Knight(); break;
                 default: Char.Pessant(); break;
             }
 
             CurrentPlayer.currentPlayer = Char;
 
             Console.Clear();
-            CenteredWriter.Write($"You are a {selectedRace} {selectedClass} named {Char.Name}.", -2);
+            CenteredWriter.Write($"You are a {gender} {selectedRace} {selectedClass} named {Char.Name}.", -2);
             Console.ReadKey();
+            Console.Clear();
         }
 
         //klasser flytta till egen klass sen
@@ -399,6 +419,50 @@ namespace Text_rpg_game.classer.Player.Player
             spellPow = 5;
             InitializeStartingSkills();
         }
+
+        public void Bard() 
+        {
+            SetBaseStats();
+            CharacterClass = "Bard";
+            health = 35;
+            weaponValue = 2;
+            armorValue = 1;
+
+            strength = 5;
+            agility = 3;
+            stamina = 5;
+            spirit = 3;
+            intelligence = 4;
+            charisma = 2;
+            speed = 1;
+            perception = 2;
+            luck = 1;
+
+            spellPow = 5;
+            InitializeStartingSkills();
+        }
+        public void Inquisitor()
+        {
+            SetBaseStats();
+            CharacterClass = "Inquisitor";
+            health = 35;
+            weaponValue = 2;
+            armorValue = 1;
+
+            strength = 5;
+            agility = 3;
+            stamina = 5;
+            spirit = 3;
+            intelligence = 4;
+            charisma = 2;
+            speed = 1;
+            perception = 2;
+            luck = 1;
+
+            spellPow = 5;
+            InitializeStartingSkills();
+        }
+
 
         private void InitializeStartingSkills()
         {

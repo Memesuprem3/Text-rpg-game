@@ -8,7 +8,7 @@ using Text_rpg_game.classer.Equipment;
 using Text_rpg_game.classer.Utilitys;
 
 
-namespace Text_rpg_game.classer.Player.Player
+namespace Text_rpg_game.classer.Player.Core
 {
     [Serializable]
     public enum Race
@@ -29,6 +29,7 @@ namespace Text_rpg_game.classer.Player.Player
 
         public int playerID;
         public string Name;
+        public string Gender;
         public string CharacterClass;
         public int gold = 30;
         public int health = 10;
@@ -275,7 +276,7 @@ namespace Text_rpg_game.classer.Player.Player
             total += elementSkill * 2;
 
             double critChance = weapon.IsMagic ? spellCrit : critChans;
-            if (rand.NextDouble() < critChance + (luck * 0.01))
+            if (rand.NextDouble() < critChance + luck * 0.01)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("⚡ Kritisk träff!");

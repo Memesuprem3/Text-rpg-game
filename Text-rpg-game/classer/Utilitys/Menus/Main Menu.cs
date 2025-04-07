@@ -2,8 +2,8 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Text.Json;
-using Text_rpg_game.classer.Player.Player;
-namespace Text_rpg_game.classer.Utilitys
+using Text_rpg_game.classer.Player.Core;
+namespace Text_rpg_game.classer.Utilitys.Menus
 {
     internal static class Main_menu
     {

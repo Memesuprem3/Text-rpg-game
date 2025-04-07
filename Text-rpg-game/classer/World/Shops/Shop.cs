@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Text_rpg_game.classer.Utilitys;
-using Text_rpg_game.classer.Player.Player;
+using Text_rpg_game.classer.Player.Core;
 
-namespace Text_rpg_game.classer.Shops
+namespace Text_rpg_game.classer.World.Shops
 {
     
     public class Shop 
@@ -73,7 +73,7 @@ namespace Text_rpg_game.classer.Shops
                         Console.WriteLine("Barnabas Arcanum:Thank you for visiting the Mystical Emporium!");
                         return;
                     case "I":
-                        Player.Player.CurrentPlayer.lookInventory(p);
+                        CurrentPlayer.lookInventory(p);
                         break;
                     case "Q":
                         Save.GSave();

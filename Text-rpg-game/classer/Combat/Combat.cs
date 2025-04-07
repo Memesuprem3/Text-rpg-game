@@ -6,22 +6,22 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Text_rpg_game.classer.Monsters;
-using Text_rpg_game.classer.Shops;
 using Text_rpg_game.classer.Utilitys;
-using Text_rpg_game.classer.Player.Player;
 using Text_rpg_game.classer.Player;
+using Text_rpg_game.classer.World.Shops;
+using Text_rpg_game.classer.Utilitys.Menus;
+using Text_rpg_game.classer.Player.Core;
 
 namespace Text_rpg_game.classer.Combat
 {
-    internal class Combat
+    internal class Combats
     {
         static Random rand = new Random();
 
         public static void StartFight(CurrentPlayer player, Monster monster)
         {
             Console.Clear();
-            monster.ShowIntro();
-            Console.ReadKey();
+            
             while (player.health > 0 && monster.Health > 0)
             {
                 Console.Clear();
@@ -118,26 +118,38 @@ namespace Text_rpg_game.classer.Combat
             if (monster.Health > 0)
             {
                 // AI-logik: Flee när HP < 20% om CanFlee = true
-                if (monster.Health <= monster.MaxHealth * 0.2 && monster.AI.CanFlee)
+                if (monster.Health <= monster.MaxHealth * 0.2 && monster.AI.CanFlee && !monster.AI.HasTriedToFlee)
                 {
-                    WriteCenteredTextLower($"{monster.Name} panics and flees from battle!");
-                    return;
+                    monster.AI.HasTriedToFlee = true;
+
+                    int fleeChance = rand.Next(100);
+
+                    if (fleeChance < 33)
+                    {
+                        WriteCenteredTextLower($"{monster.Name} panics and successfully flees from battle!");
+                        return;
+                    }
+                    else
+                    {
+                        WriteCenteredTextLower($"{monster.Name} tries to flee but fails!");
+                        return;
+                    }
                 }
 
-                // Använder förmåga om den har några, 35% chans
+                    // Använder förmåga om den har några, 35% chans
                 if (monster.Abillities.Count > 0 && rand.Next(100) < 35)
                 {
                     monster.UseRandomAbility(player);
                 }
                 else
                 {
-                    int totalArmor = player.armorValue;
+                int totalArmor = player.armorValue;
 
-                    if (player.EquippedArmor != null)
-                        totalArmor += player.EquippedArmor.ArmorValue;
+                 if (player.EquippedArmor != null)
+                    totalArmor += player.EquippedArmor.ArmorValue;
 
                     int damageToPlayer = monster.Power - totalArmor;
-                    if (damageToPlayer < 0) damageToPlayer = 0;
+                 if (damageToPlayer < 0) damageToPlayer = 0;
 
                     player.health -= damageToPlayer;
                     WriteCenteredTextLower($"The {monster.Name} attacks and deals {damageToPlayer} damage.");
@@ -147,25 +159,29 @@ namespace Text_rpg_game.classer.Combat
             if (monster.Health <= 0)
             {
                 WriteCenteredTextLower($"You have defeated the {monster.Name}!");
+                Console.ReadKey();
+                Console.Clear();
 
                 var loot = monster.Defeat();
                 if (loot.Count > 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("\nYou found:");
+                    CenteredWriter.Write("You found:");
                     foreach (var item in loot)
                     {
-                        Console.WriteLine($"- {item.Name}");
+                        CenteredWriter.Write($"- {item.Name}");
                         CurrentPlayer.currentPlayer.inventory.TryAdd(item.Name, 1); // SE ÖVER
                     }
                     Console.ResetColor();
                 }
                 else
                 {
-                    Console.WriteLine("\nThe monster dropped nothing.");
+                    CenteredWriter.Write("The monster dropped nothing.");
+                    Console.ReadKey();
+                    Console.Clear();
                 }
 
-                Console.WriteLine("\nPress any key to continue...");
+                CenteredWriter.Write("Press any key to continue...");
                 Console.ReadKey();
 
                 // Starta pausmeny

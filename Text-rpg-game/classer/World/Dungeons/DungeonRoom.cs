@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Text_rpg_game.classer.World
+namespace Text_rpg_game.classer.World.Dungeons
 {
     internal class DungeonRoom
     {

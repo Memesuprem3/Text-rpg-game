@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Text_rpg_game.classer.World.Navigation;
 
-namespace Text_rpg_game.classer.World
+namespace Text_rpg_game.classer.World.Citys
 {
     internal class Citys : Location
     {

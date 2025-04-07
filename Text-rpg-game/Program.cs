@@ -7,8 +7,9 @@ using System.ComponentModel.Design;
 using System.Text.Json;
 using Spectre.Console;
 using System.Runtime.InteropServices;
-using Text_rpg_game.classer.Player.Player;
 using Text_rpg_game.classer.Utilitys;
+using Text_rpg_game.classer.Utilitys.Menus;
+using Text_rpg_game.classer.Player.Core;
 
 
 namespace Text_rpg_game

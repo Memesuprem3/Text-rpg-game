@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Text_rpg_game.classer.Combat;
-using Text_rpg_game.classer.Player.Player;
+using Text_rpg_game.classer.Player.Core;
+using Text_rpg_game.classer.Utilitys.Menus;
 
 namespace Text_rpg_game.classer.Utilitys
 {
@@ -41,9 +41,9 @@ namespace Text_rpg_game.classer.Utilitys
                 {
                     case "Continue exploring":
                         Console.Clear();
-                        Console.WriteLine("You move forward into the unknown...");
-                        Thread.Sleep(1000);
-                        Encounters.RandomFightEncounter();
+                        CenteredWriter.Write("You move forward into the unknown...");
+                        Thread.Sleep(1500);
+                        Encounters.Encounters.RandomFightEncounter();
                         return;
 
                     case "Check inventory":
@@ -65,6 +65,7 @@ namespace Text_rpg_game.classer.Utilitys
                         break;
 
                     case "Exit to main menu":
+                        Console.Clear();
                         Main_menu.ShowMainMenu();
                         return;
                 }

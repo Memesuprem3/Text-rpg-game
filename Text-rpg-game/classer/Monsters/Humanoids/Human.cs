@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Text_rpg_game.classer.Monsters.AI;
 
 namespace Text_rpg_game.classer.Monsters.Humanoids
 {
@@ -12,11 +13,18 @@ namespace Text_rpg_game.classer.Monsters.Humanoids
 
         private static readonly List<(string Name, int LevelRequirement, Func<Human> Create)> _variants = new()
         {
+            
             ("Bandit", 1, Bandit),
+            ("Hunter", 3, Hunter),
             ("Mercenary", 8, Mercenary),
-            ("Dark Knight", 15, DarkKnight)
+            ("Mercenary", 15, MercenaryCaptain),
+            ("Dark Knight", 20, DarkKnight)
+
+            
+
         };
 
+        
         private static Human Bandit()
         {
             var bandit = new Human("Bandit", 3, 20, 50)
@@ -47,6 +55,36 @@ namespace Text_rpg_game.classer.Monsters.Humanoids
 
             return bandit;
         }
+        private static Human Hunter()
+        {
+            var hunter = new Human("Hunter", 3, 20, 50)
+            {
+                Name = "Hunter",
+                Level = 15,
+                Health = 95,
+                XPValue = 165,
+                GoldDrop = RandomGold(23, 40),
+
+                Power = 8,
+                Defense = 3,
+                Speed = 9,
+                CriticalChance = 10,
+                Evasion = 2,
+
+                DisplayColor = ConsoleColor.Green,
+                Lore = new MonsterLore
+                {
+                    Description = "Crazed hunter who only se prey",
+                    Habitat = "Woods, roads",
+                    Origin = "Gangs, towns",
+                    Weakness = "Blunt,precing, Law",
+                    Resistance = "None",
+                    IsBoss = false,
+                },
+            };
+
+            return hunter;
+        }
 
         private static Human Mercenary()
         {
@@ -74,6 +112,42 @@ namespace Text_rpg_game.classer.Monsters.Humanoids
 
             return merc;
         }
+
+        private static Human MercenaryCaptain()
+        {
+            var mercC = new Human("Mercenary", 7, 50, 35)
+            {
+                Level = 8,
+                GoldDrop = 30,
+                DisplayColor = ConsoleColor.DarkBlue,
+                Lore = new MonsterLore
+                {
+                    Description = "A hired sword with no loyalty.",
+                    Habitat = "Roads & forts",
+                    Origin = "War zones",
+                    Weakness = "Bribery",
+                    Resistance = "None",
+                    IsBoss = false
+                },
+            };
+
+            mercC.Abillities.Add(new MonsterAbility("Heavy Slash", (m, p) =>
+            {
+                Console.WriteLine($"{m.Name} swings a heavy blade!");
+                p.health -= m.Power + 2;
+            }));
+
+            //kolla över denna behöver abillitys som gör mer än två sak
+            mercC.Abillities.Add(new MonsterAbility("Shout", (m, h) =>
+            {
+                Console.WriteLine($"{m.Name} Shots outloud! Empwoering {m.Name}");
+                m.Health = +10;
+                h.attackPow = +10;
+            }));
+            return mercC;
+        }
+
+
 
         private static Human DarkKnight()
         {
