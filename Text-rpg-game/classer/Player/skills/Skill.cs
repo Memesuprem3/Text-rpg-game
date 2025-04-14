@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Text_rpg_game.classer.Player
+namespace Text_rpg_game.classer.Player.skills
 {
     public class Skill
     {
@@ -18,7 +18,7 @@ namespace Text_rpg_game.classer.Player
             Name = name;
             Level = level;
             XP = 0;
-            XPToNextLevel = 10 + (level * 5);
+            XPToNextLevel = 10 + level * 5;
         }
 
         public void AddXP(int amount)
@@ -28,7 +28,7 @@ namespace Text_rpg_game.classer.Player
             {
                 XP -= XPToNextLevel;
                 Level++;
-                XPToNextLevel = 10 + (Level * 5);
+                XPToNextLevel = 10 + Level * 5;
 
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine($"🎉 Your {Name} skill increased to level {Level}!");

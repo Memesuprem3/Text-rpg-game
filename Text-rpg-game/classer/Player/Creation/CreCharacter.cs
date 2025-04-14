@@ -7,7 +7,7 @@ using Text_rpg_game.classer.Player.Core;
 using Text_rpg_game.classer.Utilitys;
 
 
-namespace Text_rpg_game.classer.Player.Player
+namespace Text_rpg_game.classer.Player.Creation
 {
     [Serializable]
     internal class CreCharacter : CurrentPlayer
@@ -177,7 +177,7 @@ namespace Text_rpg_game.classer.Player.Player
                 default: Char.Pessant(); break;
             }
 
-            CurrentPlayer.currentPlayer = Char;
+            currentPlayer = Char;
 
             Console.Clear();
             CenteredWriter.Write($"You are a {gender} {selectedRace} {selectedClass} named {Char.Name}.", -2);

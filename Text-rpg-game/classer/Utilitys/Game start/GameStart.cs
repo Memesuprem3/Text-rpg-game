@@ -5,9 +5,9 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using Text_rpg_game.classer.Player.Player;
 using Text_rpg_game.classer.Player.Core;
 using Text_rpg_game.classer.Encounters;
+using Text_rpg_game.classer.Player.Creation;
 
 namespace Text_rpg_game.classer.Utilitys
 {

@@ -17,12 +17,14 @@ namespace Text_rpg_game.classer.World.Citys
             void InitializeCity()
             {
                 // Exempel på att definiera platser och kopplingar inom en stad
-                Location townSquare = new Location("Trade District", "Du är i handelsdistriktet");
-                Location keep = new Location("Keep", "Du står framför borgen");
-                Location shop = new Location("Shop", "Du är utanför butiken");
-                Location tavern = new Location("Tavern", "Du hör sånger och skratt från tavernan");
+                Location townSquare = new Location("Trade District", "Your in the Trade District");
+                Location keep = new Location("Keep", "you stand infron of the keep");
+                Location shop = new Location("Shop", "You stand infron of the shop");
+                Location tavern = new Location("Tavern", "You hear songs and laugther from the tavern");
+                Location baracks = new Location("baracks", "The baracks looks worn down and grey");
 
                 // Definiera vägar mellan platser
+                townSquare.DefineExit("north", baracks);
                 townSquare.DefineExit("east", keep);
                 townSquare.DefineExit("south", shop);
                 townSquare.DefineExit("west", tavern);
@@ -82,9 +84,6 @@ namespace Text_rpg_game.classer.World.Citys
                 Location Shop = new Location("Shop", "you are outside of the shop");
                 Location Tavern = new Location("Tarvern", "You hear songs and laufther comming from the tavern");
             }
-
-            //lägg till navigerig med piltangenterna
-
-        }
+        }s
     }
 }
