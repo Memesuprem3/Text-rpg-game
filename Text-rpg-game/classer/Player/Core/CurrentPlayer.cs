@@ -22,6 +22,7 @@ namespace Text_rpg_game.classer.Player.Core
         Troll
 
     }
+
     public class CurrentPlayer
     {
         public static CurrentPlayer currentPlayer = new CurrentPlayer();
